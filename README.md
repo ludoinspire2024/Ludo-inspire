@@ -1,28 +1,13 @@
-# Ludo Inspire Commercial API v3
+# Ludo Inspire Mobile Web
 
-Commercial, non-cash Ludo backend starter.
+Mobile responsive frontend for Ludo Inspire.
 
-## Included
-- JWT registration/login
-- Virtual coins with no cash value
-- Rooms and turn/dice APIs
-- Leaderboard and game history
-- Non-cash tournament creation/listing
-- Admin statistics and user management
-- Subscription/ads configuration hooks
-- Feature flags for the mobile/web client
+The frontend is preconfigured to use the live API:
+https://ludo-inspire.onrender.com
 
-## Not included
-No betting, wagering, deposits, cash prizes, withdrawals, cash-out, or real-money wallet.
+## Render Static Site
+- Root Directory: `frontend` (if these files are uploaded into a `frontend` folder in the GitHub repository)
+- Build Command: leave blank
+- Publish Directory: `.`
 
-## Run
-Node.js 18+
-```bash
-npm install
-cp .env.example .env
-npm start
-```
-API: http://localhost:3000
-
-## Commercialization
-Connect your own app-store-compliant subscription provider or ad SDK on the client. The API exposes configuration hooks but deliberately does not process gambling or cash transactions.
+No build step is required.
