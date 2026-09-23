@@ -1,134 +1,1003 @@
-*{
-  box-sizing:border-box;
+/* =========================================================
+   LUDO INSPIRE - MAIN STYLE
+   Mobile Friendly / Dark Maroon + Gold
+========================================================= */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-:root{
-  --bg:#14000d;
-  --card:#30091f;
-  --card2:#3a0c25;
-  --line:#6d2348;
-  --gold:#ffd52d;
-  --pink:#ff3e91;
-  --muted:#c9aabb;
+html {
+  scroll-behavior: smooth;
 }
 
-html,
-body{
-  margin:0;
-  min-height:100%;
-  background:#14000d;
-  color:#fff;
-  font-family:Arial,sans-serif;
-}
-
-body{
-  padding-bottom:64px;
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #10070a;
+  color: #fff;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
 button,
-input{
-  font:inherit;
+input {
+  font: inherit;
 }
 
-button{
-  cursor:pointer;
+button {
+  cursor: pointer;
 }
 
-#app{
-  width:min(720px,100%);
-  margin:auto;
+.hidden {
+  display: none !important;
+}
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  height: 64px;
+  padding: 0 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: #210b11;
+  border-bottom: 1px solid #6f351d;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, .35);
+}
+
+.menu-btn {
+  width: 42px;
+  height: 42px;
+
+  border: 1px solid #7d4225;
+  border-radius: 12px;
+
+  background: #351219;
+  color: #ffd37a;
+
+  font-size: 22px;
+}
+
+.brand {
+  color: #ffd36a;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+}
+
+.wallet-mini {
+  min-width: 82px;
+  padding: 7px 10px;
+
+  border-radius: 12px;
+
+  background: #351219;
+  border: 1px solid #754021;
+
+  text-align: center;
+  font-size: 12px;
+}
+
+.wallet-mini b {
+  color: #ffd36a;
+  display: block;
 }
 
 
-/* TOP BAR */
+/* =========================================================
+   DRAWER
+========================================================= */
 
-.topbar{
-  height:58px;
-  padding:0 9px;
-  display:flex;
-  align-items:center;
-  gap:8px;
-  background:linear-gradient(
+.drawer {
+  position: fixed;
+  z-index: 2000;
+
+  top: 0;
+  left: -290px;
+
+  width: 270px;
+  height: 100vh;
+
+  padding: 22px 15px;
+
+  background: #1c090e;
+  border-right: 1px solid #753b20;
+
+  box-shadow: 8px 0 30px rgba(0,0,0,.5);
+
+  transition: left .25s ease;
+}
+
+.drawer.open {
+  left: 0;
+}
+
+.drawer h2 {
+  color: #ffd36a;
+  margin-bottom: 22px;
+}
+
+.drawer button {
+  width: 100%;
+  margin-bottom: 9px;
+
+  padding: 13px 14px;
+
+  text-align: left;
+
+  border: 1px solid #5f3020;
+  border-radius: 12px;
+
+  background: #2c1016;
+  color: #fff;
+}
+
+.drawer button:hover {
+  background: #461720;
+  border-color: #b66a31;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+main {
+  width: 100%;
+  max-width: 620px;
+  margin: auto;
+
+  padding: 15px 13px 100px;
+}
+
+.page {
+  width: 100%;
+}
+
+
+/* =========================================================
+   REFERRAL STRIP
+========================================================= */
+
+.referral-strip {
+  padding: 10px 13px;
+  margin-bottom: 13px;
+
+  border-radius: 13px;
+
+  background: linear-gradient(
     90deg,
-    #210014,
-    #4a082d,
-    #210014
+    #3b121b,
+    #241017
   );
-  border-bottom:1px solid #79254d;
-  position:sticky;
-  top:0;
-  z-index:20;
+
+  border: 1px solid #70351f;
+
+  color: #ffd78a;
+
+  font-size: 12px;
 }
 
-.hamburger,
-.close{
-  border:1px solid #76244a;
-  background:#330b24;
-  color:#ffd52d;
-  border-radius:7px;
-  width:34px;
-  height:34px;
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+
+  padding: 25px 18px;
+
+  border-radius: 22px;
+
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(184,102,42,.28),
+      transparent 42%
+    ),
+    linear-gradient(
+      145deg,
+      #42151c,
+      #1c090e
+    );
+
+  border: 1px solid #8b4825;
+
+  box-shadow:
+    0 15px 35px rgba(0,0,0,.3);
 }
 
-.brand{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  flex:1;
+.hero h1 {
+  color: #ffd36a;
+  font-size: 28px;
+  line-height: 1.05;
+  font-weight: 900;
 }
 
-.brand-mark{
-  width:30px;
-  height:30px;
-  display:grid;
-  place-items:center;
-  border-radius:7px;
-  background:linear-gradient(
+.hero p {
+  margin-top: 10px;
+
+  color: #d7b9a7;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+
+  margin-top: 18px;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.btn,
+.primary-btn,
+.gold-btn {
+  border: 0;
+  border-radius: 13px;
+
+  padding: 12px 18px;
+
+  font-weight: 800;
+  transition: .2s ease;
+}
+
+.primary-btn,
+.gold-btn {
+  background: linear-gradient(
     135deg,
-    #ffd83b,
-    #ff8d16
+    #ffd66f,
+    #c77a2d
   );
-  color:#561400;
-  font-weight:1000;
-  font-style:italic;
+
+  color: #250b0e;
+
+  box-shadow:
+    0 7px 18px rgba(0,0,0,.28);
 }
 
-.brand b{
-  display:block;
-  font-size:11px;
-  letter-spacing:1px;
+.primary-btn:hover,
+.gold-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
 }
 
-.brand small{
-  display:block;
-  font-size:7px;
-  color:#caaabd;
-  margin-top:2px;
+.secondary-btn {
+  padding: 12px 17px;
+
+  border-radius: 13px;
+  border: 1px solid #754022;
+
+  background: #2e1117;
+  color: #ffe1a2;
+
+  font-weight: 700;
 }
 
-.wallet-mini{
-  font-size:9px;
-  border:1px solid #65203f;
-  border-radius:7px;
-  padding:7px 9px;
-  background:#210614;
-}
-
-
-/* PAGE */
-
-.page{
-  padding:10px;
+.secondary-btn:hover {
+  background: #42151d;
 }
 
 
-/* PROFILE TITLE */
+/* =========================================================
+   MINI BOARD
+========================================================= */
 
-.page-title{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin:7px 1px 10px;
+.mini-board {
+  width: 145px;
+  height: 145px;
+
+  margin: 20px auto 5px;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+
+  border: 5px solid #8b542d;
+  border-radius: 15px;
+
+  overflow: hidden;
+
+  background: #f3dfaa;
 }
 
-.page
+.mini-board div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(0,0,0,.15);
+
+  font-size: 22px;
+}
+
+.mini-green {
+  background: #228c4b;
+}
+
+.mini-red {
+  background: #bd3030;
+}
+
+.mini-yellow {
+  background: #e7b83b;
+}
+
+.mini-blue {
+  background: #3372bd;
+}
+
+
+/* =========================================================
+   QUICK PLAY
+========================================================= */
+
+.section-title {
+  margin: 22px 2px 10px;
+
+  color: #ffd36a;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.quick-card {
+  padding: 17px;
+
+  border-radius: 17px;
+
+  background: #261017;
+  border: 1px solid #66351f;
+
+  transition: .2s ease;
+}
+
+.quick-card:hover {
+  transform: translateY(-2px);
+  border-color: #b66a31;
+}
+
+.quick-card .icon {
+  font-size: 30px;
+}
+
+.quick-card h3 {
+  margin-top: 7px;
+  color: #fff;
+}
+
+.quick-card p {
+  margin-top: 4px;
+  color: #bfa69b;
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   BANNER
+========================================================= */
+
+.banner {
+  margin-top: 13px;
+
+  padding: 18px;
+
+  border-radius: 17px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #57201f,
+      #291016
+    );
+
+  border: 1px solid #814323;
+
+  color: #ffe0a0;
+}
+
+.banner strong {
+  color: #ffd36a;
+  font-size: 17px;
+}
+
+
+/* =========================================================
+   AUTH
+========================================================= */
+
+.auth-card {
+  margin-top: 20px;
+
+  padding: 18px;
+
+  border-radius: 19px;
+
+  background: #211016;
+  border: 1px solid #66351f;
+}
+
+.auth-card h2 {
+  color: #ffd36a;
+  margin-bottom: 15px;
+}
+
+.auth-card input,
+.form-input {
+  width: 100%;
+
+  padding: 13px;
+
+  margin-bottom: 10px;
+
+  border-radius: 12px;
+  border: 1px solid #61331f;
+
+  outline: none;
+
+  background: #12080b;
+  color: #fff;
+}
+
+.auth-card input:focus,
+.form-input:focus {
+  border-color: #c37a35;
+}
+
+.auth-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.auth-tabs button {
+  flex: 1;
+
+  padding: 10px;
+
+  border-radius: 10px;
+
+  border: 1px solid #63351f;
+
+  background: #2d1117;
+  color: #c9ada0;
+}
+
+.auth-tabs button.active {
+  background: #b76d2d;
+  color: #1d090c;
+  font-weight: 800;
+}
+
+.auth-msg {
+  margin-top: 10px;
+  color: #ffc56e;
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+.profile-card {
+  padding: 20px;
+
+  border-radius: 20px;
+
+  background: #211016;
+  border: 1px solid #69351f;
+}
+
+.profile-avatar {
+  width: 75px;
+  height: 75px;
+
+  margin: 0 auto 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: linear-gradient(
+    135deg,
+    #ffd56b,
+    #a95326
+  );
+
+  font-size: 35px;
+}
+
+.profile-name {
+  text-align: center;
+
+  color: #ffd36a;
+  font-size: 21px;
+  font-weight: 900;
+}
+
+.profile-email {
+  margin-top: 4px;
+
+  text-align: center;
+
+  color: #bda69c;
+  font-size: 12px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 8px;
+
+  margin-top: 18px;
+}
+
+.stat {
+  padding: 12px 5px;
+
+  text-align: center;
+
+  border-radius: 12px;
+
+  background: #2c1117;
+  border: 1px solid #59301e;
+}
+
+.stat b {
+  display: block;
+  color: #ffd36a;
+  font-size: 18px;
+}
+
+.stat span {
+  color: #a9948a;
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   LUDO GAME
+========================================================= */
+
+.game-page {
+  padding-bottom: 30px;
+}
+
+.game-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 14px;
+}
+
+.game-header h2 {
+  color: #ffd36a;
+}
+
+.close-game {
+  padding: 9px 12px;
+
+  border-radius: 10px;
+  border: 1px solid #68351f;
+
+  background: #2c1117;
+  color: #fff;
+}
+
+
+/* ROOM */
+
+.room-card {
+  padding: 17px;
+
+  border-radius: 18px;
+
+  background: #211016;
+  border: 1px solid #6c351f;
+}
+
+.room-card h3 {
+  color: #ffd36a;
+  margin-bottom: 12px;
+}
+
+.room-actions {
+  display: grid;
+  gap: 9px;
+}
+
+.room-actions input {
+  width: 100%;
+
+  padding: 12px;
+
+  border-radius: 11px;
+
+  background: #11070a;
+  color: white;
+
+  border: 1px solid #63341f;
+}
+
+.room-message {
+  min-height: 20px;
+
+  margin: 10px 0;
+
+  color: #ffc56e;
+  font-size: 13px;
+}
+
+.room-id {
+  padding: 12px;
+
+  margin-top: 10px;
+
+  text-align: center;
+
+  border-radius: 12px;
+
+  background: #35141a;
+
+  color: #ffd36a;
+
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+
+/* PLAYERS */
+
+.player-list {
+  margin-top: 13px;
+}
+
+.player-row {
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 11px;
+
+  margin-bottom: 7px;
+
+  border-radius: 11px;
+
+  background: #2b1117;
+  border: 1px solid #533020;
+}
+
+.player-dot {
+  width: 13px;
+  height: 13px;
+
+  border-radius: 50%;
+
+  display: inline-block;
+}
+
+.player-green {
+  background: #21b95a;
+}
+
+.player-red {
+  background: #e43d3d;
+}
+
+
+/* GAME AREA */
+
+.board-area {
+  margin-top: 14px;
+}
+
+.game-status {
+  padding: 12px;
+
+  text-align: center;
+
+  border-radius: 12px;
+
+  background: #35141a;
+  border: 1px solid #744022;
+
+  color: #ffd36a;
+
+  font-weight: 800;
+}
+
+.dice-box {
+  margin-top: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+}
+
+.dice-result {
+  width: 64px;
+  height: 64px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 16px;
+
+  background: #f4e7bd;
+
+  color: #1a0a0d;
+
+  font-size: 40px;
+
+  border: 3px solid #a66a31;
+}
+
+
+/* TOKENS */
+
+.tokens-area {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 9px;
+
+  margin-top: 15px;
+}
+
+.token-btn {
+  padding: 13px 8px;
+
+  border-radius: 13px;
+
+  border: 1px solid #744022;
+
+  background: #2b1117;
+
+  color: #fff;
+
+  font-weight: 800;
+}
+
+.token-btn:hover {
+  background: #43151d;
+  border-color: #bd7232;
+}
+
+.token-btn small {
+  display: block;
+
+  margin-top: 4px;
+
+  color: #bba39a;
+}
+
+
+/* =========================================================
+   WALLET / REFERRAL / HISTORY
+========================================================= */
+
+.wallet-box,
+.referral-box,
+.history-box {
+  padding: 18px;
+
+  border-radius: 18px;
+
+  background: #211016;
+  border: 1px solid #68351f;
+}
+
+.wallet-balance {
+  text-align: center;
+
+  padding: 20px;
+
+  border-radius: 15px;
+
+  background: #34131a;
+}
+
+.wallet-balance strong {
+  display: block;
+
+  margin-top: 5px;
+
+  color: #ffd36a;
+
+  font-size: 32px;
+}
+
+.referral-code {
+  margin: 15px 0;
+
+  padding: 14px;
+
+  text-align: center;
+
+  border-radius: 12px;
+
+  background: #35141a;
+
+  color: #ffd36a;
+
+  font-size: 20px;
+
+  font-weight: 900;
+
+  letter-spacing: 2px;
+}
+
+
+/* =========================================================
+   CHAT BUTTON
+========================================================= */
+
+.chat-fab {
+  position: fixed;
+
+  right: 16px;
+  bottom: 75px;
+
+  width: 50px;
+  height: 50px;
+
+  z-index: 900;
+
+  border-radius: 50%;
+
+  border: 1px solid #b66a31;
+
+  background: linear-gradient(
+    135deg,
+    #ffd36a,
+    #a95326
+  );
+
+  color: #210b0e;
+
+  font-size: 22px;
+
+  box-shadow: 0 7px 22px rgba(0,0,0,.4);
+}
+
+
+/* =========================================================
+   BOTTOM NAV
+========================================================= */
+
+.bottom-nav {
+  position: fixed;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  z-index: 1000;
+
+  height: 62px;
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+
+  background: #1d090e;
+
+  border-top: 1px solid #63351f;
+
+  box-shadow: 0 -5px 20px rgba(0,0,0,.35);
+}
+
+.bottom-nav button {
+  border: 0;
+
+  background: transparent;
+
+  color: #a99288;
+
+  font-size: 11px;
+}
+
+.bottom-nav button span {
+  display: block;
+  font-size: 20px;
+  margin-bottom: 2px;
+}
+
+.bottom-nav button.active {
+  color: #ffd36a;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (min-width: 700px) {
+
+  main {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .hero {
+    padding: 32px;
+  }
+
+  .hero h1 {
+    font-size: 35px;
+  }
+
+}
+
+@media (max-width: 390px) {
+
+  .brand {
+    font-size: 15px;
+  }
+
+  .hero h1 {
+    font-size: 24px;
+  }
+
+  .quick-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    gap: 5px;
+  }
+
+  .tokens-area {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #10070a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #6c351f;
+  border-radius: 10px;
+}
