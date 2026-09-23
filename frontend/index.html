@@ -1,1 +1,301 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ludo Inspire</title><link rel="stylesheet" href="style.css"></head><body><div id="app"><header><h1>🎲 Ludo Inspire</h1><span id="status">Offline</span></header><section id="auth" class="card"><h2>Login</h2><input id="email" placeholder="Email" type="email"><input id="password" placeholder="Password" type="password"><button onclick="login()">Login</button><p id="authMsg"></p><hr><h3>New player</h3><input id="regUser" placeholder="Username"><input id="regEmail" placeholder="Email" type="email"><input id="regPass" placeholder="Password" type="password"><button onclick="register()">Create account</button></section><section id="home" hidden><div class="grid"><div class="card"><h2>👤 Profile</h2><div id="profile"></div></div><div class="card"><h2>🏆 Leaderboard</h2><div id="leaderboard"></div></div></div><div class="card"><h2>🎮 Rooms</h2><button onclick="createRoom()">Create Room</button><button onclick="loadRooms()">Refresh</button><div id="rooms"></div></div><div class="card"><h2>🎲 Ludo Board</h2><div id="game">Join a room to start playing.</div></div><button class="logout" onclick="logout()">Logout</button></section></div><script src="app.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#10131a">
+<title>Ludo Inspire</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div id="app">
+
+<header class="topbar">
+
+  <div class="brand">
+    <span class="brand-dot">🎲</span>
+
+    <div>
+      <b>Ludo Inspire</b>
+      <small>Play • Compete • Win</small>
+    </div>
+  </div>
+
+  <span id="status" class="status">Offline</span>
+
+</header>
+
+
+<!-- LOGIN / REGISTER -->
+
+<section id="auth" class="auth card">
+
+  <div class="hero">
+
+    <div class="hero-icon">🎲</div>
+
+    <h1>Play Ludo Online</h1>
+
+    <p>
+      Join rooms, play with friends and climb the leaderboard.
+    </p>
+
+  </div>
+
+
+  <div class="tabs">
+
+    <button
+      id="loginTab"
+      class="tab active"
+      onclick="showLogin()">
+      Login
+    </button>
+
+    <button
+      id="registerTab"
+      class="tab"
+      onclick="showRegister()">
+      Create account
+    </button>
+
+  </div>
+
+
+  <!-- LOGIN -->
+
+  <div id="loginForm">
+
+    <input
+      id="email"
+      placeholder="Email"
+      type="email"
+      autocomplete="email">
+
+    <input
+      id="password"
+      placeholder="Password"
+      type="password"
+      autocomplete="current-password">
+
+    <button
+      class="primary wide"
+      onclick="login()">
+      Continue
+    </button>
+
+  </div>
+
+
+  <!-- REGISTER -->
+
+  <div id="registerForm" hidden>
+
+    <input
+      id="regUser"
+      placeholder="Username"
+      autocomplete="username">
+
+    <input
+      id="regEmail"
+      placeholder="Email"
+      type="email"
+      autocomplete="email">
+
+    <input
+      id="regPass"
+      placeholder="Password (6+ characters)"
+      type="password"
+      autocomplete="new-password">
+
+    <button
+      class="primary wide"
+      onclick="register()">
+      Create account
+    </button>
+
+  </div>
+
+
+  <p id="authMsg" class="msg"></p>
+
+</section>
+
+
+<!-- HOME -->
+
+<section id="home" hidden>
+
+  <div class="banner card">
+
+    <div>
+
+      <span class="eyebrow">
+        LIVE MULTIPLAYER
+      </span>
+
+      <h2>
+        Play with friends
+      </h2>
+
+      <p>
+        Create a room and invite 1–3 other players.
+      </p>
+
+    </div>
+
+    <div class="banner-dice">
+      🎲
+    </div>
+
+  </div>
+
+
+  <div class="section-title">
+
+    <h3>Quick Play</h3>
+
+    <span>2–4 players</span>
+
+  </div>
+
+
+  <div class="quick-grid">
+
+    <button
+      class="quick-card"
+      onclick="createRoom()">
+
+      <strong>🎮</strong>
+
+      <b>Create Room</b>
+
+      <small>
+        Start a multiplayer room
+      </small>
+
+    </button>
+
+
+    <button
+      class="quick-card"
+      onclick="loadRooms()">
+
+      <strong>🔎</strong>
+
+      <b>Find Room</b>
+
+      <small>
+        Refresh available rooms
+      </small>
+
+    </button>
+
+  </div>
+
+
+  <div class="section-title">
+
+    <h3>My Profile</h3>
+
+  </div>
+
+
+  <div
+    class="profile card"
+    id="profile">
+  </div>
+
+
+  <div class="section-title">
+
+    <h3>Rooms</h3>
+
+    <span>Live</span>
+
+  </div>
+
+
+  <div
+    class="card"
+    id="rooms">
+  </div>
+
+
+  <div class="section-title">
+
+    <h3>Leaderboard</h3>
+
+    <span>Top players</span>
+
+  </div>
+
+
+  <div
+    class="card"
+    id="leaderboard">
+  </div>
+
+
+  <button
+    class="logout"
+    onclick="logout()">
+
+    Logout
+
+  </button>
+
+</section>
+
+
+<!-- GAME -->
+
+<section id="gameView" hidden>
+
+  <div class="game-head card">
+
+    <button
+      class="back"
+      onclick="leaveGame()">
+
+      ← Rooms
+
+    </button>
+
+
+    <div>
+
+      <b id="gameTitle">
+        Ludo Room
+      </b>
+
+      <small id="gamePlayers">
+      </small>
+
+    </div>
+
+
+    <span class="live-pill">
+      ● LIVE
+    </span>
+
+  </div>
+
+
+  <div
+    id="game"
+    class="game-card card">
+  </div>
+
+</section>
+
+
+</div>
+
+
+<script src="app.js"></script>
+
+</body>
+</html>
