@@ -7,6 +7,7 @@
 <title>Ludo Inspire</title>
 <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <div id="app">
@@ -23,131 +24,612 @@
   </div>
 
   <div class="wallet-mini">
-    <span>🪙 <b id="coinTop">0</b></span>
-    <span>🎁 <b id="bonusTop">0</b></span>
+    🪙 <b id="coinTop">0</b>
   </div>
 </header>
 
+
 <div id="overlay" class="overlay" onclick="toggleDrawer()"></div>
 
+
+<!-- SIDE MENU -->
+
 <aside id="drawer" class="drawer">
+
   <div class="drawer-head">
+
     <div class="brand">
       <div class="brand-mark">L</div>
-      <div><b>LUDO INSPIRE</b><small>Play • Win • Repeat</small></div>
+
+      <div>
+        <b>LUDO INSPIRE</b>
+        <small>Play • Win • Repeat</small>
+      </div>
     </div>
-    <button class="close" onclick="toggleDrawer()">×</button>
+
+    <button class="close" onclick="closeDrawer()">×</button>
+
   </div>
 
-  <div class="drawer-items">
-    <button class="menu active" onclick="closeDrawer();scrollToTop()"><span>⌂</span> Home</button>
-    <button class="menu" onclick="closeDrawer();showLoginBox()"><span>◎</span> My Profile</button>
-    <button class="menu" onclick="closeDrawer();showLoginBox()"><span>▣</span> My Wallet</button>
-    <button class="menu" onclick="closeDrawer();showLoginBox()"><span>♧</span> Refer & Earn</button>
-    <button class="menu" onclick="closeDrawer();showLoginBox()"><span>▤</span> History</button>
-    <button class="menu" onclick="closeDrawer();showLoginBox()"><span>♧</span> Notifications</button>
-    <button class="menu" onclick="closeDrawer();showLoginBox()"><span>◉</span> Support</button>
-    <button class="menu" onclick="closeDrawer();alert('Install option coming soon')"><span>▣</span> Install App</button>
-  </div>
+
+  <button class="menu" onclick="showHomePage()">
+    <span>⌂</span> Home
+  </button>
+
+  <button class="menu active" onclick="showProfilePage()">
+    <span>◎</span> My Profile
+  </button>
+
+  <button class="menu" onclick="showProfilePage();openWallet()">
+    <span>▣</span> My Wallet
+  </button>
+
+  <button class="menu" onclick="showProfilePage();openReferral()">
+    <span>♧</span> Refer & Earn
+  </button>
+
+  <button class="menu" onclick="showHistory()">
+    <span>▤</span> History
+  </button>
+
+  <button class="menu" onclick="showProfilePage();alert('No new notifications')">
+    <span>♧</span> Notifications
+  </button>
+
+  <button class="menu" onclick="showProfilePage();alert('Support coming soon')">
+    <span>◉</span> Support
+  </button>
+
+  <button class="menu" onclick="alert('Install App option coming soon')">
+    <span>▣</span> Install App
+  </button>
+
 </aside>
+
 
 <main class="page">
 
-  <div class="referral">♧ &nbsp; Referral invite — join Ludo Inspire</div>
+
+<!-- HOME -->
+
+<section id="homePage" hidden>
+
+  <div class="referral">
+    ♧ &nbsp; Referral invite — join Ludo Inspire
+  </div>
 
   <section class="hero">
-    <div class="hero-glow"></div>
-    <div class="hero-label">PLAY • COMPETE • WIN</div>
-    <h1>YOUR<br><em>LUDO</em><br>PLAYGROUND</h1>
-    <p>Play with friends • Join tournaments • Climb the leaderboard</p>
+
+    <div class="hero-label">
+      PLAY • COMPETE • WIN
+    </div>
+
+    <h1>
+      YOUR<br>
+      <em>LUDO</em><br>
+      PLAYGROUND
+    </h1>
+
+    <p>
+      Play with friends • Join tournaments • Climb the leaderboard
+    </p>
 
     <div class="hero-board">
-      <div class="mini-grid"></div>
-      <div class="mini-pawn red">●</div>
-      <div class="mini-pawn green">●</div>
-      <div class="mini-pawn blue">●</div>
-      <div class="mini-pawn yellow">●</div>
+      🎲
     </div>
 
-    <button class="hero-btn" onclick="showLoginBox()">PLAY NOW</button>
-  </section>
-
-  <div class="section-title">
-    <h2>Quick Play</h2><span>LIVE</span>
-  </div>
-
-  <section class="cards">
-    <button class="game-card ludo-card" onclick="showLoginBox()">
-      <div class="badge">● LIVE</div>
-      <div class="die">⚄</div>
-      <div class="pawns"><i>●</i><i>●</i><i>●</i><i>●</i></div>
-      <div class="card-text"><b>LUDO</b><small>Play multiplayer</small></div>
+    <button class="hero-btn" onclick="showProfilePage()">
+      MY PROFILE
     </button>
 
-    <button class="game-card tour-card" onclick="showLoginBox()">
-      <div class="trophy">🏆</div>
-      <div class="card-text"><b>TOURNAMENTS</b><small>Compete & climb</small></div>
-    </button>
   </section>
 
-  <section class="wide-banner" onclick="showLoginBox()">
-    <div class="banner-copy">
-      <small>LUCK • SKILL • FUN</small>
-      <h2>PLAY<br><em>TOGETHER</em></h2>
-      <p>Invite friends and enjoy a live multiplayer match.</p>
-    </div>
-    <div class="banner-dice">🎲</div>
-  </section>
+</section>
 
-  <div id="auth" class="auth-card" hidden>
-    <div class="auth-tabs">
-      <button id="loginTab" class="active" onclick="showLogin()">Login</button>
-      <button id="registerTab" onclick="showRegister()">Create account</button>
-    </div>
 
-    <div id="loginForm">
-      <input id="email" type="email" placeholder="Email">
-      <input id="password" type="password" placeholder="Password">
-      <button class="main-btn" onclick="login()">Continue</button>
-    </div>
+<!-- PROFILE -->
 
-    <div id="registerForm" hidden>
-      <input id="regUser" placeholder="Username">
-      <input id="regEmail" type="email" placeholder="Email">
-      <input id="regPass" type="password" placeholder="Password (6+ characters)">
-      <button class="main-btn" onclick="register()">Create account</button>
-    </div>
-    <p id="authMsg"></p>
+<section id="profilePage">
+
+  <div class="page-title">
+
+    <h1>My Profile</h1>
+
+    <span>
+      ACCOUNT
+    </span>
+
   </div>
+
+
+  <div class="profile-head">
+
+    <div class="avatar">
+      👤
+    </div>
+
+
+    <div class="profile-main">
+
+      <b id="profileName">
+        Loading...
+      </b>
+
+      <small id="profileEmail">
+        Loading...
+      </small>
+
+      <button
+        class="complete-btn"
+        onclick="completeProfile()">
+
+        COMPLETE PROFILE
+
+      </button>
+
+    </div>
+
+
+    <span
+      class="edit"
+      onclick="completeProfile()">
+
+      ✎
+
+    </span>
+
+  </div>
+
+
+  <div class="section-label">
+    PERFORMANCE
+  </div>
+
+
+  <div class="stats">
+
+    <div class="stat">
+
+      <div class="stat-icon green">
+        🪙
+      </div>
+
+      <b id="cashWon">
+        0
+      </b>
+
+      <small>
+        VIRTUAL COINS
+      </small>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div class="stat-icon orange">
+        ⚔
+      </div>
+
+      <b id="battles">
+        0
+      </b>
+
+      <small>
+        BATTLES
+      </small>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div class="stat-icon yellow">
+        🎁
+      </div>
+
+      <b id="referrals">
+        0
+      </b>
+
+      <small>
+        REFERRAL
+      </small>
+
+    </div>
+
+  </div>
+
+
+  <div class="section-label">
+    ACCOUNT
+  </div>
+
+
+  <button
+    class="account-row"
+    onclick="showHistory()">
+
+    <span>
+
+      <i>↺</i>
+
+      <b>
+        History
+      </b>
+
+    </span>
+
+    <strong>
+      ›
+    </strong>
+
+  </button>
+
+
+  <div class="two-cards">
+
+    <button
+      class="small-card"
+      onclick="alert('Support coming soon')">
+
+      <i>
+        ◉
+      </i>
+
+      <b>
+        Support
+      </b>
+
+      <small>
+        Get help
+      </small>
+
+    </button>
+
+
+    <button
+      class="small-card"
+      onclick="openReferral()">
+
+      <i>
+        🎁
+      </i>
+
+      <b>
+        Referral Redeem
+      </b>
+
+      <small>
+        Claim rewards
+      </small>
+
+    </button>
+
+  </div>
+
+
+  <button
+    class="logout-btn"
+    onclick="logout()">
+
+    ⇥ &nbsp; LOG OUT
+
+  </button>
+
+
+  <div
+    id="historyBox"
+    class="history-box"
+    hidden>
+  </div>
+
+
+  <div
+    id="walletBox"
+    class="info-box"
+    hidden>
+
+    <b>
+      My Wallet
+    </b>
+
+    <p>
+      🪙
+      <span id="walletCoins">
+        0
+      </span>
+      virtual coins
+    </p>
+
+    <small>
+      These are non-cash virtual game coins.
+    </small>
+
+  </div>
+
+
+  <div
+    id="referralBox"
+    class="info-box"
+    hidden>
+
+    <b>
+      Refer & Earn
+    </b>
+
+    <p>
+      Invite friends to Ludo Inspire.
+    </p>
+
+    <div
+      class="ref-code"
+      id="refCode">
+
+      LUDO-INSPIRE
+
+    </div>
+
+    <button
+      class="complete-btn"
+      onclick="copyReferral()">
+
+      COPY CODE
+
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- LOGIN -->
+
+<section
+  id="auth"
+  class="auth-card"
+  hidden>
+
+  <div class="auth-tabs">
+
+    <button
+      id="loginTab"
+      class="active"
+      onclick="showLogin()">
+
+      Login
+
+    </button>
+
+    <button
+      id="registerTab"
+      onclick="showRegister()">
+
+      Create account
+
+    </button>
+
+  </div>
+
+
+  <div id="loginForm">
+
+    <input
+      id="email"
+      type="email"
+      placeholder="Email">
+
+    <input
+      id="password"
+      type="password"
+      placeholder="Password">
+
+    <button
+      class="main-btn"
+      onclick="login()">
+
+      Continue
+
+    </button>
+
+  </div>
+
+
+  <div
+    id="registerForm"
+    hidden>
+
+    <input
+      id="regUser"
+      placeholder="Username">
+
+    <input
+      id="regEmail"
+      type="email"
+      placeholder="Email">
+
+    <input
+      id="regPass"
+      type="password"
+      placeholder="Password (6+ characters)">
+
+    <button
+      class="main-btn"
+      onclick="register()">
+
+      Create account
+
+    </button>
+
+  </div>
+
+
+  <p id="authMsg"></p>
+
+</section>
 
 </main>
 
-<button class="chat-fab" onclick="showLoginBox()">●</button>
+
+<button
+  class="chat-fab"
+  onclick="alert('Support coming soon')">
+
+  ●
+
+</button>
+
+
+<!-- BOTTOM NAV -->
 
 <nav class="bottom-nav">
-  <button class="nav active" onclick="scrollToTop()"><span>⌂</span>Home</button>
-  <button class="nav" onclick="showLoginBox()"><span>▣</span>Wallet</button>
-  <button class="nav" onclick="showLoginBox()"><span>♧</span>Support</button>
-  <button class="nav" onclick="showLoginBox()"><span>◎</span>Profile</button>
+
+  <button
+    class="nav"
+    onclick="showHomePage()">
+
+    <span>⌂</span>
+    Home
+
+  </button>
+
+
+  <button
+    class="nav"
+    onclick="showProfilePage();openWallet()">
+
+    <span>▣</span>
+    Wallet
+
+  </button>
+
+
+  <button
+    class="nav"
+    onclick="alert('Support coming soon')">
+
+    <span>♧</span>
+    Support
+
+  </button>
+
+
+  <button
+    class="nav active"
+    onclick="showProfilePage()">
+
+    <span>◎</span>
+    Profile
+
+  </button>
+
 </nav>
 
 <script src="app.js"></script>
+
 <script>
+
 function toggleDrawer(){
-  document.getElementById("drawer").classList.toggle("open");
-  document.getElementById("overlay").classList.toggle("show");
+
+  drawer.classList.toggle("open");
+
+  overlay.classList.toggle("show");
+
 }
+
+
 function closeDrawer(){
-  document.getElementById("drawer").classList.remove("open");
-  document.getElementById("overlay").classList.remove("show");
+
+  drawer.classList.remove("open");
+
+  overlay.classList.remove("show");
+
 }
-function scrollToTop(){window.scrollTo({top:0,behavior:"smooth"});closeDrawer();}
-function showLoginBox(){
-  const a=document.getElementById("auth");
-  a.hidden=false;
-  a.scrollIntoView({behavior:"smooth",block:"center"});
-  if(typeof showLogin==="function")showLogin();
+
+
+function showHomePage(){
+
+  closeDrawer();
+
+  homePage.hidden=false;
+
+  profilePage.hidden=true;
+
 }
+
+
+function showProfilePage(){
+
+  closeDrawer();
+
+  homePage.hidden=true;
+
+  profilePage.hidden=false;
+
+  loadProfile();
+
+}
+
+
+function hideBoxes(){
+
+  historyBox.hidden=true;
+
+  walletBox.hidden=true;
+
+  referralBox.hidden=true;
+
+}
+
+
+function openWallet(){
+
+  hideBoxes();
+
+  walletBox.hidden=false;
+
+  walletBox.scrollIntoView({
+    behavior:"smooth",
+    block:"center"
+  });
+
+}
+
+
+function openReferral(){
+
+  hideBoxes();
+
+  referralBox.hidden=false;
+
+  referralBox.scrollIntoView({
+    behavior:"smooth",
+    block:"center"
+  });
+
+}
+
+
+function completeProfile(){
+
+  alert(
+    "Profile details can be completed here."
+  );
+
+}
+
+
+function copyReferral(){
+
+  navigator.clipboard?.writeText(
+    refCode.textContent
+  );
+
+  alert("Referral code copied");
+
+}
+
 </script>
+
 </body>
 </html>
