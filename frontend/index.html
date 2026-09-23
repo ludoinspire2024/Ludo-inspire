@@ -1,1037 +1,1054 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#16000f">
 <title>Ludo Inspire</title>
+<link rel="stylesheet" href="style.css">
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,sans-serif;
-}
+/* LUDO GAME ADD-ON */
 
-body{
-  background:#16080b;
-  color:#fff;
-  min-height:100vh;
-}
-
-button{
-  border:0;
-  cursor:pointer;
-}
-
-.header{
-  padding:18px;
-  text-align:center;
-  background:#3b1018;
-  border-bottom:1px solid #7d3b27;
-}
-
-.logo{
-  font-size:28px;
-  font-weight:800;
-  color:#ffd36a;
-}
-
-.subtitle{
-  color:#d9b9a7;
-  margin-top:5px;
-  font-size:13px;
-}
-
-.page{
-  padding:20px;
+.game-page{
+  padding:14px;
   padding-bottom:100px;
 }
 
-.hero{
-  margin-top:20px;
-  padding:25px 18px;
-  text-align:center;
-  background:linear-gradient(145deg,#4a151d,#241014);
-  border:1px solid #743727;
-  border-radius:22px;
-}
-
-.hero h1{
-  color:#ffd36a;
-  font-size:25px;
-  margin-bottom:10px;
-}
-
-.hero p{
-  color:#d9b9a7;
-  line-height:1.5;
-}
-
-.dice{
-  font-size:75px;
-  margin:20px 0;
-}
-
-.play-btn{
-  width:100%;
-  padding:17px;
-  border-radius:14px;
-  background:#f4bd45;
-  color:#351009;
-  font-size:18px;
-  font-weight:800;
-  box-shadow:0 5px 20px #0008;
-}
-
-.play-btn:active{
-  transform:scale(.98);
-}
-
-.card{
-  background:#281014;
-  border:1px solid #673026;
-  border-radius:18px;
-  padding:18px;
-  margin-top:18px;
-}
-
-.card h2{
-  color:#ffd36a;
-  margin-bottom:12px;
-}
-
-input{
-  width:100%;
-  padding:14px;
-  margin:7px 0;
-  border-radius:10px;
-  border:1px solid #744033;
-  background:#170a0d;
-  color:white;
-  outline:none;
-}
-
-.gold-btn{
-  width:100%;
-  padding:14px;
-  margin-top:8px;
-  border-radius:10px;
-  background:#eeb642;
-  color:#301008;
-  font-weight:800;
-}
-
-.secondary-btn{
-  width:100%;
-  padding:14px;
-  margin-top:10px;
-  border-radius:10px;
-  background:#54202a;
-  color:#fff;
-  border:1px solid #824333;
-}
-
-.hidden{
-  display:none!important;
-}
-
-.bottom{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  height:65px;
-  background:#240c11;
-  border-top:1px solid #673026;
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-  z-index:20;
-}
-
-.bottom button{
-  background:none;
-  color:#d8b9aa;
-  font-size:12px;
-}
-
-.bottom button:first-child{
-  color:#ffd36a;
-}
-
-/* GAME */
-.game{
-  min-height:100vh;
-  background:#12070a;
-}
-
-.game-header{
+.game-title{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:15px;
-  background:#3b1018;
+  margin-bottom:14px;
 }
 
-.back-btn{
-  background:#54202a;
-  color:white;
-  padding:9px 14px;
+.game-title h1{
+  margin:0;
+  font-size:24px;
+}
+
+.game-title span{
+  font-size:11px;
+  background:#32101f;
+  color:#f5c76a;
+  padding:7px 10px;
+  border-radius:20px;
+}
+
+.game-box{
+  background:#1b0712;
+  border:1px solid #54203b;
+  border-radius:14px;
+  padding:16px;
+  margin-bottom:14px;
+  box-shadow:0 10px 30px rgba(0,0,0,.2);
+}
+
+.game-box b{
+  font-size:17px;
+}
+
+.game-box p{
+  color:#cdbbc4;
+  font-size:13px;
+}
+
+.game-input{
+  width:100%;
+  box-sizing:border-box;
+  margin-top:10px;
+  padding:13px;
+  border:1px solid #58203d;
   border-radius:9px;
+  background:#100008;
+  color:#fff;
+  outline:none;
 }
 
-.game-title{
-  color:#ffd36a;
-  font-size:20px;
+.game-input:focus{
+  border-color:#e3a94b;
+}
+
+.game-btn{
+  width:100%;
+  border:0;
+  border-radius:10px;
+  padding:13px;
+  margin-top:10px;
+  background:linear-gradient(135deg,#e8b65b,#a96a24);
+  color:#16000f;
   font-weight:800;
+  cursor:pointer;
 }
 
-.room-box{
-  margin:15px;
-  padding:18px;
-  background:#281014;
-  border:1px solid #673026;
-  border-radius:18px;
+.game-btn.secondary{
+  background:#32101f;
+  color:#f5c76a;
+  border:1px solid #69304d;
 }
 
 .room-id{
-  font-size:22px;
-  color:#ffd36a;
-  font-weight:800;
-  margin:10px 0;
-  word-break:break-all;
-}
-
-.player-list{
-  margin-top:15px;
-}
-
-.player{
-  padding:12px;
-  margin:7px 0;
-  border-radius:10px;
-  background:#3a171d;
-}
-
-.green{
-  color:#55e889;
-}
-
-.red{
-  color:#ff6b6b;
-}
-
-.board-box{
-  margin:15px;
-  padding:15px;
-  background:#281014;
-  border-radius:18px;
+  background:#100008;
+  border:1px dashed #b67b3c;
+  color:#f5c76a;
   text-align:center;
+  padding:13px;
+  margin-top:12px;
+  border-radius:9px;
+  font-size:20px;
+  letter-spacing:2px;
+  font-weight:800;
 }
 
-.board{
+.player-row{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  padding:10px;
+  background:#100008;
+  border-radius:9px;
+  margin-top:8px;
+}
+
+.player-dot{
+  width:15px;
+  height:15px;
+  border-radius:50%;
+}
+
+.player-green{
+  background:#19c66a;
+}
+
+.player-red{
+  background:#e8565f;
+}
+
+.ludo-board{
   width:100%;
   max-width:330px;
   aspect-ratio:1;
-  margin:15px auto;
+  margin:18px auto;
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:4px;
-  background:#111;
-  padding:4px;
-  border-radius:10px;
+  background:#090006;
+  padding:5px;
+  border-radius:15px;
+  box-sizing:border-box;
 }
 
-.cell{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#eee0c8;
-  color:#321;
-  font-size:27px;
-  border-radius:4px;
-}
-
-.cell.green-cell{
-  background:#55c978;
-}
-
-.cell.red-cell{
-  background:#ed6666;
-}
-
-.dice-btn{
-  width:100%;
-  padding:16px;
-  background:#f4bd45;
-  color:#301008;
-  border-radius:12px;
+.board-cell{
+  display:grid;
+  place-items:center;
+  border-radius:6px;
+  background:#f5e8d0;
+  color:#111;
   font-size:18px;
-  font-weight:800;
+}
+
+.board-green{
+  background:#19b866;
+  font-size:34px;
+}
+
+.board-red{
+  background:#e85b62;
+  font-size:34px;
+}
+
+.board-home{
+  background:#ffd42b;
+  font-size:30px;
 }
 
 .dice-result{
-  font-size:45px;
-  margin:12px;
+  text-align:center;
+  font-size:52px;
+  margin:8px;
 }
 
-.tokens{
+.token-grid{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
+  grid-template-columns:1fr 1fr;
   gap:8px;
   margin-top:12px;
 }
 
 .token-btn{
-  padding:13px;
-  border-radius:10px;
-  background:#54202a;
-  color:white;
+  border:1px solid #58203d;
+  background:#24101a;
+  color:#fff;
+  border-radius:9px;
+  padding:11px;
+  font-weight:700;
 }
 
-.status{
-  text-align:center;
-  padding:10px;
-  color:#ffd36a;
+.back-btn{
+  width:100%;
+  border:1px solid #58203d;
+  background:#16000f;
+  color:#f5c76a;
+  border-radius:10px;
+  padding:13px;
+  margin-top:5px;
+}
+
+.hero-btn.play-ludo{
+  margin-top:10px;
+  background:linear-gradient(135deg,#e8b65b,#a96a24);
 }
 </style>
 </head>
 
 <body>
 
+<div id="app">
+
+<header class="topbar">
+  <button class="hamburger" onclick="toggleDrawer()">☰</button>
+
+  <div class="brand">
+    <div class="brand-mark">L</div>
+    <div>
+      <b>LUDO INSPIRE</b>
+      <small>Play • Win • Repeat</small>
+    </div>
+  </div>
+
+  <div class="wallet-mini">
+    <span>🪙 <b id="coinTop">0</b></span>
+    <span>🎁 <b id="bonusTop">0</b></span>
+  </div>
+</header>
+
+<div id="overlay" class="overlay" onclick="toggleDrawer()"></div>
+
+<aside id="drawer" class="drawer">
+
+  <div class="drawer-head">
+    <div class="brand">
+      <div class="brand-mark">L</div>
+      <div>
+        <b>LUDO INSPIRE</b>
+        <small>Play • Win • Repeat</small>
+      </div>
+    </div>
+
+    <button class="close" onclick="toggleDrawer()">×</button>
+  </div>
+
+  <div class="drawer-items">
+
+    <button class="menu active"
+      onclick="closeDrawer();showHomePage()">
+      <span>⌂</span> Home
+    </button>
+
+    <button class="menu"
+      onclick="closeDrawer();showProfilePage()">
+      <span>◎</span> My Profile
+    </button>
+
+    <button class="menu"
+      onclick="closeDrawer();openWallet()">
+      <span>▣</span> My Wallet
+    </button>
+
+    <button class="menu"
+      onclick="closeDrawer();openReferral()">
+      <span>♧</span> Refer & Earn
+    </button>
+
+    <button class="menu"
+      onclick="closeDrawer();showHistory()">
+      <span>▤</span> History
+    </button>
+
+    <button class="menu"
+      onclick="closeDrawer();alert('Notifications coming soon')">
+      <span>♧</span> Notifications
+    </button>
+
+    <button class="menu"
+      onclick="closeDrawer();alert('Support coming soon')">
+      <span>◉</span> Support
+    </button>
+
+    <button class="menu"
+      onclick="closeDrawer();alert('Install option coming soon')">
+      <span>▣</span> Install App
+    </button>
+
+  </div>
+</aside>
+
+<main class="page">
+
 <!-- HOME -->
-<div id="homePage">
 
-  <div class="header">
-    <div class="logo">🎲 LUDO INSPIRE</div>
-    <div class="subtitle">Your Ludo Playground</div>
+<section id="homePage">
+
+  <div class="referral">
+    ♧ &nbsp; Referral invite — join Ludo Inspire
   </div>
 
-  <div class="page">
+  <section class="hero">
 
-    <div class="hero">
-      <h1>PLAY LUDO</h1>
+    <div class="hero-glow"></div>
+
+    <div class="hero-label">
+      PLAY • COMPETE • WIN
+    </div>
+
+    <h1>
+      YOUR<br>
+      <em>LUDO</em><br>
+      PLAYGROUND
+    </h1>
+
+    <p>
+      Play with friends • Join tournaments • Climb the leaderboard
+    </p>
+
+    <div class="hero-board">
+
+      <div class="mini-grid"></div>
+
+      <div class="mini-pawn red">●</div>
+      <div class="mini-pawn green">●</div>
+      <div class="mini-pawn blue">●</div>
+      <div class="mini-pawn yellow">●</div>
+
+    </div>
+
+    <button
+      class="hero-btn play-ludo"
+      onclick="openLudo()">
+      🎮 PLAY LUDO
+    </button>
+
+    <button
+      class="hero-btn"
+      onclick="showProfilePage()">
+      MY PROFILE
+    </button>
+
+  </section>
+
+
+  <div class="section-title">
+    <h2>Quick Play</h2>
+    <span>LIVE</span>
+  </div>
+
+
+  <section class="cards">
+
+    <button
+      class="game-card ludo-card"
+      onclick="openLudo()">
+
+      <div class="badge">● LIVE</div>
+
+      <div class="die">⚄</div>
+
+      <div class="pawns">
+        <i>●</i>
+        <i>●</i>
+        <i>●</i>
+        <i>●</i>
+      </div>
+
+      <div class="card-text">
+        <b>LUDO</b>
+        <small>Play multiplayer</small>
+      </div>
+
+    </button>
+
+
+    <button
+      class="game-card tour-card"
+      onclick="alert('Tournaments coming soon')">
+
+      <div class="trophy">🏆</div>
+
+      <div class="card-text">
+        <b>TOURNAMENTS</b>
+        <small>Compete & climb</small>
+      </div>
+
+    </button>
+
+  </section>
+
+
+  <section
+    class="wide-banner"
+    onclick="openLudo()">
+
+    <div class="banner-copy">
+
+      <small>
+        LUCK • SKILL • FUN
+      </small>
+
+      <h2>
+        PLAY<br>
+        <em>TOGETHER</em>
+      </h2>
+
       <p>
-        Create a room and play Ludo with another player.
-        Only 2 players are supported.
+        Invite friends and enjoy a live multiplayer match.
       </p>
 
-      <div class="dice">🎲</div>
-
-      <button class="play-btn" onclick="openLudo()">
-        🎮 PLAY LUDO
-      </button>
     </div>
 
-    <div class="card">
-      <h2>🪙 Virtual Coins</h2>
-      <p style="color:#d9b9a7">
-        Play using virtual coins. No real-money betting.
-      </p>
+    <div class="banner-dice">
+      🎲
     </div>
 
-  </div>
+  </section>
 
-  <div class="bottom">
-    <button onclick="showHomePage()">🏠<br>Home</button>
-    <button onclick="openLudo()">🎮<br>Ludo</button>
-    <button onclick="showProfilePage()">👤<br>Profile</button>
-  </div>
-
-</div>
+</section>
 
 
 <!-- PROFILE -->
-<div id="profilePage" class="hidden">
 
-  <div class="header">
-    <div class="logo">👤 PROFILE</div>
+<section id="profilePage" hidden>
+
+  <div class="section-title">
+    <h2>My Profile</h2>
+    <span>ACCOUNT</span>
   </div>
 
-  <div class="page">
+  <div class="game-box">
 
-    <div class="card">
-      <h2 id="profileName">Loading...</h2>
-      <p id="profileEmail" style="color:#d9b9a7"></p>
+    <h2 id="profileName">
+      Player
+    </h2>
+
+    <p id="profileEmail">
+      -
+    </p>
+
+    <div class="cards">
+
+      <div class="game-box">
+        <b id="cashWon">0</b>
+        <p>Coins</p>
+      </div>
+
+      <div class="game-box">
+        <b id="battles">0</b>
+        <p>Battles</p>
+      </div>
+
+      <div class="game-box">
+        <b id="referrals">0</b>
+        <p>Referrals</p>
+      </div>
+
     </div>
 
-    <div class="card">
-      <h2>🪙 Wallet</h2>
-      <p>
-        Coins:
-        <strong id="walletCoins">0</strong>
-      </p>
-    </div>
+  </div>
 
-    <div class="card">
-      <h2>📊 Stats</h2>
-      <p>Battles: <span id="battles">0</span></p>
-      <p>Referrals: <span id="referrals">0</span></p>
-    </div>
 
-    <button class="secondary-btn" onclick="logout()">
-      Logout
+  <button
+    class="game-btn secondary"
+    onclick="showHistory()">
+    📜 HISTORY
+  </button>
+
+  <button
+    class="game-btn secondary"
+    onclick="openWallet()">
+    🪙 MY WALLET
+  </button>
+
+  <button
+    class="game-btn secondary"
+    onclick="openReferral()">
+    🎁 REFER & EARN
+  </button>
+
+  <button
+    class="game-btn secondary"
+    onclick="alert('Support coming soon')">
+    💬 SUPPORT
+  </button>
+
+  <button
+    class="logout-btn"
+    onclick="logout()">
+    LOGOUT
+  </button>
+
+</section>
+
+
+<!-- AUTH -->
+
+<section
+  id="auth"
+  class="auth-card"
+  hidden>
+
+  <div class="auth-tabs">
+
+    <button
+      id="loginTab"
+      class="active"
+      onclick="showLogin()">
+      Login
+    </button>
+
+    <button
+      id="registerTab"
+      onclick="showRegister()">
+      Create account
     </button>
 
   </div>
 
-  <div class="bottom">
-    <button onclick="showHomePage()">🏠<br>Home</button>
-    <button onclick="openLudo()">🎮<br>Ludo</button>
-    <button onclick="showProfilePage()">👤<br>Profile</button>
+
+  <div id="loginForm">
+
+    <input
+      id="email"
+      type="email"
+      placeholder="Email">
+
+    <input
+      id="password"
+      type="password"
+      placeholder="Password">
+
+    <button
+      class="main-btn"
+      onclick="login()">
+      Continue
+    </button>
+
   </div>
 
-</div>
 
+  <div
+    id="registerForm"
+    hidden>
 
-<!-- GAME -->
-<div id="gamePage" class="hidden game">
+    <input
+      id="regUser"
+      placeholder="Username">
 
-  <div class="game-header">
-    <button class="back-btn" onclick="closeLudo()">← Back</button>
-    <div class="game-title">🎲 LUDO INSPIRE</div>
-    <div></div>
+    <input
+      id="regEmail"
+      type="email"
+      placeholder="Email">
+
+    <input
+      id="regPass"
+      type="password"
+      placeholder="Password (6+ characters)">
+
+    <button
+      class="main-btn"
+      onclick="register()">
+      Create account
+    </button>
+
   </div>
 
-  <div class="room-box">
+  <p id="authMsg"></p>
 
-    <h2 style="color:#ffd36a">2 Player Game</h2>
+</section>
 
-    <button class="gold-btn" onclick="createRoom()">
+
+<!-- LUDO GAME -->
+
+<section
+  id="gamePage"
+  class="game-page"
+  hidden>
+
+  <div class="game-title">
+
+    <h1>🎲 Ludo Game</h1>
+
+    <span>
+      2 PLAYERS
+    </span>
+
+  </div>
+
+
+  <!-- ROOM -->
+
+  <div class="game-box">
+
+    <b>
+      2 Player Ludo
+    </b>
+
+    <p>
+      🟢 Player 1 &nbsp; VS &nbsp; 🔴 Player 2
+    </p>
+
+
+    <button
+      class="game-btn"
+      onclick="createRoom()">
       ➕ CREATE ROOM
     </button>
 
+
     <input
       id="joinRoomInput"
-      placeholder="Enter Room ID"
-    >
+      class="game-input"
+      placeholder="Enter Room ID">
 
-    <button class="secondary-btn" onclick="joinRoomFromInput()">
+
+    <button
+      class="game-btn secondary"
+      onclick="joinRoomFromInput()">
       🔑 JOIN ROOM
     </button>
 
-    <div id="roomMessage" class="status">
-      Create a room or enter a Room ID to join.
-    </div>
+
+    <p id="roomMessage">
+      Create a room or enter Room ID.
+    </p>
 
   </div>
 
-  <div id="roomArea" class="room-box hidden">
 
-    <h2 style="color:#ffd36a">Room</h2>
+  <!-- ROOM DETAILS -->
 
-    <div>
-      Room ID:
-    </div>
+  <div
+    id="roomArea"
+    class="game-box"
+    hidden>
 
-    <div id="roomIdDisplay" class="room-id">
+    <b>
+      Room
+    </b>
+
+
+    <div
+      id="roomIdDisplay"
+      class="room-id">
       -
     </div>
 
-    <div id="playerList" class="player-list"></div>
+
+    <div
+      id="playerList">
+    </div>
+
 
     <button
       id="startGameBtn"
-      class="gold-btn hidden"
-      onclick="startGame()">
+      class="game-btn"
+      onclick="startGame()"
+      hidden>
       ▶ START GAME
     </button>
 
   </div>
 
-  <div id="boardArea" class="board-box hidden">
 
-    <div id="gameStatus" class="status">
+  <!-- BOARD -->
+
+  <div
+    id="boardArea"
+    class="game-box"
+    hidden>
+
+    <b>
+      🎲 Ludo Board
+    </b>
+
+
+    <p id="gameStatus">
       Waiting...
+    </p>
+
+
+    <div class="ludo-board">
+
+      <div class="board-cell board-green">
+        🟢
+      </div>
+
+      <div class="board-cell">
+        ⬜
+      </div>
+
+      <div class="board-cell board-red">
+        🔴
+      </div>
+
+
+      <div class="board-cell">
+        ⬜
+      </div>
+
+      <div class="board-cell board-home">
+        🏠
+      </div>
+
+      <div class="board-cell">
+        ⬜
+      </div>
+
+
+      <div class="board-cell board-green">
+        🟢
+      </div>
+
+      <div class="board-cell">
+        ⬜
+      </div>
+
+      <div class="board-cell board-red">
+        🔴
+      </div>
+
     </div>
 
-    <div class="board">
-      <div class="cell green-cell">🟢</div>
-      <div class="cell">⬜</div>
-      <div class="cell red-cell">🔴</div>
 
-      <div class="cell">⬜</div>
-      <div class="cell">🏠</div>
-      <div class="cell">⬜</div>
-
-      <div class="cell green-cell">🟢</div>
-      <div class="cell">⬜</div>
-      <div class="cell red-cell">🔴</div>
-    </div>
-
-    <div class="dice-result" id="diceResult">
+    <div
+      id="diceResult"
+      class="dice-result">
       🎲
     </div>
 
-    <button class="dice-btn" onclick="rollDice()">
+
+    <button
+      class="game-btn"
+      onclick="rollDice()">
       🎲 ROLL DICE
     </button>
 
-    <div id="tokensArea" class="tokens"></div>
+
+    <div
+      id="tokensArea"
+      class="token-grid">
+    </div>
 
   </div>
 
-</div>
 
+  <button
+    class="back-btn"
+    onclick="closeLudo()">
+    ← BACK TO HOME
+  </button>
+
+</section>
+
+
+<!-- WALLET -->
+
+<section
+  id="walletBox"
+  class="game-box"
+  hidden>
+
+  <b>🪙 My Wallet</b>
+
+  <h2 id="walletCoins">
+    0
+  </h2>
+
+  <p>
+    Virtual coins only.
+  </p>
+
+</section>
+
+
+<!-- REFERRAL -->
+
+<section
+  id="referralBox"
+  class="game-box"
+  hidden>
+
+  <b>
+    🎁 Refer & Earn
+  </b>
+
+  <p>
+    Invite your friends to Ludo Inspire.
+  </p>
+
+  <div
+    id="referralCode"
+    class="room-id">
+    -
+  </div>
+
+</section>
+
+
+<!-- HISTORY -->
+
+<section
+  id="historyBox"
+  class="game-box"
+  hidden>
+
+  <b>
+    📜 Game History
+  </b>
+
+  <div id="historyList">
+    No games yet.
+  </div>
+
+</section>
+
+</main>
+
+
+<button
+  class="chat-fab"
+  onclick="alert('Support coming soon')">
+  ●
+</button>
+
+
+<nav class="bottom-nav">
+
+  <button
+    class="nav active"
+    onclick="showHomePage()">
+
+    <span>⌂</span>
+    Home
+
+  </button>
+
+
+  <button
+    class="nav"
+    onclick="openWallet()">
+
+    <span>▣</span>
+    Wallet
+
+  </button>
+
+
+  <button
+    class="nav"
+    onclick="alert('Support coming soon')">
+
+    <span>♧</span>
+    Support
+
+  </button>
+
+
+  <button
+    class="nav"
+    onclick="showProfilePage()">
+
+    <span>◎</span>
+    Profile
+
+  </button>
+
+</nav>
+
+
+<script src="app.js"></script>
 
 <script>
-const API = "https://ludo-inspire.onrender.com";
 
-let currentRoom = null;
-let roomTimer = null;
+function toggleDrawer(){
+
+  document
+    .getElementById("drawer")
+    .classList.toggle("open");
+
+  document
+    .getElementById("overlay")
+    .classList.toggle("show");
+
+}
 
 
-/* ---------- PAGE ---------- */
+function closeDrawer(){
+
+  document
+    .getElementById("drawer")
+    .classList.remove("open");
+
+  document
+    .getElementById("overlay")
+    .classList.remove("show");
+
+}
+
+
+function scrollToTop(){
+
+  showHomePage();
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+function showLoginBox(){
+
+  showLoginPage();
+
+}
+
+
+function showLoginPage(){
+
+  hideAllPages();
+
+  const auth =
+    document.getElementById("auth");
+
+  auth.hidden=false;
+
+  auth.scrollIntoView({
+    behavior:"smooth",
+    block:"center"
+  });
+
+  if(typeof showLogin === "function"){
+    showLogin();
+  }
+
+}
+
+
+function hideAllPages(){
+
+  document.getElementById("homePage").hidden=true;
+
+  document.getElementById("profilePage").hidden=true;
+
+  document.getElementById("auth").hidden=true;
+
+  document.getElementById("gamePage").hidden=true;
+
+  document.getElementById("walletBox").hidden=true;
+
+  document.getElementById("referralBox").hidden=true;
+
+  document.getElementById("historyBox").hidden=true;
+
+}
+
 
 function showHomePage(){
-  document.getElementById("homePage").classList.remove("hidden");
-  document.getElementById("profilePage").classList.add("hidden");
-  document.getElementById("gamePage").classList.add("hidden");
+
+  hideAllPages();
+
+  document
+    .getElementById("homePage")
+    .hidden=false;
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
 }
 
-function showProfilePage(){
-  document.getElementById("homePage").classList.add("hidden");
-  document.getElementById("profilePage").classList.remove("hidden");
-  document.getElementById("gamePage").classList.add("hidden");
-
-  loadProfile();
-}
-
-
-/* ---------- LUDO ---------- */
 
 function openLudo(){
 
-  document.getElementById("homePage").classList.add("hidden");
-  document.getElementById("profilePage").classList.add("hidden");
-  document.getElementById("gamePage").classList.remove("hidden");
+  hideAllPages();
 
-  document.getElementById("roomMessage").innerText =
-    "Create a room or enter a Room ID to join.";
+  document
+    .getElementById("gamePage")
+    .hidden=false;
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
 }
+
 
 function closeLudo(){
 
-  if(roomTimer){
-    clearInterval(roomTimer);
-    roomTimer = null;
-  }
-
-  document.getElementById("gamePage").classList.add("hidden");
-  document.getElementById("homePage").classList.remove("hidden");
-}
-
-
-/* ---------- AUTH ---------- */
-
-function getToken(){
-  return localStorage.getItem("token");
-}
-
-function authHeaders(){
-  return {
-    "Content-Type":"application/json",
-    "Authorization":"Bearer " + getToken()
-  };
-}
-
-
-/* ---------- PROFILE ---------- */
-
-async function loadProfile(){
-
-  try{
-
-    const r = await fetch(API + "/api/me",{
-      headers:authHeaders()
-    });
-
-    const data = await r.json();
-
-    if(!r.ok){
-      return;
-    }
-
-    document.getElementById("profileName").innerText =
-      data.user.username || "Player";
-
-    document.getElementById("profileEmail").innerText =
-      data.user.email || "";
-
-    document.getElementById("walletCoins").innerText =
-      data.user.coins ?? 0;
-
-    document.getElementById("battles").innerText =
-      data.user.wins + data.user.losses;
-
-    document.getElementById("referrals").innerText =
-      data.user.referrals ?? 0;
-
-  }catch(e){
-    console.log(e);
-  }
-}
-
-
-/* ---------- CREATE ROOM ---------- */
-
-async function createRoom(){
-
-  const msg = document.getElementById("roomMessage");
-
-  msg.innerText = "Creating room...";
-
-  try{
-
-    const r = await fetch(API + "/api/rooms",{
-      method:"POST",
-      headers:authHeaders(),
-      body:JSON.stringify({
-        name:"Ludo Inspire Room"
-      })
-    });
-
-    const data = await r.json();
-
-    if(!r.ok){
-      msg.innerText = data.error || "Room create failed";
-      return;
-    }
-
-    currentRoom = data.room;
-
-    showRoom(currentRoom);
-
-    msg.innerText =
-      "Room created. Share the Room ID with Player 2.";
-
-    startRoomPolling();
-
-  }catch(e){
-
-    msg.innerText =
-      "Server connection error.";
-
-    console.log(e);
-  }
-}
-
-
-/* ---------- JOIN ROOM ---------- */
-
-async function joinRoomFromInput(){
-
-  const id =
-    document.getElementById("joinRoomInput").value.trim();
-
-  if(!id){
-    document.getElementById("roomMessage").innerText =
-      "Please enter Room ID.";
-    return;
-  }
-
-  await joinRoom(id);
-}
-
-async function joinRoom(id){
-
-  const msg =
-    document.getElementById("roomMessage");
-
-  msg.innerText = "Joining room...";
-
-  try{
-
-    const r = await fetch(
-      API + "/api/rooms/" + encodeURIComponent(id) + "/join",
-      {
-        method:"POST",
-        headers:authHeaders()
-      }
-    );
-
-    const data = await r.json();
-
-    if(!r.ok){
-      msg.innerText = data.error || "Join failed";
-      return;
-    }
-
-    currentRoom = data.room;
-
-    showRoom(currentRoom);
-
-    msg.innerText = "Joined room successfully.";
-
-    startRoomPolling();
-
-  }catch(e){
-
-    msg.innerText =
-      "Server connection error.";
-
-    console.log(e);
-  }
-}
-
-
-/* ---------- SHOW ROOM ---------- */
-
-function showRoom(room){
-
-  if(!room) return;
-
-  currentRoom = room;
-
-  document.getElementById("roomArea")
-    .classList.remove("hidden");
-
-  document.getElementById("roomIdDisplay")
-    .innerText = room.id;
-
-  const players =
-    document.getElementById("playerList");
-
-  players.innerHTML = "";
-
-  if(room.players && room.players.length){
-
-    room.players.forEach((p,i)=>{
-
-      const color =
-        i === 0 ? "green" : "red";
-
-      players.innerHTML += `
-        <div class="player">
-          <span class="${color}">
-            ${i === 0 ? "🟢" : "🔴"}
-            Player ${i+1}
-          </span>
-          <br>
-          ${escapeHtml(p.username || "Player")}
-        </div>
-      `;
-    });
-  }
-
-  const startBtn =
-    document.getElementById("startGameBtn");
-
   if(
-    room.status === "waiting" &&
-    room.players &&
-    room.players.length === 2
+    typeof roomTimer !== "undefined" &&
+    roomTimer
   ){
 
-    startBtn.classList.remove("hidden");
-
-  }else{
-
-    startBtn.classList.add("hidden");
-  }
-
-  if(room.status === "playing"){
-
-    document.getElementById("boardArea")
-      .classList.remove("hidden");
-
-    startBtn.classList.add("hidden");
-  }
-}
-
-
-/* ---------- POLLING ---------- */
-
-function startRoomPolling(){
-
-  if(roomTimer){
     clearInterval(roomTimer);
+
+    roomTimer=null;
+
   }
-
-  roomTimer = setInterval(
-    refreshRoom,
-    1500
-  );
-
-  refreshRoom();
-}
-
-async function refreshRoom(){
-
-  if(!currentRoom) return;
-
-  try{
-
-    const r = await fetch(
-      API + "/api/rooms/" +
-      encodeURIComponent(currentRoom.id),
-      {
-        headers:authHeaders()
-      }
-    );
-
-    const data = await r.json();
-
-    if(r.ok && data.room){
-
-      currentRoom = data.room;
-
-      showRoom(currentRoom);
-    }
-
-    if(currentRoom.status === "playing"){
-      refreshGameState();
-    }
-
-  }catch(e){
-    console.log(e);
-  }
-}
-
-
-/* ---------- START GAME ---------- */
-
-async function startGame(){
-
-  if(!currentRoom){
-    return;
-  }
-
-  try{
-
-    const r = await fetch(
-      API + "/api/rooms/" +
-      encodeURIComponent(currentRoom.id) +
-      "/start",
-      {
-        method:"POST",
-        headers:authHeaders()
-      }
-    );
-
-    const data = await r.json();
-
-    if(!r.ok){
-
-      document.getElementById("roomMessage")
-        .innerText =
-        data.error || "Could not start game";
-
-      return;
-    }
-
-    currentRoom = data.room;
-
-    showRoom(currentRoom);
-
-    document.getElementById("boardArea")
-      .classList.remove("hidden");
-
-    refreshGameState();
-
-  }catch(e){
-
-    console.log(e);
-  }
-}
-
-
-/* ---------- GAME STATE ---------- */
-
-async function refreshGameState(){
-
-  if(!currentRoom) return;
-
-  try{
-
-    const r = await fetch(
-      API + "/api/rooms/" +
-      encodeURIComponent(currentRoom.id) +
-      "/state",
-      {
-        headers:authHeaders()
-      }
-    );
-
-    const data = await r.json();
-
-    if(!r.ok) return;
-
-    if(data.game){
-
-      const game = data.game;
-
-      document.getElementById("gameStatus")
-        .innerText =
-        "Turn: Player " +
-        (game.turnPlayerIndex + 1);
-
-      renderTokens(game);
-    }
-
-  }catch(e){
-    console.log(e);
-  }
-}
-
-
-/* ---------- DICE ---------- */
-
-async function rollDice(){
-
-  if(!currentRoom){
-    return;
-  }
-
-  try{
-
-    const r = await fetch(
-      API + "/api/rooms/" +
-      encodeURIComponent(currentRoom.id) +
-      "/dice",
-      {
-        method:"POST",
-        headers:authHeaders()
-      }
-    );
-
-    const data = await r.json();
-
-    if(!r.ok){
-
-      document.getElementById("gameStatus")
-        .innerText =
-        data.error || "Dice error";
-
-      return;
-    }
-
-    document.getElementById("diceResult")
-      .innerText = "🎲 " + data.dice;
-
-    refreshGameState();
-
-  }catch(e){
-
-    console.log(e);
-  }
-}
-
-
-/* ---------- TOKENS ---------- */
-
-function renderTokens(game){
-
-  const area =
-    document.getElementById("tokensArea");
-
-  area.innerHTML = "";
-
-  const tokens =
-    game.tokens || [];
-
-  tokens.forEach((pos,i)=>{
-
-    area.innerHTML += `
-      <button
-        class="token-btn"
-        onclick="moveToken(${i})">
-        🟢 Token ${i+1}
-        <br>
-        Position: ${pos}
-      </button>
-    `;
-  });
-
-  if(tokens.length === 0){
-
-    area.innerHTML = `
-      <div style="grid-column:1/3;color:#aaa">
-        Tokens will appear here.
-      </div>
-    `;
-  }
-}
-
-
-/* ---------- MOVE ---------- */
-
-async function moveToken(index){
-
-  if(!currentRoom) return;
-
-  try{
-
-    const r = await fetch(
-      API + "/api/rooms/" +
-      encodeURIComponent(currentRoom.id) +
-      "/move",
-      {
-        method:"POST",
-        headers:authHeaders(),
-        body:JSON.stringify({
-          tokenIndex:index
-        })
-      }
-    );
-
-    const data = await r.json();
-
-    if(!r.ok){
-
-      document.getElementById("gameStatus")
-        .innerText =
-        data.error || "Move failed";
-
-      return;
-    }
-
-    if(data.winner){
-
-      document.getElementById("gameStatus")
-        .innerText =
-        "🏆 Player " + data.winner +
-        " Wins!";
-
-      return;
-    }
-
-    refreshGameState();
-
-  }catch(e){
-
-    console.log(e);
-  }
-}
-
-
-/* ---------- LOGOUT ---------- */
-
-function logout(){
-
-  localStorage.removeItem("token");
 
   showHomePage();
+
 }
 
 
-/* ---------- HELPERS ---------- */
+function openWallet(){
 
-function escapeHtml(value){
+  hideAllPages();
 
-  return String(value)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+  document
+    .getElementById("walletBox")
+    .hidden=false;
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
 }
 
 
-/* ---------- START ---------- */
+function openReferral(){
 
-showHomePage();
+  hideAllPages();
+
+  document
+    .getElementById("referralBox")
+    .hidden=false;
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+function showHistory(){
+
+  hideAllPages();
+
+  document
+    .getElementById("historyBox")
+    .hidden=false;
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
 
 </script>
 
