@@ -153,3 +153,6 @@ app.get("/api/rooms/:id/state",auth,(req,res)=>{
     room:r
   });
 });
+dice_value AS diceValue,
+created_by AS createdBy,
+game_state AS gameState
