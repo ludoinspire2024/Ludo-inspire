@@ -130,3 +130,26 @@ app.post("/api/rooms/:id/move",auth,(req,res)=>{
     room:room(id)
   });
 });
+app.get("/api/rooms/:id/state",auth,(req,res)=>{
+  const r=room(+req.params.id);
+
+  if(!r)
+    return res.status(404).json({
+      error:"Room not found"
+    });
+
+  let state={
+    positions:{}
+  };
+
+  try{
+    if(r.gameState)
+      state=JSON.parse(r.gameState);
+  }catch{}
+
+  r.gameState=state;
+
+  res.json({
+    room:r
+  });
+});
