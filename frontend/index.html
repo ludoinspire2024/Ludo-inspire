@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#16000f">
+<title>Ludo Inspire</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="app">
+
+<header class="topbar">
+  <button class="hamburger" onclick="toggleDrawer()">☰</button>
+
+  <div class="brand">
+    <div class="brand-mark">L</div>
+    <div>
+      <b>LUDO INSPIRE</b>
+      <small>Play • Win • Repeat</small>
+    </div>
+  </div>
+
+  <div class="wallet-mini">
+    <span>🪙 <b id="coinTop">0</b></span>
+    <span>🎁 <b id="bonusTop">0</b></span>
+  </div>
+</header>
+
+<div id="overlay" class="overlay" onclick="toggleDrawer()"></div>
+
+<aside id="drawer" class="drawer">
+  <div class="drawer-head">
+    <div class="brand">
+      <div class="brand-mark">L</div>
+      <div><b>LUDO INSPIRE</b><small>Play • Win • Repeat</small></div>
+    </div>
+    <button class="close" onclick="toggleDrawer()">×</button>
+  </div>
+
+  <div class="drawer-items">
+    <button class="menu active" onclick="closeDrawer();scrollToTop()"><span>⌂</span> Home</button>
+    <button class="menu" onclick="closeDrawer();showLoginBox()"><span>◎</span> My Profile</button>
+    <button class="menu" onclick="closeDrawer();showLoginBox()"><span>▣</span> My Wallet</button>
+    <button class="menu" onclick="closeDrawer();showLoginBox()"><span>♧</span> Refer & Earn</button>
+    <button class="menu" onclick="closeDrawer();showLoginBox()"><span>▤</span> History</button>
+    <button class="menu" onclick="closeDrawer();showLoginBox()"><span>♧</span> Notifications</button>
+    <button class="menu" onclick="closeDrawer();showLoginBox()"><span>◉</span> Support</button>
+    <button class="menu" onclick="closeDrawer();alert('Install option coming soon')"><span>▣</span> Install App</button>
+  </div>
+</aside>
+
+<main class="page">
+
+  <div class="referral">♧ &nbsp; Referral invite — join Ludo Inspire</div>
+
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-label">PLAY • COMPETE • WIN</div>
+    <h1>YOUR<br><em>LUDO</em><br>PLAYGROUND</h1>
+    <p>Play with friends • Join tournaments • Climb the leaderboard</p>
+
+    <div class="hero-board">
+      <div class="mini-grid"></div>
+      <div class="mini-pawn red">●</div>
+      <div class="mini-pawn green">●</div>
+      <div class="mini-pawn blue">●</div>
+      <div class="mini-pawn yellow">●</div>
+    </div>
+
+    <button class="hero-btn" onclick="showLoginBox()">PLAY NOW</button>
+  </section>
+
+  <div class="section-title">
+    <h2>Quick Play</h2><span>LIVE</span>
+  </div>
+
+  <section class="cards">
+    <button class="game-card ludo-card" onclick="showLoginBox()">
+      <div class="badge">● LIVE</div>
+      <div class="die">⚄</div>
+      <div class="pawns"><i>●</i><i>●</i><i>●</i><i>●</i></div>
+      <div class="card-text"><b>LUDO</b><small>Play multiplayer</small></div>
+    </button>
+
+    <button class="game-card tour-card" onclick="showLoginBox()">
+      <div class="trophy">🏆</div>
+      <div class="card-text"><b>TOURNAMENTS</b><small>Compete & climb</small></div>
+    </button>
+  </section>
+
+  <section class="wide-banner" onclick="showLoginBox()">
+    <div class="banner-copy">
+      <small>LUCK • SKILL • FUN</small>
+      <h2>PLAY<br><em>TOGETHER</em></h2>
+      <p>Invite friends and enjoy a live multiplayer match.</p>
+    </div>
+    <div class="banner-dice">🎲</div>
+  </section>
+
+  <div id="auth" class="auth-card" hidden>
+    <div class="auth-tabs">
+      <button id="loginTab" class="active" onclick="showLogin()">Login</button>
+      <button id="registerTab" onclick="showRegister()">Create account</button>
+    </div>
+
+    <div id="loginForm">
+      <input id="email" type="email" placeholder="Email">
+      <input id="password" type="password" placeholder="Password">
+      <button class="main-btn" onclick="login()">Continue</button>
+    </div>
+
+    <div id="registerForm" hidden>
+      <input id="regUser" placeholder="Username">
+      <input id="regEmail" type="email" placeholder="Email">
+      <input id="regPass" type="password" placeholder="Password (6+ characters)">
+      <button class="main-btn" onclick="register()">Create account</button>
+    </div>
+    <p id="authMsg"></p>
+  </div>
+
+</main>
+
+<button class="chat-fab" onclick="showLoginBox()">●</button>
+
+<nav class="bottom-nav">
+  <button class="nav active" onclick="scrollToTop()"><span>⌂</span>Home</button>
+  <button class="nav" onclick="showLoginBox()"><span>▣</span>Wallet</button>
+  <button class="nav" onclick="showLoginBox()"><span>♧</span>Support</button>
+  <button class="nav" onclick="showLoginBox()"><span>◎</span>Profile</button>
+</nav>
+
+<script src="app.js"></script>
+<script>
+function toggleDrawer(){
+  document.getElementById("drawer").classList.toggle("open");
+  document.getElementById("overlay").classList.toggle("show");
+}
+function closeDrawer(){
+  document.getElementById("drawer").classList.remove("open");
+  document.getElementById("overlay").classList.remove("show");
+}
+function scrollToTop(){window.scrollTo({top:0,behavior:"smooth"});closeDrawer();}
+function showLoginBox(){
+  const a=document.getElementById("auth");
+  a.hidden=false;
+  a.scrollIntoView({behavior:"smooth",block:"center"});
+  if(typeof showLogin==="function")showLogin();
+}
+</script>
+</body>
+</html>
