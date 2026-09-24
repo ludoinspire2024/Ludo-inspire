@@ -1,1003 +1,1042 @@
-/* =========================================================
-   LUDO INSPIRE - MAIN STYLE
-   Mobile Friendly / Dark Maroon + Gold
-========================================================= */
+/* =====================================================
+   LUDO INSPIRE
+   TURQUOISE BACKGROUND + GOLDEN BUTTONS/BORDERS
+===================================================== */
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
 
-html {
-  scroll-behavior: smooth;
+html{
+  scroll-behavior:smooth;
 }
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: #10070a;
-  color: #fff;
-  min-height: 100vh;
-  overflow-x: hidden;
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#063f43;
+  color:#fff;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* REMOVE DEFAULT LIST BULLETS */
+ul,
+ol{
+  list-style:none;
+}
+
+li{
+  list-style:none;
 }
 
 button,
-input {
-  font: inherit;
+input{
+  font:inherit;
 }
 
-button {
-  cursor: pointer;
+button{
+  cursor:pointer;
 }
 
-.hidden {
-  display: none !important;
+.hidden{
+  display:none!important;
 }
 
-/* =========================================================
+
+/* =====================================================
    TOP BAR
-========================================================= */
+===================================================== */
 
-.topbar {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:1000;
 
-  height: 64px;
-  padding: 0 14px;
+  height:64px;
+  padding:0 14px;
 
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 
-  background: #210b11;
-  border-bottom: 1px solid #6f351d;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, .35);
+  background:#052f33;
+  border-bottom:2px solid #e6b84c;
+
+  box-shadow:0 4px 18px rgba(0,0,0,.35);
 }
 
-.menu-btn {
-  width: 42px;
-  height: 42px;
+.menu-btn{
+  width:42px;
+  height:42px;
 
-  border: 1px solid #7d4225;
-  border-radius: 12px;
+  border:2px solid #e6b84c;
+  border-radius:11px;
 
-  background: #351219;
-  color: #ffd37a;
+  background:#07565a;
+  color:#ffd76a;
 
-  font-size: 22px;
+  font-size:22px;
 }
 
-.brand {
-  color: #ffd36a;
-  font-size: 18px;
-  font-weight: 900;
-  letter-spacing: 1.5px;
+.brand{
+  color:#ffd76a;
+  font-size:18px;
+  font-weight:900;
+  letter-spacing:1.3px;
 }
 
-.wallet-mini {
-  min-width: 82px;
-  padding: 7px 10px;
+.wallet-mini{
+  min-width:78px;
+  padding:6px 9px;
 
-  border-radius: 12px;
+  border:2px solid #e6b84c;
+  border-radius:12px;
 
-  background: #351219;
-  border: 1px solid #754021;
+  background:#07565a;
+  text-align:center;
 
-  text-align: center;
-  font-size: 12px;
+  font-size:12px;
 }
 
-.wallet-mini b {
-  color: #ffd36a;
-  display: block;
+.wallet-mini b{
+  display:block;
+  color:#ffd76a;
 }
 
 
-/* =========================================================
+/* =====================================================
    DRAWER
-========================================================= */
+===================================================== */
 
-.drawer {
-  position: fixed;
-  z-index: 2000;
+.drawer{
+  position:fixed;
+  z-index:2000;
 
-  top: 0;
-  left: -290px;
+  top:0;
+  left:-290px;
 
-  width: 270px;
-  height: 100vh;
+  width:270px;
+  height:100vh;
 
-  padding: 22px 15px;
+  padding:22px 15px;
 
-  background: #1c090e;
-  border-right: 1px solid #753b20;
+  background:#064247;
 
-  box-shadow: 8px 0 30px rgba(0,0,0,.5);
+  border-right:2px solid #e6b84c;
 
-  transition: left .25s ease;
+  box-shadow:8px 0 30px rgba(0,0,0,.5);
+
+  transition:left .25s ease;
 }
 
-.drawer.open {
-  left: 0;
+.drawer.open{
+  left:0;
 }
 
-.drawer h2 {
-  color: #ffd36a;
-  margin-bottom: 22px;
+.drawer h2{
+  color:#ffd76a;
+  margin-bottom:22px;
 }
 
-.drawer button {
-  width: 100%;
-  margin-bottom: 9px;
+.drawer button{
+  width:100%;
+  margin-bottom:9px;
 
-  padding: 13px 14px;
+  padding:13px 14px;
 
-  text-align: left;
+  text-align:left;
 
-  border: 1px solid #5f3020;
-  border-radius: 12px;
+  border:2px solid #d8a936;
+  border-radius:12px;
 
-  background: #2c1016;
-  color: #fff;
+  background:#07565a;
+  color:#fff;
+
+  font-weight:700;
 }
 
-.drawer button:hover {
-  background: #461720;
-  border-color: #b66a31;
+.drawer button:hover{
+  background:#087277;
 }
 
 
-/* =========================================================
+/* =====================================================
    MAIN
-========================================================= */
+===================================================== */
 
-main {
-  width: 100%;
-  max-width: 620px;
-  margin: auto;
+main{
+  width:100%;
+  max-width:650px;
 
-  padding: 15px 13px 100px;
-}
+  margin:auto;
 
-.page {
-  width: 100%;
+  padding:15px 13px 100px;
 }
 
 
-/* =========================================================
+/* =====================================================
    REFERRAL STRIP
-========================================================= */
+===================================================== */
 
-.referral-strip {
-  padding: 10px 13px;
-  margin-bottom: 13px;
+.referral-strip{
+  padding:11px 14px;
+  margin-bottom:13px;
 
-  border-radius: 13px;
+  border:2px solid #e6b84c;
+  border-radius:13px;
 
-  background: linear-gradient(
-    90deg,
-    #3b121b,
-    #241017
-  );
+  background:#07565a;
 
-  border: 1px solid #70351f;
-
-  color: #ffd78a;
-
-  font-size: 12px;
+  color:#ffe08a;
 }
 
 
-/* =========================================================
+/* =====================================================
    HERO
-========================================================= */
+===================================================== */
 
-.hero {
-  position: relative;
-  overflow: hidden;
+.hero{
+  position:relative;
+  overflow:hidden;
 
-  padding: 25px 18px;
+  padding:27px 18px;
 
-  border-radius: 22px;
+  border:2px solid #e6b84c;
+  border-radius:23px;
 
   background:
     radial-gradient(
       circle at top right,
-      rgba(184,102,42,.28),
-      transparent 42%
+      rgba(255,205,80,.22),
+      transparent 40%
     ),
     linear-gradient(
       145deg,
-      #42151c,
-      #1c090e
+      #087177,
+      #04383c
     );
 
-  border: 1px solid #8b4825;
-
   box-shadow:
-    0 15px 35px rgba(0,0,0,.3);
+    0 14px 35px rgba(0,0,0,.3);
 }
 
-.hero h1 {
-  color: #ffd36a;
-  font-size: 28px;
-  line-height: 1.05;
-  font-weight: 900;
+.hero h1{
+  color:#ffd76a;
+  font-size:29px;
+  line-height:1.08;
+  font-weight:900;
 }
 
-.hero p {
-  margin-top: 10px;
+.hero p{
+  margin-top:10px;
 
-  color: #d7b9a7;
-  font-size: 14px;
-  line-height: 1.5;
+  color:#f1ffff;
+  font-size:14px;
+  line-height:1.55;
 }
 
-.hero-buttons {
-  display: flex;
-  gap: 9px;
-  flex-wrap: wrap;
+.hero-buttons{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
 
-  margin-top: 18px;
+  margin-top:18px;
 }
 
 
-/* =========================================================
-   BUTTONS
-========================================================= */
+/* =====================================================
+   GOLDEN BUTTONS
+===================================================== */
 
 .btn,
 .primary-btn,
-.gold-btn {
-  border: 0;
-  border-radius: 13px;
+.gold-btn{
+  border:2px solid #f2c653;
+  border-radius:12px;
 
-  padding: 12px 18px;
-
-  font-weight: 800;
-  transition: .2s ease;
-}
-
-.primary-btn,
-.gold-btn {
-  background: linear-gradient(
-    135deg,
-    #ffd66f,
-    #c77a2d
-  );
-
-  color: #250b0e;
-
-  box-shadow:
-    0 7px 18px rgba(0,0,0,.28);
-}
-
-.primary-btn:hover,
-.gold-btn:hover {
-  transform: translateY(-1px);
-  filter: brightness(1.08);
-}
-
-.secondary-btn {
-  padding: 12px 17px;
-
-  border-radius: 13px;
-  border: 1px solid #754022;
-
-  background: #2e1117;
-  color: #ffe1a2;
-
-  font-weight: 700;
-}
-
-.secondary-btn:hover {
-  background: #42151d;
-}
-
-
-/* =========================================================
-   MINI BOARD
-========================================================= */
-
-.mini-board {
-  width: 145px;
-  height: 145px;
-
-  margin: 20px auto 5px;
-
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-
-  border: 5px solid #8b542d;
-  border-radius: 15px;
-
-  overflow: hidden;
-
-  background: #f3dfaa;
-}
-
-.mini-board div {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: 1px solid rgba(0,0,0,.15);
-
-  font-size: 22px;
-}
-
-.mini-green {
-  background: #228c4b;
-}
-
-.mini-red {
-  background: #bd3030;
-}
-
-.mini-yellow {
-  background: #e7b83b;
-}
-
-.mini-blue {
-  background: #3372bd;
-}
-
-
-/* =========================================================
-   QUICK PLAY
-========================================================= */
-
-.section-title {
-  margin: 22px 2px 10px;
-
-  color: #ffd36a;
-  font-size: 18px;
-  font-weight: 900;
-}
-
-.quick-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-}
-
-.quick-card {
-  padding: 17px;
-
-  border-radius: 17px;
-
-  background: #261017;
-  border: 1px solid #66351f;
-
-  transition: .2s ease;
-}
-
-.quick-card:hover {
-  transform: translateY(-2px);
-  border-color: #b66a31;
-}
-
-.quick-card .icon {
-  font-size: 30px;
-}
-
-.quick-card h3 {
-  margin-top: 7px;
-  color: #fff;
-}
-
-.quick-card p {
-  margin-top: 4px;
-  color: #bfa69b;
-  font-size: 12px;
-}
-
-
-/* =========================================================
-   BANNER
-========================================================= */
-
-.banner {
-  margin-top: 13px;
-
-  padding: 18px;
-
-  border-radius: 17px;
+  padding:12px 18px;
 
   background:
     linear-gradient(
       135deg,
-      #57201f,
-      #291016
+      #ffd96a,
+      #d99b20
     );
 
-  border: 1px solid #814323;
+  color:#2b2108;
 
-  color: #ffe0a0;
+  font-weight:900;
+
+  box-shadow:
+    0 5px 14px rgba(0,0,0,.3);
+
+  transition:.2s ease;
 }
 
-.banner strong {
-  color: #ffd36a;
-  font-size: 17px;
+.btn:hover,
+.primary-btn:hover,
+.gold-btn:hover{
+  transform:translateY(-2px);
+  filter:brightness(1.08);
+}
+
+.secondary-btn{
+  padding:12px 17px;
+
+  border:2px solid #e6b84c;
+  border-radius:12px;
+
+  background:#07565a;
+  color:#ffd76a;
+
+  font-weight:800;
+}
+
+.secondary-btn:hover{
+  background:#087277;
 }
 
 
-/* =========================================================
+/* =====================================================
+   MINI LUDO BOARD
+===================================================== */
+
+.mini-board{
+  width:145px;
+  height:145px;
+
+  margin:20px auto 5px;
+
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  grid-template-rows:repeat(3,1fr);
+
+  border:5px solid #e6b84c;
+  border-radius:15px;
+
+  overflow:hidden;
+
+  background:#f4e4b5;
+}
+
+.mini-board div{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border:1px solid rgba(0,0,0,.15);
+
+  font-size:22px;
+}
+
+.mini-green{
+  background:#228c4b;
+}
+
+.mini-red{
+  background:#bd3030;
+}
+
+.mini-yellow{
+  background:#e6b93c;
+}
+
+.mini-blue{
+  background:#3372bd;
+}
+
+
+/* =====================================================
+   QUICK PLAY
+===================================================== */
+
+.section-title{
+  margin:22px 2px 10px;
+
+  color:#ffd76a;
+  font-size:20px;
+  font-weight:900;
+}
+
+.quick-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.quick-card{
+  padding:17px;
+
+  border:2px solid #e6b84c;
+  border-radius:17px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #087177,
+      #054247
+    );
+
+  transition:.2s ease;
+}
+
+.quick-card:hover{
+  transform:translateY(-2px);
+  background:#087b80;
+}
+
+.quick-card .icon{
+  font-size:30px;
+}
+
+.quick-card h3{
+  margin-top:7px;
+  color:#ffd76a;
+}
+
+.quick-card p{
+  margin-top:4px;
+  color:#ecffff;
+  font-size:12px;
+}
+
+
+/* =====================================================
+   BANNER
+===================================================== */
+
+.banner{
+  margin-top:13px;
+
+  padding:18px;
+
+  border:2px solid #e6b84c;
+  border-radius:17px;
+
+  background:#07565a;
+
+  color:#fff;
+}
+
+.banner strong{
+  color:#ffd76a;
+  font-size:17px;
+}
+
+
+/* =====================================================
    AUTH
-========================================================= */
+===================================================== */
 
-.auth-card {
-  margin-top: 20px;
+.auth-card{
+  margin-top:20px;
 
-  padding: 18px;
+  padding:18px;
 
-  border-radius: 19px;
+  border:2px solid #e6b84c;
+  border-radius:19px;
 
-  background: #211016;
-  border: 1px solid #66351f;
+  background:#07565a;
 }
 
-.auth-card h2 {
-  color: #ffd36a;
-  margin-bottom: 15px;
+.auth-card h2{
+  color:#ffd76a;
+  margin-bottom:15px;
 }
 
 .auth-card input,
-.form-input {
-  width: 100%;
+.form-input{
+  width:100%;
 
-  padding: 13px;
+  padding:13px;
+  margin-bottom:10px;
 
-  margin-bottom: 10px;
+  border:2px solid #d6a936;
+  border-radius:11px;
 
-  border-radius: 12px;
-  border: 1px solid #61331f;
+  outline:none;
 
-  outline: none;
+  background:#04373a;
+  color:#fff;
+}
 
-  background: #12080b;
-  color: #fff;
+.auth-card input::placeholder,
+.form-input::placeholder{
+  color:#b8dddd;
 }
 
 .auth-card input:focus,
-.form-input:focus {
-  border-color: #c37a35;
+.form-input:focus{
+  border-color:#ffd76a;
 }
 
-.auth-tabs {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 14px;
+.auth-tabs{
+  display:flex;
+  gap:8px;
+  margin-bottom:14px;
 }
 
-.auth-tabs button {
-  flex: 1;
+.auth-tabs button{
+  flex:1;
 
-  padding: 10px;
+  padding:10px;
 
-  border-radius: 10px;
+  border:2px solid #d9aa3b;
+  border-radius:10px;
 
-  border: 1px solid #63351f;
-
-  background: #2d1117;
-  color: #c9ada0;
+  background:#07565a;
+  color:#fff;
 }
 
-.auth-tabs button.active {
-  background: #b76d2d;
-  color: #1d090c;
-  font-weight: 800;
-}
-
-.auth-msg {
-  margin-top: 10px;
-  color: #ffc56e;
-  font-size: 13px;
+.auth-tabs button.active{
+  background:#ffd45c;
+  color:#302405;
 }
 
 
-/* =========================================================
+/* =====================================================
    PROFILE
-========================================================= */
+===================================================== */
 
-.profile-card {
-  padding: 20px;
+.profile-card{
+  padding:20px;
 
-  border-radius: 20px;
+  border:2px solid #e6b84c;
+  border-radius:20px;
 
-  background: #211016;
-  border: 1px solid #69351f;
+  background:#07565a;
 }
 
-.profile-avatar {
-  width: 75px;
-  height: 75px;
+.profile-avatar{
+  width:75px;
+  height:75px;
 
-  margin: 0 auto 12px;
+  margin:0 auto 12px;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-  border-radius: 50%;
+  border:3px solid #e6b84c;
+  border-radius:50%;
 
-  background: linear-gradient(
-    135deg,
-    #ffd56b,
-    #a95326
-  );
+  background:#08777c;
 
-  font-size: 35px;
+  font-size:35px;
 }
 
-.profile-name {
-  text-align: center;
+.profile-name{
+  text-align:center;
 
-  color: #ffd36a;
-  font-size: 21px;
-  font-weight: 900;
+  color:#ffd76a;
+  font-size:21px;
+  font-weight:900;
 }
 
-.profile-email {
-  margin-top: 4px;
+.profile-email{
+  margin-top:4px;
 
-  text-align: center;
+  text-align:center;
 
-  color: #bda69c;
-  font-size: 12px;
+  color:#e4ffff;
+  font-size:12px;
 }
 
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
 
-  gap: 8px;
+  gap:8px;
 
-  margin-top: 18px;
+  margin-top:18px;
 }
 
-.stat {
-  padding: 12px 5px;
+.stat{
+  padding:12px 5px;
 
-  text-align: center;
+  text-align:center;
 
-  border-radius: 12px;
+  border:2px solid #d5a735;
+  border-radius:12px;
 
-  background: #2c1117;
-  border: 1px solid #59301e;
+  background:#064b50;
 }
 
-.stat b {
-  display: block;
-  color: #ffd36a;
-  font-size: 18px;
+.stat b{
+  display:block;
+  color:#ffd76a;
+  font-size:18px;
 }
 
-.stat span {
-  color: #a9948a;
-  font-size: 10px;
+.stat span{
+  color:#d0eeee;
+  font-size:10px;
 }
 
 
-/* =========================================================
+/* =====================================================
    LUDO GAME
-========================================================= */
+===================================================== */
 
-.game-page {
-  padding-bottom: 30px;
+.game-page{
+  padding-bottom:30px;
 }
 
-.game-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.game-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 
-  margin-bottom: 14px;
+  margin-bottom:14px;
 }
 
-.game-header h2 {
-  color: #ffd36a;
+.game-header h2{
+  color:#ffd76a;
 }
 
-.close-game {
-  padding: 9px 12px;
+.close-game{
+  padding:9px 12px;
 
-  border-radius: 10px;
-  border: 1px solid #68351f;
+  border:2px solid #e6b84c;
+  border-radius:10px;
 
-  background: #2c1117;
-  color: #fff;
+  background:#07565a;
+  color:#fff;
 }
 
 
 /* ROOM */
 
-.room-card {
-  padding: 17px;
+.room-card{
+  padding:17px;
 
-  border-radius: 18px;
+  border:2px solid #e6b84c;
+  border-radius:18px;
 
-  background: #211016;
-  border: 1px solid #6c351f;
+  background:#07565a;
 }
 
-.room-card h3 {
-  color: #ffd36a;
-  margin-bottom: 12px;
+.room-card h3{
+  color:#ffd76a;
+  margin-bottom:12px;
 }
 
-.room-actions {
-  display: grid;
-  gap: 9px;
+.room-actions{
+  display:grid;
+  gap:9px;
 }
 
-.room-actions input {
-  width: 100%;
+.room-actions input{
+  width:100%;
 
-  padding: 12px;
+  padding:12px;
 
-  border-radius: 11px;
+  border:2px solid #d5a735;
+  border-radius:11px;
 
-  background: #11070a;
-  color: white;
-
-  border: 1px solid #63341f;
+  background:#04373a;
+  color:#fff;
 }
 
-.room-message {
-  min-height: 20px;
+.room-message{
+  min-height:20px;
 
-  margin: 10px 0;
+  margin:10px 0;
 
-  color: #ffc56e;
-  font-size: 13px;
+  color:#ffe18a;
+  font-size:13px;
 }
 
-.room-id {
-  padding: 12px;
+.room-id{
+  padding:12px;
+  margin-top:10px;
 
-  margin-top: 10px;
+  text-align:center;
 
-  text-align: center;
+  border:2px solid #e6b84c;
+  border-radius:12px;
 
-  border-radius: 12px;
+  background:#064b50;
 
-  background: #35141a;
+  color:#ffd76a;
 
-  color: #ffd36a;
-
-  font-size: 20px;
-  font-weight: 900;
-  letter-spacing: 2px;
-}
-
-
-/* PLAYERS */
-
-.player-list {
-  margin-top: 13px;
-}
-
-.player-row {
-  display: flex;
-  align-items: center;
-
-  gap: 9px;
-
-  padding: 11px;
-
-  margin-bottom: 7px;
-
-  border-radius: 11px;
-
-  background: #2b1117;
-  border: 1px solid #533020;
-}
-
-.player-dot {
-  width: 13px;
-  height: 13px;
-
-  border-radius: 50%;
-
-  display: inline-block;
-}
-
-.player-green {
-  background: #21b95a;
-}
-
-.player-red {
-  background: #e43d3d;
+  font-size:20px;
+  font-weight:900;
+  letter-spacing:2px;
 }
 
 
-/* GAME AREA */
+/* =====================================================
+   PLAYERS
+===================================================== */
 
-.board-area {
-  margin-top: 14px;
+.player-list{
+  margin-top:13px;
 }
 
-.game-status {
-  padding: 12px;
+.player-row{
+  display:flex;
+  align-items:center;
 
-  text-align: center;
+  gap:9px;
 
-  border-radius: 12px;
+  padding:11px;
+  margin-bottom:7px;
 
-  background: #35141a;
-  border: 1px solid #744022;
+  border:2px solid #d5a735;
+  border-radius:11px;
 
-  color: #ffd36a;
-
-  font-weight: 800;
+  background:#07565a;
 }
 
-.dice-box {
-  margin-top: 12px;
+.player-dot{
+  width:13px;
+  height:13px;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border-radius:50%;
 
-  gap: 12px;
+  display:inline-block;
 }
 
-.dice-result {
-  width: 64px;
-  height: 64px;
+.player-green{
+  background:#21c968;
+}
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 16px;
-
-  background: #f4e7bd;
-
-  color: #1a0a0d;
-
-  font-size: 40px;
-
-  border: 3px solid #a66a31;
+.player-red{
+  background:#ef4040;
 }
 
 
-/* TOKENS */
+/* =====================================================
+   GAME AREA
+===================================================== */
 
-.tokens-area {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-
-  gap: 9px;
-
-  margin-top: 15px;
+.board-area{
+  margin-top:14px;
 }
 
-.token-btn {
-  padding: 13px 8px;
+.game-status{
+  padding:12px;
 
-  border-radius: 13px;
+  text-align:center;
 
-  border: 1px solid #744022;
+  border:2px solid #e6b84c;
+  border-radius:12px;
 
-  background: #2b1117;
+  background:#07565a;
 
-  color: #fff;
+  color:#ffd76a;
 
-  font-weight: 800;
+  font-weight:800;
 }
 
-.token-btn:hover {
-  background: #43151d;
-  border-color: #bd7232;
+.dice-box{
+  margin-top:12px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  gap:12px;
 }
 
-.token-btn small {
-  display: block;
+.dice-result{
+  width:64px;
+  height:64px;
 
-  margin-top: 4px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-  color: #bba39a;
+  border:3px solid #e6b84c;
+  border-radius:16px;
+
+  background:#f6e6b7;
+
+  color:#07383b;
+
+  font-size:40px;
 }
 
 
-/* =========================================================
+/* =====================================================
+   TOKENS
+===================================================== */
+
+.tokens-area{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+
+  gap:9px;
+
+  margin-top:15px;
+}
+
+.token-btn{
+  padding:13px 8px;
+
+  border:2px solid #e6b84c;
+  border-radius:13px;
+
+  background:#07565a;
+
+  color:#fff;
+
+  font-weight:800;
+}
+
+.token-btn:hover{
+  background:#087b80;
+}
+
+.token-btn small{
+  display:block;
+
+  margin-top:4px;
+
+  color:#d7eeee;
+}
+
+
+/* =====================================================
    WALLET / REFERRAL / HISTORY
-========================================================= */
+===================================================== */
 
 .wallet-box,
 .referral-box,
-.history-box {
-  padding: 18px;
+.history-box{
+  padding:18px;
 
-  border-radius: 18px;
+  border:2px solid #e6b84c;
+  border-radius:18px;
 
-  background: #211016;
-  border: 1px solid #68351f;
+  background:#07565a;
 }
 
-.wallet-balance {
-  text-align: center;
+.wallet-balance{
+  text-align:center;
 
-  padding: 20px;
+  padding:20px;
 
-  border-radius: 15px;
+  border:2px solid #d5a735;
+  border-radius:15px;
 
-  background: #34131a;
+  background:#064b50;
 }
 
-.wallet-balance strong {
-  display: block;
+.wallet-balance strong{
+  display:block;
 
-  margin-top: 5px;
+  margin-top:5px;
 
-  color: #ffd36a;
+  color:#ffd76a;
 
-  font-size: 32px;
+  font-size:32px;
 }
 
-.referral-code {
-  margin: 15px 0;
+.referral-code{
+  margin:15px 0;
 
-  padding: 14px;
+  padding:14px;
 
-  text-align: center;
+  text-align:center;
 
-  border-radius: 12px;
+  border:2px solid #e6b84c;
+  border-radius:12px;
 
-  background: #35141a;
+  background:#064b50;
 
-  color: #ffd36a;
+  color:#ffd76a;
 
-  font-size: 20px;
+  font-size:20px;
 
-  font-weight: 900;
+  font-weight:900;
 
-  letter-spacing: 2px;
+  letter-spacing:2px;
 }
 
 
-/* =========================================================
+/* =====================================================
    CHAT BUTTON
-========================================================= */
+===================================================== */
 
-.chat-fab {
-  position: fixed;
+.chat-fab{
+  position:fixed;
 
-  right: 16px;
-  bottom: 75px;
+  right:16px;
+  bottom:75px;
 
-  width: 50px;
-  height: 50px;
+  width:50px;
+  height:50px;
 
-  z-index: 900;
+  z-index:900;
 
-  border-radius: 50%;
+  border:2px solid #e6b84c;
+  border-radius:50%;
 
-  border: 1px solid #b66a31;
+  background:
+    linear-gradient(
+      135deg,
+      #ffd76a,
+      #d69a20
+    );
 
-  background: linear-gradient(
-    135deg,
-    #ffd36a,
-    #a95326
-  );
+  color:#174043;
 
-  color: #210b0e;
+  font-size:22px;
 
-  font-size: 22px;
-
-  box-shadow: 0 7px 22px rgba(0,0,0,.4);
+  box-shadow:0 7px 22px rgba(0,0,0,.4);
 }
 
 
-/* =========================================================
+/* =====================================================
    BOTTOM NAV
-========================================================= */
+===================================================== */
 
-.bottom-nav {
-  position: fixed;
+.bottom-nav{
+  position:fixed;
 
-  left: 0;
-  right: 0;
-  bottom: 0;
+  left:0;
+  right:0;
+  bottom:0;
 
-  z-index: 1000;
+  z-index:1000;
 
-  height: 62px;
+  height:62px;
 
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
 
-  background: #1d090e;
+  background:#04383c;
 
-  border-top: 1px solid #63351f;
+  border-top:2px solid #e6b84c;
 
-  box-shadow: 0 -5px 20px rgba(0,0,0,.35);
+  box-shadow:0 -5px 20px rgba(0,0,0,.35);
 }
 
-.bottom-nav button {
-  border: 0;
+.bottom-nav button{
+  border:0;
 
-  background: transparent;
+  background:transparent;
 
-  color: #a99288;
+  color:#c8dddd;
 
-  font-size: 11px;
+  font-size:11px;
 }
 
-.bottom-nav button span {
-  display: block;
-  font-size: 20px;
-  margin-bottom: 2px;
+.bottom-nav button span{
+  display:block;
+
+  font-size:20px;
+
+  margin-bottom:2px;
 }
 
-.bottom-nav button.active {
-  color: #ffd36a;
-}
-
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media (min-width: 700px) {
-
-  main {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-
-  .hero {
-    padding: 32px;
-  }
-
-  .hero h1 {
-    font-size: 35px;
-  }
-
-}
-
-@media (max-width: 390px) {
-
-  .brand {
-    font-size: 15px;
-  }
-
-  .hero h1 {
-    font-size: 24px;
-  }
-
-  .quick-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .stats-grid {
-    gap: 5px;
-  }
-
-  .tokens-area {
-    grid-template-columns: 1fr;
-  }
-
+.bottom-nav button.active{
+  color:#ffd76a;
 }
 
 
-/* =========================================================
+/* =====================================================
+   GENERIC CARDS
+===================================================== */
+
+.card{
+  background:#07565a;
+  border:2px solid #e6b84c;
+  border-radius:16px;
+}
+
+section{
+  max-width:100%;
+}
+
+
+/* =====================================================
+   DEFAULT LINKS
+===================================================== */
+
+a{
+  color:#ffd76a;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:600px){
+
+  main{
+    padding:13px 12px 95px;
+  }
+
+  .brand{
+    font-size:15px;
+  }
+
+  .hero{
+    padding:23px 16px;
+  }
+
+  .hero h1{
+    font-size:26px;
+  }
+
+  .quick-grid{
+    grid-template-columns:1fr;
+  }
+
+  .stats-grid{
+    gap:5px;
+  }
+
+  .tokens-area{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+
+
+/* VERY SMALL SCREEN */
+
+@media(max-width:370px){
+
+  .brand{
+    font-size:13px;
+  }
+
+  .wallet-mini{
+    min-width:65px;
+  }
+
+  .hero h1{
+    font-size:23px;
+  }
+
+  .tokens-area{
+    grid-template-columns:1fr;
+  }
+
+}
+
+
+/* =====================================================
    SCROLLBAR
-========================================================= */
+===================================================== */
 
-::-webkit-scrollbar {
-  width: 5px;
+::-webkit-scrollbar{
+  width:5px;
 }
 
-::-webkit-scrollbar-track {
-  background: #10070a;
+::-webkit-scrollbar-track{
+  background:#043438;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #6c351f;
-  border-radius: 10px;
+::-webkit-scrollbar-thumb{
+  background:#e6b84c;
+  border-radius:10px;
 }
