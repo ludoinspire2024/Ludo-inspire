@@ -1,1042 +1,911 @@
-/* =====================================================
-   LUDO INSPIRE
-   TURQUOISE BACKGROUND + GOLDEN BUTTONS/BORDERS
-===================================================== */
-
 *{
   box-sizing:border-box;
-  margin:0;
-  padding:0;
 }
 
-html{
-  scroll-behavior:smooth;
+html,
+body{
+  margin:0;
+  padding:0;
+  min-height:100%;
+  font-family:Arial,sans-serif;
+  color:#fff;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      #47002f 0%,
+      #210016 42%,
+      #090006 100%
+    );
 }
 
 body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:#063f43;
-  color:#fff;
-  min-height:100vh;
   overflow-x:hidden;
 }
 
-/* REMOVE DEFAULT LIST BULLETS */
-ul,
-ol{
-  list-style:none;
-}
 
-li{
-  list-style:none;
-}
+/* HEADER */
 
-button,
-input{
-  font:inherit;
-}
-
-button{
-  cursor:pointer;
-}
-
-.hidden{
-  display:none!important;
-}
-
-
-/* =====================================================
-   TOP BAR
-===================================================== */
-
-.topbar{
-  position:sticky;
-  top:0;
-  z-index:1000;
-
-  height:64px;
-  padding:0 14px;
-
+.header{
+  height:58px;
   display:flex;
   align-items:center;
   justify-content:space-between;
+  padding:0 12px;
 
-  background:#052f33;
-  border-bottom:2px solid #e6b84c;
+  background:
+    linear-gradient(
+      #350020,
+      #120009
+    );
 
-  box-shadow:0 4px 18px rgba(0,0,0,.35);
+  border-bottom:2px solid #8c1a5d;
+
+  box-shadow:
+    0 2px 15px #000;
 }
 
-.menu-btn{
-  width:42px;
-  height:42px;
-
-  border:2px solid #e6b84c;
-  border-radius:11px;
-
-  background:#07565a;
-  color:#ffd76a;
-
-  font-size:22px;
-}
-
-.brand{
-  color:#ffd76a;
-  font-size:18px;
+.logo{
+  font-size:17px;
   font-weight:900;
-  letter-spacing:1.3px;
+  letter-spacing:.5px;
 }
 
-.wallet-mini{
-  min-width:78px;
-  padding:6px 9px;
-
-  border:2px solid #e6b84c;
-  border-radius:12px;
-
-  background:#07565a;
-  text-align:center;
-
-  font-size:12px;
+.logo span{
+  color:#ffd64e;
+  font-size:24px;
 }
 
-.wallet-mini b{
-  display:block;
-  color:#ffd76a;
+.logo b{
+  color:#ffd64e;
+}
+
+.login-btn{
+  border:0;
+  border-radius:6px;
+  padding:8px 16px;
+
+  background:#fff;
+  color:#260016;
+
+  font-size:10px;
+  font-weight:900;
 }
 
 
-/* =====================================================
-   DRAWER
-===================================================== */
+/* MAIN */
 
-.drawer{
-  position:fixed;
-  z-index:2000;
-
-  top:0;
-  left:-290px;
-
-  width:270px;
-  height:100vh;
-
-  padding:22px 15px;
-
-  background:#064247;
-
-  border-right:2px solid #e6b84c;
-
-  box-shadow:8px 0 30px rgba(0,0,0,.5);
-
-  transition:left .25s ease;
-}
-
-.drawer.open{
-  left:0;
-}
-
-.drawer h2{
-  color:#ffd76a;
-  margin-bottom:22px;
-}
-
-.drawer button{
+.container{
   width:100%;
-  margin-bottom:9px;
-
-  padding:13px 14px;
-
-  text-align:left;
-
-  border:2px solid #d8a936;
-  border-radius:12px;
-
-  background:#07565a;
-  color:#fff;
-
-  font-weight:700;
-}
-
-.drawer button:hover{
-  background:#087277;
-}
-
-
-/* =====================================================
-   MAIN
-===================================================== */
-
-main{
-  width:100%;
-  max-width:650px;
-
+  max-width:760px;
   margin:auto;
-
-  padding:15px 13px 100px;
+  padding:0 9px 35px;
 }
 
 
-/* =====================================================
-   REFERRAL STRIP
-===================================================== */
+/* REFERRAL */
 
-.referral-strip{
-  padding:11px 14px;
-  margin-bottom:13px;
+.referral{
+  height:32px;
 
-  border:2px solid #e6b84c;
-  border-radius:13px;
+  margin:9px 0 12px;
 
-  background:#07565a;
+  display:flex;
+  align-items:center;
 
-  color:#ffe08a;
+  padding:0 10px;
+
+  background:#1d0616;
+
+  border:1px solid #6c2853;
+  border-radius:8px;
+
+  color:#d9bfd0;
+
+  font-size:10px;
+}
+
+.referral b{
+  color:#ffd451;
 }
 
 
-/* =====================================================
-   HERO
-===================================================== */
+/* TITLE */
 
-.hero{
+.title{
+  margin:0 0 8px;
+
+  color:#ffd75b;
+
+  font-size:13px;
+  font-weight:900;
+}
+
+
+/* TOP CARDS */
+
+.top-cards{
+  display:grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:8px;
+}
+
+.game-card{
+  height:330px;
+
   position:relative;
+
   overflow:hidden;
 
-  padding:27px 18px;
+  border:1px solid #79365a;
+  border-radius:9px;
 
-  border:2px solid #e6b84c;
-  border-radius:23px;
+  box-shadow:
+    0 0 15px #000;
+
+  text-decoration:none;
+  color:#fff;
+}
+
+
+/* LUDO */
+
+.ludo-card{
+  cursor:pointer;
 
   background:
     radial-gradient(
-      circle at top right,
-      rgba(255,205,80,.22),
-      transparent 40%
-    ),
-    linear-gradient(
-      145deg,
-      #087177,
-      #04383c
+      circle at 50% 15%,
+      #ff56ca,
+      #76005e 35%,
+      #1a001d 80%
+    );
+}
+
+.live,
+.online{
+  position:absolute;
+
+  top:6px;
+
+  padding:3px 6px;
+
+  background:#1a000f;
+
+  border:1px solid #7e2a5d;
+  border-radius:5px;
+
+  font-size:7px;
+
+  z-index:5;
+}
+
+.live{
+  left:6px;
+}
+
+.online{
+  right:6px;
+}
+
+
+/* DICE */
+
+.dice{
+  position:absolute;
+
+  top:4%;
+  left:38%;
+
+  font-size:65px;
+
+  transform:rotate(-17deg);
+
+  filter:
+    drop-shadow(
+      0 8px 5px #000
     );
 
+  z-index:3;
+}
+
+
+/* LUDO BOARD */
+
+.ludo-board{
+  position:absolute;
+
+  left:8%;
+  right:8%;
+  top:30%;
+
+  height:48%;
+
+  background:#fff;
+
+  border:4px solid #fff;
+
   box-shadow:
-    0 14px 35px rgba(0,0,0,.3);
+    0 8px 15px #000;
+
+  overflow:hidden;
 }
 
-.hero h1{
-  color:#ffd76a;
-  font-size:29px;
-  line-height:1.08;
-  font-weight:900;
+.ludo-board > div{
+  position:absolute;
+
+  width:50%;
+  height:50%;
 }
 
-.hero p{
-  margin-top:10px;
-
-  color:#f1ffff;
-  font-size:14px;
-  line-height:1.55;
+.red{
+  left:0;
+  top:0;
+  background:#ed403c;
 }
 
-.hero-buttons{
-  display:flex;
-  gap:9px;
-  flex-wrap:wrap;
-
-  margin-top:18px;
+.yellow{
+  right:0;
+  top:0;
+  background:#ffd64a;
 }
 
+.blue{
+  left:0;
+  bottom:0;
+  background:#3d98e8;
+}
 
-/* =====================================================
-   GOLDEN BUTTONS
-===================================================== */
+.green{
+  right:0;
+  bottom:0;
+  background:#43bd63;
+}
 
-.btn,
-.primary-btn,
-.gold-btn{
-  border:2px solid #f2c653;
-  border-radius:12px;
+.middle{
+  left:38% !important;
+  top:0;
 
-  padding:12px 18px;
+  width:24% !important;
+  height:100% !important;
 
   background:
-    linear-gradient(
-      135deg,
-      #ffd96a,
-      #d99b20
+    repeating-linear-gradient(
+      #fff 0 18px,
+      #ddd 19px 20px
     );
+}
 
-  color:#2b2108;
 
+/* TOKENS */
+
+.token{
+  position:absolute;
+
+  z-index:5;
+
+  font-size:45px;
+
+  text-shadow:
+    0 5px 5px #000;
+}
+
+.token1{
+  left:5%;
+  top:5%;
+  color:#ff3030;
+}
+
+.token2{
+  right:4%;
+  top:5%;
+  color:#ffd32f;
+}
+
+.token3{
+  left:5%;
+  bottom:3%;
+  color:#25e85d;
+}
+
+.token4{
+  right:4%;
+  bottom:3%;
+  color:#20aaff;
+}
+
+.card-name{
+  position:absolute;
+
+  bottom:8px;
+  left:0;
+  right:0;
+
+  text-align:center;
+
+  font-size:15px;
   font-weight:900;
-
-  box-shadow:
-    0 5px 14px rgba(0,0,0,.3);
-
-  transition:.2s ease;
-}
-
-.btn:hover,
-.primary-btn:hover,
-.gold-btn:hover{
-  transform:translateY(-2px);
-  filter:brightness(1.08);
-}
-
-.secondary-btn{
-  padding:12px 17px;
-
-  border:2px solid #e6b84c;
-  border-radius:12px;
-
-  background:#07565a;
-  color:#ffd76a;
-
-  font-weight:800;
-}
-
-.secondary-btn:hover{
-  background:#087277;
 }
 
 
-/* =====================================================
-   MINI LUDO BOARD
-===================================================== */
+/* WHATSAPP CARD */
 
-.mini-board{
+.whatsapp-card{
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
+  justify-content:center;
+
+  cursor:pointer;
+
+  background:
+    radial-gradient(
+      circle at 50% 40%,
+      #4cff77 0,
+      #00a737 20%,
+      #25002b 62%,
+      #15000e 100%
+    );
+}
+
+.whatsapp-icon{
   width:145px;
   height:145px;
 
-  margin:20px auto 5px;
+  z-index:2;
 
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  grid-template-rows:repeat(3,1fr);
-
-  border:5px solid #e6b84c;
-  border-radius:15px;
-
-  overflow:hidden;
-
-  background:#f4e4b5;
-}
-
-.mini-board div{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  border:1px solid rgba(0,0,0,.15);
-
-  font-size:22px;
-}
-
-.mini-green{
-  background:#228c4b;
-}
-
-.mini-red{
-  background:#bd3030;
-}
-
-.mini-yellow{
-  background:#e6b93c;
-}
-
-.mini-blue{
-  background:#3372bd;
-}
-
-
-/* =====================================================
-   QUICK PLAY
-===================================================== */
-
-.section-title{
-  margin:22px 2px 10px;
-
-  color:#ffd76a;
-  font-size:20px;
-  font-weight:900;
-}
-
-.quick-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-}
-
-.quick-card{
-  padding:17px;
-
-  border:2px solid #e6b84c;
-  border-radius:17px;
-
-  background:
-    linear-gradient(
-      145deg,
-      #087177,
-      #054247
+  filter:
+    drop-shadow(
+      0 0 20px #5aff83
     );
-
-  transition:.2s ease;
 }
 
-.quick-card:hover{
-  transform:translateY(-2px);
-  background:#087b80;
+.whatsapp-icon svg{
+  width:100%;
+  height:100%;
 }
 
-.quick-card .icon{
-  font-size:30px;
-}
+.whatsapp-card strong{
+  margin-top:12px;
 
-.quick-card h3{
-  margin-top:7px;
-  color:#ffd76a;
-}
-
-.quick-card p{
-  margin-top:4px;
-  color:#ecffff;
-  font-size:12px;
-}
-
-
-/* =====================================================
-   BANNER
-===================================================== */
-
-.banner{
-  margin-top:13px;
-
-  padding:18px;
-
-  border:2px solid #e6b84c;
-  border-radius:17px;
-
-  background:#07565a;
-
-  color:#fff;
-}
-
-.banner strong{
-  color:#ffd76a;
   font-size:17px;
 }
 
+.whatsapp-card small{
+  margin-top:5px;
 
-/* =====================================================
-   AUTH
-===================================================== */
-
-.auth-card{
-  margin-top:20px;
-
-  padding:18px;
-
-  border:2px solid #e6b84c;
-  border-radius:19px;
-
-  background:#07565a;
-}
-
-.auth-card h2{
-  color:#ffd76a;
-  margin-bottom:15px;
-}
-
-.auth-card input,
-.form-input{
-  width:100%;
-
-  padding:13px;
-  margin-bottom:10px;
-
-  border:2px solid #d6a936;
-  border-radius:11px;
-
-  outline:none;
-
-  background:#04373a;
-  color:#fff;
-}
-
-.auth-card input::placeholder,
-.form-input::placeholder{
-  color:#b8dddd;
-}
-
-.auth-card input:focus,
-.form-input:focus{
-  border-color:#ffd76a;
-}
-
-.auth-tabs{
-  display:flex;
-  gap:8px;
-  margin-bottom:14px;
-}
-
-.auth-tabs button{
-  flex:1;
-
-  padding:10px;
-
-  border:2px solid #d9aa3b;
-  border-radius:10px;
-
-  background:#07565a;
-  color:#fff;
-}
-
-.auth-tabs button.active{
-  background:#ffd45c;
-  color:#302405;
-}
-
-
-/* =====================================================
-   PROFILE
-===================================================== */
-
-.profile-card{
-  padding:20px;
-
-  border:2px solid #e6b84c;
-  border-radius:20px;
-
-  background:#07565a;
-}
-
-.profile-avatar{
-  width:75px;
-  height:75px;
-
-  margin:0 auto 12px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  border:3px solid #e6b84c;
-  border-radius:50%;
-
-  background:#08777c;
-
-  font-size:35px;
-}
-
-.profile-name{
-  text-align:center;
-
-  color:#ffd76a;
-  font-size:21px;
-  font-weight:900;
-}
-
-.profile-email{
-  margin-top:4px;
-
-  text-align:center;
-
-  color:#e4ffff;
-  font-size:12px;
-}
-
-.stats-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-
-  gap:8px;
-
-  margin-top:18px;
-}
-
-.stat{
-  padding:12px 5px;
-
-  text-align:center;
-
-  border:2px solid #d5a735;
-  border-radius:12px;
-
-  background:#064b50;
-}
-
-.stat b{
-  display:block;
-  color:#ffd76a;
-  font-size:18px;
-}
-
-.stat span{
-  color:#d0eeee;
   font-size:10px;
 }
 
 
-/* =====================================================
-   LUDO GAME
-===================================================== */
+/* BANNER */
 
-.game-page{
-  padding-bottom:30px;
+.banner{
+  position:relative;
+
+  height:445px;
+
+  margin-top:9px;
+
+  overflow:hidden;
+
+  border:1px solid #81375f;
+  border-radius:9px;
+
+  background:
+    radial-gradient(
+      circle at 50% 5%,
+      #940090,
+      #360044 45%,
+      #17000f 100%
+    );
+
+  box-shadow:
+    0 0 15px #000;
 }
 
-.game-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+.banner-glow{
+  position:absolute;
 
-  margin-bottom:14px;
-}
+  width:300px;
+  height:300px;
 
-.game-header h2{
-  color:#ffd76a;
-}
-
-.close-game{
-  padding:9px 12px;
-
-  border:2px solid #e6b84c;
-  border-radius:10px;
-
-  background:#07565a;
-  color:#fff;
-}
-
-
-/* ROOM */
-
-.room-card{
-  padding:17px;
-
-  border:2px solid #e6b84c;
-  border-radius:18px;
-
-  background:#07565a;
-}
-
-.room-card h3{
-  color:#ffd76a;
-  margin-bottom:12px;
-}
-
-.room-actions{
-  display:grid;
-  gap:9px;
-}
-
-.room-actions input{
-  width:100%;
-
-  padding:12px;
-
-  border:2px solid #d5a735;
-  border-radius:11px;
-
-  background:#04373a;
-  color:#fff;
-}
-
-.room-message{
-  min-height:20px;
-
-  margin:10px 0;
-
-  color:#ffe18a;
-  font-size:13px;
-}
-
-.room-id{
-  padding:12px;
-  margin-top:10px;
-
-  text-align:center;
-
-  border:2px solid #e6b84c;
-  border-radius:12px;
-
-  background:#064b50;
-
-  color:#ffd76a;
-
-  font-size:20px;
-  font-weight:900;
-  letter-spacing:2px;
-}
-
-
-/* =====================================================
-   PLAYERS
-===================================================== */
-
-.player-list{
-  margin-top:13px;
-}
-
-.player-row{
-  display:flex;
-  align-items:center;
-
-  gap:9px;
-
-  padding:11px;
-  margin-bottom:7px;
-
-  border:2px solid #d5a735;
-  border-radius:11px;
-
-  background:#07565a;
-}
-
-.player-dot{
-  width:13px;
-  height:13px;
+  left:30%;
+  top:0;
 
   border-radius:50%;
 
-  display:inline-block;
-}
+  background:#ff22d544;
 
-.player-green{
-  background:#21c968;
-}
-
-.player-red{
-  background:#ef4040;
+  filter:blur(40px);
 }
 
 
-/* =====================================================
-   GAME AREA
-===================================================== */
+/* BANNER LEFT */
 
-.board-area{
-  margin-top:14px;
+.banner-left{
+  position:absolute;
+
+  left:0;
+  bottom:40px;
+
+  width:48%;
+  height:80%;
 }
 
-.game-status{
-  padding:12px;
+.play-label{
+  position:absolute;
+
+  top:2%;
+  left:5%;
+
+  padding:7px;
+
+  background:#280019;
+
+  border:1px solid #ffd45a;
+
+  border-radius:4px;
+
+  font-size:9px;
+  font-weight:900;
 
   text-align:center;
 
-  border:2px solid #e6b84c;
-  border-radius:12px;
+  transform:rotate(-5deg);
 
-  background:#07565a;
-
-  color:#ffd76a;
-
-  font-weight:800;
+  z-index:5;
 }
 
-.dice-box{
-  margin-top:12px;
+.player{
+  position:absolute;
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  bottom:-15px;
 
-  gap:12px;
+  font-size:220px;
+
+  line-height:.7;
+
+  color:#7630b0;
+
+  text-shadow:
+    8px 12px 0 #35074f,
+    0 0 14px #000;
 }
 
-.dice-result{
-  width:64px;
-  height:64px;
+.player-one{
+  left:8%;
+}
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
+.player-two{
+  left:40%;
 
-  border:3px solid #e6b84c;
-  border-radius:16px;
+  color:#e8d6c7;
 
-  background:#f6e6b7;
-
-  color:#07383b;
-
-  font-size:40px;
+  text-shadow:
+    8px 12px 0 #5b3027,
+    0 0 14px #000;
 }
 
 
-/* =====================================================
-   TOKENS
-===================================================== */
+/* BANNER CONTENT */
 
-.tokens-area{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
+.banner-content{
+  position:absolute;
 
-  gap:9px;
+  right:4%;
+  top:10%;
 
-  margin-top:15px;
+  width:52%;
+
+  text-align:right;
+
+  z-index:4;
 }
 
-.token-btn{
-  padding:13px 8px;
-
-  border:2px solid #e6b84c;
-  border-radius:13px;
-
-  background:#07565a;
-
-  color:#fff;
-
-  font-weight:800;
+.mini-logo{
+  font-size:21px;
+  font-weight:900;
 }
 
-.token-btn:hover{
-  background:#087b80;
+.mini-logo span{
+  color:#ffd64f;
+
+  font-size:42px;
 }
 
-.token-btn small{
-  display:block;
+.banner-content h1{
+  margin:15px 0 8px;
 
-  margin-top:4px;
-
-  color:#d7eeee;
-}
-
-
-/* =====================================================
-   WALLET / REFERRAL / HISTORY
-===================================================== */
-
-.wallet-box,
-.referral-box,
-.history-box{
-  padding:18px;
-
-  border:2px solid #e6b84c;
-  border-radius:18px;
-
-  background:#07565a;
-}
-
-.wallet-balance{
-  text-align:center;
-
-  padding:20px;
-
-  border:2px solid #d5a735;
-  border-radius:15px;
-
-  background:#064b50;
-}
-
-.wallet-balance strong{
-  display:block;
-
-  margin-top:5px;
-
-  color:#ffd76a;
-
-  font-size:32px;
-}
-
-.referral-code{
-  margin:15px 0;
-
-  padding:14px;
-
-  text-align:center;
-
-  border:2px solid #e6b84c;
-  border-radius:12px;
-
-  background:#064b50;
-
-  color:#ffd76a;
-
-  font-size:20px;
+  font-size:36px;
+  line-height:.85;
 
   font-weight:900;
 
-  letter-spacing:2px;
+  text-shadow:
+    0 3px 8px #000;
 }
 
+.banner-content h1 strong{
+  color:#ffd04c;
 
-/* =====================================================
-   CHAT BUTTON
-===================================================== */
+  font-size:47px;
+}
 
-.chat-fab{
-  position:fixed;
+.banner-content p{
+  margin:8px 0 14px;
 
-  right:16px;
-  bottom:75px;
+  font-size:8px;
+  font-weight:900;
+}
 
-  width:50px;
-  height:50px;
+.banner-content button{
+  border:1px solid #fff0a0;
 
-  z-index:900;
+  border-radius:7px;
 
-  border:2px solid #e6b84c;
-  border-radius:50%;
+  padding:9px 19px;
 
   background:
     linear-gradient(
-      135deg,
-      #ffd76a,
-      #d69a20
+      #ffe06b,
+      #dba020
     );
 
-  color:#174043;
+  color:#25000e;
 
-  font-size:22px;
-
-  box-shadow:0 7px 22px rgba(0,0,0,.4);
+  font-weight:900;
 }
 
 
-/* =====================================================
-   BOTTOM NAV
-===================================================== */
+/* FEATURES */
 
-.bottom-nav{
-  position:fixed;
+.features{
+  position:absolute;
 
   left:0;
   right:0;
   bottom:0;
 
-  z-index:1000;
+  height:45px;
 
-  height:62px;
+  display:flex;
 
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
+  align-items:center;
+  justify-content:space-around;
 
-  background:#04383c;
+  background:#11000ddd;
 
-  border-top:2px solid #e6b84c;
+  border-top:1px solid #80375e;
 
-  box-shadow:0 -5px 20px rgba(0,0,0,.35);
+  font-size:7px;
+  font-weight:900;
+
+  z-index:5;
 }
 
-.bottom-nav button{
+
+/* DOTS */
+
+.dots{
+  text-align:center;
+
+  padding:6px;
+}
+
+.dots i{
+  display:inline-block;
+
+  width:5px;
+  height:5px;
+
+  margin:0 2px;
+
+  background:#806073;
+
+  border-radius:50%;
+}
+
+.dots i:first-child{
+  background:#fff;
+}
+
+
+/* QUICK BUTTONS */
+
+.quick-buttons{
+  display:grid;
+
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap:7px;
+}
+
+.quick-buttons button{
+  padding:11px 3px;
+
+  border:1px solid #ffe997;
+
+  border-radius:7px;
+
+  background:
+    linear-gradient(
+      #ffdc65,
+      #d89d20
+    );
+
+  color:#22000d;
+
+  font-size:10px;
+  font-weight:900;
+}
+
+
+/* WHATSAPP HELPLINE */
+
+.whatsapp-help{
+  margin:12px auto 24px;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:12px;
+
+  padding:13px 16px;
+
+  color:#fff;
+
+  text-decoration:none;
+
+  background:
+    linear-gradient(
+      135deg,
+      #168f45,
+      #25d366
+    );
+
+  border:1px solid #73f09c;
+
+  border-radius:14px;
+
+  box-shadow:
+    0 8px 22px #0008;
+}
+
+.help-icon{
+  width:40px;
+  height:40px;
+
+  flex:0 0 40px;
+}
+
+.help-icon svg{
+  width:40px;
+  height:40px;
+}
+
+.whatsapp-help b{
+  display:block;
+
+  font-size:15px;
+}
+
+.whatsapp-help small{
+  display:block;
+
+  margin-top:3px;
+
+  font-size:13px;
+
+  opacity:.9;
+}
+
+.arrow{
+  margin-left:auto;
+
+  font-size:28px;
+}
+
+
+/* PANEL */
+
+.panel{
+  margin-top:10px;
+
+  padding:12px;
+
+  background:#1b0514;
+
+  border:1px solid #79345a;
+
+  border-radius:9px;
+}
+
+.panel-header{
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+}
+
+.panel-header button{
   border:0;
+
+  background:none;
+
+  color:#fff;
+
+  font-size:24px;
+}
+
+
+/* MODAL */
+
+.modal{
+  position:fixed;
+
+  inset:0;
+
+  display:grid;
+
+  place-items:center;
+
+  padding:18px;
+
+  background:#000c;
+
+  z-index:100;
+}
+
+.modal-box{
+  position:relative;
+
+  width:min(360px,100%);
+
+  padding:20px;
+
+  background:#230617;
+
+  border:1px solid #a04272;
+
+  border-radius:14px;
+
+  box-shadow:
+    0 20px 50px #000;
+}
+
+.modal-box h2{
+  margin-top:0;
+
+  color:#ffd45a;
+}
+
+.modal-box input{
+  display:block;
+
+  width:100%;
+
+  margin:7px 0;
+
+  padding:12px;
+
+  background:#100009;
+
+  color:#fff;
+
+  border:1px solid #66304e;
+
+  border-radius:8px;
+}
+
+.close{
+  position:absolute;
+
+  right:10px;
+  top:8px;
+
+  border:0;
+
+  background:none;
+
+  color:#fff;
+
+  font-size:25px;
+}
+
+.gold-button,
+.outline-button{
+  width:100%;
+
+  padding:11px;
+
+  margin-top:7px;
+
+  border-radius:8px;
+
+  font-weight:900;
+}
+
+.gold-button{
+  border:0;
+
+  background:#ffd34f;
+
+  color:#26000f;
+}
+
+.outline-button{
+  border:1px solid #d9ad3c;
 
   background:transparent;
 
-  color:#c8dddd;
-
-  font-size:11px;
+  color:#ffd34f;
 }
 
-.bottom-nav button span{
-  display:block;
+#message{
+  color:#ffd34f;
 
-  font-size:20px;
-
-  margin-bottom:2px;
-}
-
-.bottom-nav button.active{
-  color:#ffd76a;
+  font-size:12px;
 }
 
 
-/* =====================================================
-   GENERIC CARDS
-===================================================== */
+/* MOBILE */
 
-.card{
-  background:#07565a;
-  border:2px solid #e6b84c;
-  border-radius:16px;
-}
+@media(max-width:480px){
 
-section{
-  max-width:100%;
-}
-
-
-/* =====================================================
-   DEFAULT LINKS
-===================================================== */
-
-a{
-  color:#ffd76a;
-}
-
-
-/* =====================================================
-   MOBILE
-===================================================== */
-
-@media(max-width:600px){
-
-  main{
-    padding:13px 12px 95px;
+  .game-card{
+    height:325px;
   }
 
-  .brand{
-    font-size:15px;
+  .banner{
+    height:430px;
   }
 
-  .hero{
-    padding:23px 16px;
+  .banner-content h1{
+    font-size:32px;
   }
 
-  .hero h1{
-    font-size:26px;
+  .banner-content h1 strong{
+    font-size:40px;
   }
 
-  .quick-grid{
-    grid-template-columns:1fr;
+  .player{
+    font-size:165px;
   }
 
-  .stats-grid{
-    gap:5px;
+  .player-two{
+    font-size:150px;
   }
 
-  .tokens-area{
-    grid-template-columns:1fr 1fr;
+  .mini-logo{
+    font-size:17px;
+  }
+
+  .mini-logo span{
+    font-size:34px;
+  }
+
+  .features{
+    font-size:6px;
   }
 
 }
 
+@media(min-width:600px){
 
-/* VERY SMALL SCREEN */
-
-@media(max-width:370px){
-
-  .brand{
-    font-size:13px;
+  .game-card{
+    height:370px;
   }
 
-  .wallet-mini{
-    min-width:65px;
+  .banner{
+    height:480px;
   }
 
-  .hero h1{
-    font-size:23px;
-  }
-
-  .tokens-area{
-    grid-template-columns:1fr;
-  }
-
-}
-
-
-/* =====================================================
-   SCROLLBAR
-===================================================== */
-
-::-webkit-scrollbar{
-  width:5px;
-}
-
-::-webkit-scrollbar-track{
-  background:#043438;
-}
-
-::-webkit-scrollbar-thumb{
-  background:#e6b84c;
-  border-radius:10px;
 }
