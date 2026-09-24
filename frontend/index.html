@@ -1,519 +1,307 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#16000f">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Ludo Inspire</title>
+
 <link rel="stylesheet" href="style.css">
-
-<style>
-/* LUDO GAME ADD-ON */
-
-.game-page{
-  padding:14px;
-  padding-bottom:100px;
-}
-
-.game-title{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:14px;
-}
-
-.game-title h1{
-  margin:0;
-  font-size:24px;
-}
-
-.game-title span{
-  font-size:11px;
-  background:#32101f;
-  color:#f5c76a;
-  padding:7px 10px;
-  border-radius:20px;
-}
-
-.game-box{
-  background:#1b0712;
-  border:1px solid #54203b;
-  border-radius:14px;
-  padding:16px;
-  margin-bottom:14px;
-  box-shadow:0 10px 30px rgba(0,0,0,.2);
-}
-
-.game-box b{
-  font-size:17px;
-}
-
-.game-box p{
-  color:#cdbbc4;
-  font-size:13px;
-}
-
-.game-input{
-  width:100%;
-  box-sizing:border-box;
-  margin-top:10px;
-  padding:13px;
-  border:1px solid #58203d;
-  border-radius:9px;
-  background:#100008;
-  color:#fff;
-  outline:none;
-}
-
-.game-input:focus{
-  border-color:#e3a94b;
-}
-
-.game-btn{
-  width:100%;
-  border:0;
-  border-radius:10px;
-  padding:13px;
-  margin-top:10px;
-  background:linear-gradient(135deg,#e8b65b,#a96a24);
-  color:#16000f;
-  font-weight:800;
-  cursor:pointer;
-}
-
-.game-btn.secondary{
-  background:#32101f;
-  color:#f5c76a;
-  border:1px solid #69304d;
-}
-
-.room-id{
-  background:#100008;
-  border:1px dashed #b67b3c;
-  color:#f5c76a;
-  text-align:center;
-  padding:13px;
-  margin-top:12px;
-  border-radius:9px;
-  font-size:20px;
-  letter-spacing:2px;
-  font-weight:800;
-}
-
-.player-row{
-  display:flex;
-  gap:10px;
-  align-items:center;
-  padding:10px;
-  background:#100008;
-  border-radius:9px;
-  margin-top:8px;
-}
-
-.player-dot{
-  width:15px;
-  height:15px;
-  border-radius:50%;
-}
-
-.player-green{
-  background:#19c66a;
-}
-
-.player-red{
-  background:#e8565f;
-}
-
-.ludo-board{
-  width:100%;
-  max-width:330px;
-  aspect-ratio:1;
-  margin:18px auto;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:4px;
-  background:#090006;
-  padding:5px;
-  border-radius:15px;
-  box-sizing:border-box;
-}
-
-.board-cell{
-  display:grid;
-  place-items:center;
-  border-radius:6px;
-  background:#f5e8d0;
-  color:#111;
-  font-size:18px;
-}
-
-.board-green{
-  background:#19b866;
-  font-size:34px;
-}
-
-.board-red{
-  background:#e85b62;
-  font-size:34px;
-}
-
-.board-home{
-  background:#ffd42b;
-  font-size:30px;
-}
-
-.dice-result{
-  text-align:center;
-  font-size:52px;
-  margin:8px;
-}
-
-.token-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-  margin-top:12px;
-}
-
-.token-btn{
-  border:1px solid #58203d;
-  background:#24101a;
-  color:#fff;
-  border-radius:9px;
-  padding:11px;
-  font-weight:700;
-}
-
-.back-btn{
-  width:100%;
-  border:1px solid #58203d;
-  background:#16000f;
-  color:#f5c76a;
-  border-radius:10px;
-  padding:13px;
-  margin-top:5px;
-}
-
-.hero-btn.play-ludo{
-  margin-top:10px;
-  background:linear-gradient(135deg,#e8b65b,#a96a24);
-}
-</style>
 </head>
 
 <body>
 
-<div id="app">
+<header class="header">
 
-<header class="topbar">
-  <button class="hamburger" onclick="toggleDrawer()">☰</button>
-
-  <div class="brand">
-    <div class="brand-mark">L</div>
-    <div>
-      <b>LUDO INSPIRE</b>
-      <small>Play • Win • Repeat</small>
-    </div>
+  <div class="logo">
+    <span>✦</span>
+    LUDO <b>INSPIRE</b>
   </div>
 
-  <div class="wallet-mini">
-    <span>🪙 <b id="coinTop">0</b></span>
-    <span>🎁 <b id="bonusTop">0</b></span>
-  </div>
+  <button class="login-btn" onclick="openLogin()">
+    LOGIN
+  </button>
+
 </header>
 
-<div id="overlay" class="overlay" onclick="toggleDrawer()"></div>
 
-<aside id="drawer" class="drawer">
+<main class="container">
 
-  <div class="drawer-head">
-    <div class="brand">
-      <div class="brand-mark">L</div>
-      <div>
-        <b>LUDO INSPIRE</b>
-        <small>Play • Win • Repeat</small>
-      </div>
-    </div>
-
-    <button class="close" onclick="toggleDrawer()">×</button>
-  </div>
-
-  <div class="drawer-items">
-
-    <button class="menu active"
-      onclick="closeDrawer();showHomePage()">
-      <span>⌂</span> Home
-    </button>
-
-    <button class="menu"
-      onclick="closeDrawer();showProfilePage()">
-      <span>◎</span> My Profile
-    </button>
-
-    <button class="menu"
-      onclick="closeDrawer();openWallet()">
-      <span>▣</span> My Wallet
-    </button>
-
-    <button class="menu"
-      onclick="closeDrawer();openReferral()">
-      <span>♧</span> Refer & Earn
-    </button>
-
-    <button class="menu"
-      onclick="closeDrawer();showHistory()">
-      <span>▤</span> History
-    </button>
-
-    <button class="menu"
-      onclick="closeDrawer();alert('Notifications coming soon')">
-      <span>♧</span> Notifications
-    </button>
-
-    <button class="menu"
-      onclick="closeDrawer();alert('Support coming soon')">
-      <span>◉</span> Support
-    </button>
-
-    <button class="menu"
-      onclick="closeDrawer();alert('Install option coming soon')">
-      <span>▣</span> Install App
-    </button>
-
-  </div>
-</aside>
-
-<main class="page">
-
-<!-- HOME -->
-
-<section id="homePage">
-
+  <!-- Referral -->
   <div class="referral">
-    ♧ &nbsp; Referral invite — join Ludo Inspire
-  </div>
-
-  <section class="hero">
-
-    <div class="hero-glow"></div>
-
-    <div class="hero-label">
-      PLAY • COMPETE • WIN
-    </div>
-
-    <h1>
-      YOUR<br>
-      <em>LUDO</em><br>
-      PLAYGROUND
-    </h1>
-
-    <p>
-      Play with friends • Join tournaments • Climb the leaderboard
-    </p>
-
-    <div class="hero-board">
-
-      <div class="mini-grid"></div>
-
-      <div class="mini-pawn red">●</div>
-      <div class="mini-pawn green">●</div>
-      <div class="mini-pawn blue">●</div>
-      <div class="mini-pawn yellow">●</div>
-
-    </div>
-
-    <button
-      class="hero-btn play-ludo"
-      onclick="openLudo()">
-      🎮 PLAY LUDO
-    </button>
-
-    <button
-      class="hero-btn"
-      onclick="showProfilePage()">
-      MY PROFILE
-    </button>
-
-  </section>
-
-
-  <div class="section-title">
-    <h2>Quick Play</h2>
-    <span>LIVE</span>
+    🎁 &nbsp; Referral invite —
+    <b>Join Ludo Inspire</b>
   </div>
 
 
-  <section class="cards">
+  <!-- Title -->
+  <h3 class="title">
+    Our Tournaments
+  </h3>
 
-    <button
-      class="game-card ludo-card"
-      onclick="openLudo()">
 
-      <div class="badge">● LIVE</div>
+  <!-- TOP CARDS -->
+  <div class="top-cards">
 
-      <div class="die">⚄</div>
+    <!-- LUDO CARD -->
+    <div class="game-card ludo-card"
+         onclick="openGame()">
 
-      <div class="pawns">
-        <i>●</i>
-        <i>●</i>
-        <i>●</i>
-        <i>●</i>
+      <span class="live">
+        ● LIVE
+      </span>
+
+      <div class="dice">
+        🎲
       </div>
 
-      <div class="card-text">
-        <b>LUDO</b>
-        <small>Play multiplayer</small>
+      <div class="ludo-board">
+
+        <div class="red"></div>
+        <div class="yellow"></div>
+        <div class="blue"></div>
+        <div class="green"></div>
+
+        <div class="middle"></div>
+
+        <div class="token token1">●</div>
+        <div class="token token2">●</div>
+        <div class="token token3">●</div>
+        <div class="token token4">●</div>
+
       </div>
 
-    </button>
-
-
-    <button
-      class="game-card tour-card"
-      onclick="alert('Tournaments coming soon')">
-
-      <div class="trophy">🏆</div>
-
-      <div class="card-text">
-        <b>TOURNAMENTS</b>
-        <small>Compete & climb</small>
+      <div class="card-name">
+        LUDO
       </div>
 
-    </button>
-
-  </section>
+    </div>
 
 
-  <section
-    class="wide-banner"
-    onclick="openLudo()">
+    <!-- WHATSAPP CARD -->
+    <a class="game-card whatsapp-card"
+       href="https://wa.me/919521050705"
+       target="_blank">
 
-    <div class="banner-copy">
+      <span class="online">
+        24×7
+      </span>
+
+      <div class="whatsapp-icon">
+
+        <svg viewBox="0 0 32 32">
+
+          <circle
+            cx="16"
+            cy="16"
+            r="15"
+            fill="#25D366"/>
+
+          <path
+            fill="#fff"
+            d="M23.2 8.7a10.1 10.1 0 0 0-16 12.1L6 26l5.4-1.4a10.1 10.1 0 0 0 11.8-15.9Zm-7.1 14.8a8.4 8.4 0 0 1-4.3-1.2l-.3-.2-3.2.8.9-3.1-.2-.3a8.4 8.4 0 1 1 7.1 4Zm4.6-6.3c-.3-.2-1.8-.9-2.1-1s-.5-.2-.7.2c-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-1.9-.9-3.1-1.7-4.3-3.8-.3-.5.3-.5.9-1.6.1-.2.1-.4 0-.6s-.7-1.7-.9-2.3c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.2 1.4 3.4c.2.2 2.3 3.5 5.6 4.9 2.1.9 2.6.8 3.1.7.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.1-.3-.2-.6-.3Z"/>
+
+        </svg>
+
+      </div>
+
+      <strong>WhatsApp</strong>
 
       <small>
-        LUCK • SKILL • FUN
+        9521050705
       </small>
 
-      <h2>
-        PLAY<br>
-        <em>TOGETHER</em>
-      </h2>
+    </a>
 
-      <p>
-        Invite friends and enjoy a live multiplayer match.
-      </p>
+  </div>
+
+
+  <!-- MAIN BANNER -->
+  <section class="banner">
+
+    <div class="banner-glow"></div>
+
+    <div class="banner-left">
+
+      <div class="play-label">
+        PLAY<br>
+        COMPETE<br>
+        WIN
+      </div>
+
+      <div class="player player-one">
+        ♟
+      </div>
+
+      <div class="player player-two">
+        ♟
+      </div>
 
     </div>
 
-    <div class="banner-dice">
-      🎲
+
+    <div class="banner-content">
+
+      <div class="mini-logo">
+        <span>V</span>
+        LUDO INSPIRE
+      </div>
+
+      <h1>
+        PLAY &<br>
+        <strong>HAVE FUN</strong>
+      </h1>
+
+      <p>
+        INDIA'S FUN LUDO GAMING PLATFORM
+      </p>
+
+      <button onclick="openGame()">
+        PLAY NOW
+      </button>
+
+    </div>
+
+
+    <div class="features">
+
+      <span>
+        🛡 SAFE & SECURE
+      </span>
+
+      <span>
+        🎁 BONUSES
+      </span>
+
+      <span>
+        🏆 TOURNAMENTS
+      </span>
+
+      <span>
+        🎧 24×7 SUPPORT
+      </span>
+
     </div>
 
   </section>
 
-</section>
 
+  <!-- SLIDER DOTS -->
+  <div class="dots">
 
-<!-- PROFILE -->
+    <i></i>
+    <i></i>
+    <i></i>
+    <i></i>
+    <i></i>
 
-<section id="profilePage" hidden>
-
-  <div class="section-title">
-    <h2>My Profile</h2>
-    <span>ACCOUNT</span>
   </div>
 
-  <div class="game-box">
 
-    <h2 id="profileName">
-      Player
-    </h2>
+  <!-- BUTTONS -->
+  <section class="quick-buttons">
 
-    <p id="profileEmail">
-      -
-    </p>
+    <button onclick="openGame()">
+      🎲 PLAY LUDO
+    </button>
 
-    <div class="cards">
+    <button onclick="openLogin()">
+      👤 LOGIN
+    </button>
 
-      <div class="game-box">
-        <b id="cashWon">0</b>
-        <p>Coins</p>
-      </div>
+    <button onclick="leaderboard()">
+      🏆 LEADERBOARD
+    </button>
 
-      <div class="game-box">
-        <b id="battles">0</b>
-        <p>Battles</p>
-      </div>
+  </section>
 
-      <div class="game-box">
-        <b id="referrals">0</b>
-        <p>Referrals</p>
-      </div>
+
+  <!-- WHATSAPP HELPLINE -->
+  <a
+    class="whatsapp-help"
+    href="https://wa.me/919521050705"
+    target="_blank">
+
+    <span class="help-icon">
+
+      <svg viewBox="0 0 32 32">
+
+        <circle
+          cx="16"
+          cy="16"
+          r="15"
+          fill="#25D366"/>
+
+        <path
+          fill="#fff"
+          d="M23.2 8.7a10.1 10.1 0 0 0-16 12.1L6 26l5.4-1.4a10.1 10.1 0 0 0 11.8-15.9Zm-7.1 14.8a8.4 8.4 0 0 1-4.3-1.2l-.3-.2-3.2.8.9-3.1-.2-.3a8.4 8.4 0 1 1 7.1 4Zm4.6-6.3c-.3-.2-1.8-.9-2.1-1s-.5-.2-.7.2c-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-1.9-.9-3.1-1.7-4.3-3.8-.3-.5.3-.5.9-1.6.1-.2.1-.4 0-.6s-.7-1.7-.9-2.3c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.2 1.4 3.4c.2.2 2.3 3.5 5.6 4.9 2.1.9 2.6.8 3.1.7.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.1-.3-.2-.6-.3Z"/>
+
+      </svg>
+
+    </span>
+
+    <span>
+
+      <b>WhatsApp Helpline</b>
+
+      <small>
+        9521050705
+      </small>
+
+    </span>
+
+    <span class="arrow">
+      ›
+    </span>
+
+  </a>
+
+
+  <!-- GAME PANEL -->
+  <section
+    id="panel"
+    class="panel"
+    style="display:none">
+
+    <div class="panel-header">
+
+      <b>
+        Ludo Inspire
+      </b>
+
+      <button onclick="closePanel()">
+        ×
+      </button>
 
     </div>
 
-  </div>
+    <div id="panel-content">
+      Loading...
+    </div>
+
+  </section>
+
+</main>
 
 
-  <button
-    class="game-btn secondary"
-    onclick="showHistory()">
-    📜 HISTORY
-  </button>
+<!-- LOGIN POPUP -->
 
-  <button
-    class="game-btn secondary"
-    onclick="openWallet()">
-    🪙 MY WALLET
-  </button>
+<div
+  id="loginModal"
+  class="modal"
+  style="display:none">
 
-  <button
-    class="game-btn secondary"
-    onclick="openReferral()">
-    🎁 REFER & EARN
-  </button>
-
-  <button
-    class="game-btn secondary"
-    onclick="alert('Support coming soon')">
-    💬 SUPPORT
-  </button>
-
-  <button
-    class="logout-btn"
-    onclick="logout()">
-    LOGOUT
-  </button>
-
-</section>
-
-
-<!-- AUTH -->
-
-<section
-  id="auth"
-  class="auth-card"
-  hidden>
-
-  <div class="auth-tabs">
+  <div class="modal-box">
 
     <button
-      id="loginTab"
-      class="active"
-      onclick="showLogin()">
-      Login
+      class="close"
+      onclick="closeLogin()">
+      ×
     </button>
 
-    <button
-      id="registerTab"
-      onclick="showRegister()">
-      Create account
-    </button>
-
-  </div>
-
-
-  <div id="loginForm">
+    <h2>
+      Ludo Inspire
+    </h2>
 
     <input
       id="email"
@@ -525,532 +313,30 @@
       type="password"
       placeholder="Password">
 
+    <input
+      id="username"
+      placeholder="Username — register ke liye">
+
     <button
-      class="main-btn"
+      class="gold-button"
       onclick="login()">
-      Continue
+      LOGIN
     </button>
 
-  </div>
-
-
-  <div
-    id="registerForm"
-    hidden>
-
-    <input
-      id="regUser"
-      placeholder="Username">
-
-    <input
-      id="regEmail"
-      type="email"
-      placeholder="Email">
-
-    <input
-      id="regPass"
-      type="password"
-      placeholder="Password (6+ characters)">
-
     <button
-      class="main-btn"
+      class="outline-button"
       onclick="register()">
-      Create account
+      CREATE ACCOUNT
     </button>
 
-  </div>
-
-  <p id="authMsg"></p>
-
-</section>
-
-
-<!-- LUDO GAME -->
-
-<section
-  id="gamePage"
-  class="game-page"
-  hidden>
-
-  <div class="game-title">
-
-    <h1>🎲 Ludo Game</h1>
-
-    <span>
-      2 PLAYERS
-    </span>
+    <p id="message"></p>
 
   </div>
 
-
-  <!-- ROOM -->
-
-  <div class="game-box">
-
-    <b>
-      2 Player Ludo
-    </b>
-
-    <p>
-      🟢 Player 1 &nbsp; VS &nbsp; 🔴 Player 2
-    </p>
-
-
-    <button
-      class="game-btn"
-      onclick="createRoom()">
-      ➕ CREATE ROOM
-    </button>
-
-
-    <input
-      id="joinRoomInput"
-      class="game-input"
-      placeholder="Enter Room ID">
-
-
-    <button
-      class="game-btn secondary"
-      onclick="joinRoomFromInput()">
-      🔑 JOIN ROOM
-    </button>
-
-
-    <p id="roomMessage">
-      Create a room or enter Room ID.
-    </p>
-
-  </div>
-
-
-  <!-- ROOM DETAILS -->
-
-  <div
-    id="roomArea"
-    class="game-box"
-    hidden>
-
-    <b>
-      Room
-    </b>
-
-
-    <div
-      id="roomIdDisplay"
-      class="room-id">
-      -
-    </div>
-
-
-    <div
-      id="playerList">
-    </div>
-
-
-    <button
-      id="startGameBtn"
-      class="game-btn"
-      onclick="startGame()"
-      hidden>
-      ▶ START GAME
-    </button>
-
-  </div>
-
-
-  <!-- BOARD -->
-
-  <div
-    id="boardArea"
-    class="game-box"
-    hidden>
-
-    <b>
-      🎲 Ludo Board
-    </b>
-
-
-    <p id="gameStatus">
-      Waiting...
-    </p>
-
-
-    <div class="ludo-board">
-
-      <div class="board-cell board-green">
-        🟢
-      </div>
-
-      <div class="board-cell">
-        ⬜
-      </div>
-
-      <div class="board-cell board-red">
-        🔴
-      </div>
-
-
-      <div class="board-cell">
-        ⬜
-      </div>
-
-      <div class="board-cell board-home">
-        🏠
-      </div>
-
-      <div class="board-cell">
-        ⬜
-      </div>
-
-
-      <div class="board-cell board-green">
-        🟢
-      </div>
-
-      <div class="board-cell">
-        ⬜
-      </div>
-
-      <div class="board-cell board-red">
-        🔴
-      </div>
-
-    </div>
-
-
-    <div
-      id="diceResult"
-      class="dice-result">
-      🎲
-    </div>
-
-
-    <button
-      class="game-btn"
-      onclick="rollDice()">
-      🎲 ROLL DICE
-    </button>
-
-
-    <div
-      id="tokensArea"
-      class="token-grid">
-    </div>
-
-  </div>
-
-
-  <button
-    class="back-btn"
-    onclick="closeLudo()">
-    ← BACK TO HOME
-  </button>
-
-</section>
-
-
-<!-- WALLET -->
-
-<section
-  id="walletBox"
-  class="game-box"
-  hidden>
-
-  <b>🪙 My Wallet</b>
-
-  <h2 id="walletCoins">
-    0
-  </h2>
-
-  <p>
-    Virtual coins only.
-  </p>
-
-</section>
-
-
-<!-- REFERRAL -->
-
-<section
-  id="referralBox"
-  class="game-box"
-  hidden>
-
-  <b>
-    🎁 Refer & Earn
-  </b>
-
-  <p>
-    Invite your friends to Ludo Inspire.
-  </p>
-
-  <div
-    id="referralCode"
-    class="room-id">
-    -
-  </div>
-
-</section>
-
-
-<!-- HISTORY -->
-
-<section
-  id="historyBox"
-  class="game-box"
-  hidden>
-
-  <b>
-    📜 Game History
-  </b>
-
-  <div id="historyList">
-    No games yet.
-  </div>
-
-</section>
-
-</main>
-
-
-<button
-  class="chat-fab"
-  onclick="alert('Support coming soon')">
-  ●
-</button>
-
-
-<nav class="bottom-nav">
-
-  <button
-    class="nav active"
-    onclick="showHomePage()">
-
-    <span>⌂</span>
-    Home
-
-  </button>
-
-
-  <button
-    class="nav"
-    onclick="openWallet()">
-
-    <span>▣</span>
-    Wallet
-
-  </button>
-
-
-  <button
-    class="nav"
-    onclick="alert('Support coming soon')">
-
-    <span>♧</span>
-    Support
-
-  </button>
-
-
-  <button
-    class="nav"
-    onclick="showProfilePage()">
-
-    <span>◎</span>
-    Profile
-
-  </button>
-
-</nav>
+</div>
 
 
 <script src="app.js"></script>
-
-<script>
-
-function toggleDrawer(){
-
-  document
-    .getElementById("drawer")
-    .classList.toggle("open");
-
-  document
-    .getElementById("overlay")
-    .classList.toggle("show");
-
-}
-
-
-function closeDrawer(){
-
-  document
-    .getElementById("drawer")
-    .classList.remove("open");
-
-  document
-    .getElementById("overlay")
-    .classList.remove("show");
-
-}
-
-
-function scrollToTop(){
-
-  showHomePage();
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-}
-
-
-function showLoginBox(){
-
-  showLoginPage();
-
-}
-
-
-function showLoginPage(){
-
-  hideAllPages();
-
-  const auth =
-    document.getElementById("auth");
-
-  auth.hidden=false;
-
-  auth.scrollIntoView({
-    behavior:"smooth",
-    block:"center"
-  });
-
-  if(typeof showLogin === "function"){
-    showLogin();
-  }
-
-}
-
-
-function hideAllPages(){
-
-  document.getElementById("homePage").hidden=true;
-
-  document.getElementById("profilePage").hidden=true;
-
-  document.getElementById("auth").hidden=true;
-
-  document.getElementById("gamePage").hidden=true;
-
-  document.getElementById("walletBox").hidden=true;
-
-  document.getElementById("referralBox").hidden=true;
-
-  document.getElementById("historyBox").hidden=true;
-
-}
-
-
-function showHomePage(){
-
-  hideAllPages();
-
-  document
-    .getElementById("homePage")
-    .hidden=false;
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-}
-
-
-function openLudo(){
-
-  hideAllPages();
-
-  document
-    .getElementById("gamePage")
-    .hidden=false;
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-}
-
-
-function closeLudo(){
-
-  if(
-    typeof roomTimer !== "undefined" &&
-    roomTimer
-  ){
-
-    clearInterval(roomTimer);
-
-    roomTimer=null;
-
-  }
-
-  showHomePage();
-
-}
-
-
-function openWallet(){
-
-  hideAllPages();
-
-  document
-    .getElementById("walletBox")
-    .hidden=false;
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-}
-
-
-function openReferral(){
-
-  hideAllPages();
-
-  document
-    .getElementById("referralBox")
-    .hidden=false;
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-}
-
-
-function showHistory(){
-
-  hideAllPages();
-
-  document
-    .getElementById("historyBox")
-    .hidden=false;
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-}
-
-</script>
 
 </body>
 </html>
