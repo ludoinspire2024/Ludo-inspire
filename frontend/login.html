@@ -1,1 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ludo Inspire - Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+<header class="topbar">
+  <div class="logo">LUDO <span>INSPIRE</span></div>
+  <a href="index.html" class="back-btn">← Home</a>
+</header>
+
+<main class="auth-container">
+
+  <div class="auth-card">
+
+    <h1>Welcome Back</h1>
+    <p class="muted">Login to Ludo Inspire</p>
+
+    <input id="loginEmail" type="email" placeholder="Email">
+    <input id="loginPassword" type="password" placeholder="Password">
+
+    <button class="gold-btn full" onclick="loginUser()">
+      LOGIN
+    </button>
+
+    <div id="loginMsg" class="message"></div>
+
+    <hr>
+
+    <h2>Create Account</h2>
+
+    <input id="regUsername" type="text" placeholder="Username">
+    <input id="regEmail" type="email" placeholder="Email">
+    <input id="regPassword" type="password" placeholder="Password">
+
+    <button class="dark-btn full" onclick="registerUser()">
+      REGISTER
+    </button>
+
+    <div id="registerMsg" class="message"></div>
+
+  </div>
+
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
