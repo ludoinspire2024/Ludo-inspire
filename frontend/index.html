@@ -1,342 +1,84 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Ludo Inspire</title>
-
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ludo Inspire - Home</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<header class="header">
-
-  <div class="logo">
-    <span>✦</span>
-    LUDO <b>INSPIRE</b>
-  </div>
-
-  <button class="login-btn" onclick="openLogin()">
-    LOGIN
-  </button>
-
+<header class="topbar">
+  <div class="logo">LUDO <span>INSPIRE</span></div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="tournaments.html">Tournaments</a>
+    <a href="leaderboard.html">Leaderboard</a>
+    <a href="profile.html">Profile</a>
+  </nav>
+  <a class="login-btn" href="login.html">LOGIN</a>
 </header>
-
 
 <main class="container">
 
-  <!-- Referral -->
-  <div class="referral">
-    🎁 &nbsp; Referral invite —
-    <b>Join Ludo Inspire</b>
-  </div>
+  <section class="hero">
+    <div>
+      <p class="small-title">WELCOME TO</p>
+      <h1>LUDO INSPIRE</h1>
+      <p>Play Ludo, join rooms and compete with players.</p>
 
-
-  <!-- Title -->
-  <h3 class="title">
-    Our Tournaments
-  </h3>
-
-
-  <!-- TOP CARDS -->
-  <div class="top-cards">
-
-    <!-- LUDO CARD -->
-    <div class="game-card ludo-card"
-         onclick="openGame()">
-
-      <span class="live">
-        ● LIVE
-      </span>
-
-      <div class="dice">
-        🎲
+      <div class="hero-buttons">
+        <a href="game.html" class="gold-btn">PLAY LUDO</a>
+        <a href="tournaments.html" class="dark-btn">TOURNAMENTS</a>
       </div>
+    </div>
+  </section>
 
-      <div class="ludo-board">
+  <section class="section-title">
+    <h2>Our Tournaments</h2>
+    <a href="tournaments.html">View All</a>
+  </section>
 
-        <div class="red"></div>
-        <div class="yellow"></div>
-        <div class="blue"></div>
-        <div class="green"></div>
-
-        <div class="middle"></div>
-
-        <div class="token token1">●</div>
-        <div class="token token2">●</div>
-        <div class="token token3">●</div>
-        <div class="token token4">●</div>
-
-      </div>
-
-      <div class="card-name">
-        LUDO
-      </div>
-
+  <div class="cards">
+    <div class="card">
+      <div class="icon">🎲</div>
+      <h3>Ludo Tournament</h3>
+      <p>Join a Ludo room and play with other players.</p>
+      <a href="game.html" class="gold-btn full">PLAY NOW</a>
     </div>
 
-
-    <!-- WHATSAPP CARD -->
-    <a class="game-card whatsapp-card"
-       href="https://wa.me/919521050705"
-       target="_blank">
-
-      <span class="online">
-        24×7
-      </span>
-
-      <div class="whatsapp-icon">
-
-        <svg viewBox="0 0 32 32">
-
-          <circle
-            cx="16"
-            cy="16"
-            r="15"
-            fill="#25D366"/>
-
-          <path
-            fill="#fff"
-            d="M23.2 8.7a10.1 10.1 0 0 0-16 12.1L6 26l5.4-1.4a10.1 10.1 0 0 0 11.8-15.9Zm-7.1 14.8a8.4 8.4 0 0 1-4.3-1.2l-.3-.2-3.2.8.9-3.1-.2-.3a8.4 8.4 0 1 1 7.1 4Zm4.6-6.3c-.3-.2-1.8-.9-2.1-1s-.5-.2-.7.2c-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-1.9-.9-3.1-1.7-4.3-3.8-.3-.5.3-.5.9-1.6.1-.2.1-.4 0-.6s-.7-1.7-.9-2.3c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.2 1.4 3.4c.2.2 2.3 3.5 5.6 4.9 2.1.9 2.6.8 3.1.7.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.1-.3-.2-.6-.3Z"/>
-
-        </svg>
-
-      </div>
-
-      <strong>WhatsApp</strong>
-
-      <small>
-        9521050705
-      </small>
-
-    </a>
-
+    <div class="card whatsapp-card">
+      <div class="icon">💬</div>
+      <h3>WhatsApp Support</h3>
+      <p>Need help? Contact our support team.</p>
+      <a href="https://wa.me/919521050705" target="_blank" class="green-btn full">
+        WhatsApp
+      </a>
+    </div>
   </div>
 
-
-  <!-- MAIN BANNER -->
   <section class="banner">
-
-    <div class="banner-glow"></div>
-
-    <div class="banner-left">
-
-      <div class="play-label">
-        PLAY<br>
-        COMPETE<br>
-        WIN
-      </div>
-
-      <div class="player player-one">
-        ♟
-      </div>
-
-      <div class="player player-two">
-        ♟
-      </div>
-
-    </div>
-
-
-    <div class="banner-content">
-
-      <div class="mini-logo">
-        <span>V</span>
-        LUDO INSPIRE
-      </div>
-
-      <h1>
-        PLAY &<br>
-        <strong>HAVE FUN</strong>
-      </h1>
-
-      <p>
-        INDIA'S FUN LUDO GAMING PLATFORM
-      </p>
-
-      <button onclick="openGame()">
-        PLAY NOW
-      </button>
-
-    </div>
-
-
-    <div class="features">
-
-      <span>
-        🛡 SAFE & SECURE
-      </span>
-
-      <span>
-        🎁 BONUSES
-      </span>
-
-      <span>
-        🏆 TOURNAMENTS
-      </span>
-
-      <span>
-        🎧 24×7 SUPPORT
-      </span>
-
-    </div>
-
+    <h2>PLAY • COMPETE • WIN</h2>
+    <p>Enjoy Ludo Inspire with friends and other players.</p>
   </section>
 
-
-  <!-- SLIDER DOTS -->
-  <div class="dots">
-
-    <i></i>
-    <i></i>
-    <i></i>
-    <i></i>
-    <i></i>
-
+  <div class="quick-grid">
+    <a href="game.html">🎮<span>Play Ludo</span></a>
+    <a href="tournaments.html">🏆<span>Tournaments</span></a>
+    <a href="leaderboard.html">🥇<span>Leaderboard</span></a>
+    <a href="profile.html">👤<span>My Profile</span></a>
   </div>
 
-
-  <!-- BUTTONS -->
-  <section class="quick-buttons">
-
-    <button onclick="openGame()">
-      🎲 PLAY LUDO
-    </button>
-
-    <button onclick="openLogin()">
-      👤 LOGIN
-    </button>
-
-    <button onclick="leaderboard()">
-      🏆 LEADERBOARD
-    </button>
-
-  </section>
-
-
-  <!-- WHATSAPP HELPLINE -->
-  <a
-    class="whatsapp-help"
-    href="https://wa.me/919521050705"
-    target="_blank">
-
-    <span class="help-icon">
-
-      <svg viewBox="0 0 32 32">
-
-        <circle
-          cx="16"
-          cy="16"
-          r="15"
-          fill="#25D366"/>
-
-        <path
-          fill="#fff"
-          d="M23.2 8.7a10.1 10.1 0 0 0-16 12.1L6 26l5.4-1.4a10.1 10.1 0 0 0 11.8-15.9Zm-7.1 14.8a8.4 8.4 0 0 1-4.3-1.2l-.3-.2-3.2.8.9-3.1-.2-.3a8.4 8.4 0 1 1 7.1 4Zm4.6-6.3c-.3-.2-1.8-.9-2.1-1s-.5-.2-.7.2c-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-1.9-.9-3.1-1.7-4.3-3.8-.3-.5.3-.5.9-1.6.1-.2.1-.4 0-.6s-.7-1.7-.9-2.3c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.2 1.4 3.4c.2.2 2.3 3.5 5.6 4.9 2.1.9 2.6.8 3.1.7.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.1-.3-.2-.6-.3Z"/>
-
-      </svg>
-
-    </span>
-
-    <span>
-
-      <b>WhatsApp Helpline</b>
-
-      <small>
-        9521050705
-      </small>
-
-    </span>
-
-    <span class="arrow">
-      ›
-    </span>
-
-  </a>
-
-
-  <!-- GAME PANEL -->
-  <section
-    id="panel"
-    class="panel"
-    style="display:none">
-
-    <div class="panel-header">
-
-      <b>
-        Ludo Inspire
-      </b>
-
-      <button onclick="closePanel()">
-        ×
-      </button>
-
-    </div>
-
-    <div id="panel-content">
-      Loading...
-    </div>
-
+  <section class="support">
+    <h3>Need Help?</h3>
+    <p>WhatsApp Helpline</p>
+    <a href="https://wa.me/919521050705" target="_blank">
+      📱 9521050705
+    </a>
   </section>
 
 </main>
 
-
-<!-- LOGIN POPUP -->
-
-<div
-  id="loginModal"
-  class="modal"
-  style="display:none">
-
-  <div class="modal-box">
-
-    <button
-      class="close"
-      onclick="closeLogin()">
-      ×
-    </button>
-
-    <h2>
-      Ludo Inspire
-    </h2>
-
-    <input
-      id="email"
-      type="email"
-      placeholder="Email">
-
-    <input
-      id="password"
-      type="password"
-      placeholder="Password">
-
-    <input
-      id="username"
-      placeholder="Username — register ke liye">
-
-    <button
-      class="gold-button"
-      onclick="login()">
-      LOGIN
-    </button>
-
-    <button
-      class="outline-button"
-      onclick="register()">
-      CREATE ACCOUNT
-    </button>
-
-    <p id="message"></p>
-
-  </div>
-
-</div>
-
-
 <script src="app.js"></script>
-
 </body>
 </html>
