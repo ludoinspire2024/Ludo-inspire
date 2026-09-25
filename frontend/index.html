@@ -1,84 +1,666 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ludo Inspire - Home</title>
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+  >
+
+  <title>Ludo Inspire</title>
+
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
+<!-- =====================================================
+     TOP HEADER
+===================================================== -->
+
 <header class="topbar">
-  <div class="logo">LUDO <span>INSPIRE</span></div>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="tournaments.html">Tournaments</a>
-    <a href="leaderboard.html">Leaderboard</a>
-    <a href="profile.html">Profile</a>
-  </nav>
-  <a class="login-btn" href="login.html">LOGIN</a>
+
+  <div class="header-left">
+
+    <button
+      class="menu-btn"
+      id="menuBtn"
+      aria-label="Open Menu"
+    >
+      ☰
+    </button>
+
+    <a href="index.html" class="logo">
+
+      <div class="logo-mark">
+        LI
+      </div>
+
+      <span class="logo-text">
+        LUDO INSPIRE
+      </span>
+
+    </a>
+
+  </div>
+
+
+  <div class="header-stats">
+
+    <div class="stat-pill">
+      <small>Coins</small>
+      <strong id="headerCoins">0</strong>
+    </div>
+
+    <div class="stat-pill">
+      <small>Wins</small>
+      <strong id="headerWins">0</strong>
+    </div>
+
+  </div>
+
 </header>
 
-<main class="container">
 
-  <section class="hero">
-    <div>
-      <p class="small-title">WELCOME TO</p>
-      <h1>LUDO INSPIRE</h1>
-      <p>Play Ludo, join rooms and compete with players.</p>
+<!-- =====================================================
+     SIDE DRAWER
+===================================================== -->
 
-      <div class="hero-buttons">
-        <a href="game.html" class="gold-btn">PLAY LUDO</a>
-        <a href="tournaments.html" class="dark-btn">TOURNAMENTS</a>
+<div
+  class="drawer-overlay"
+  id="drawerOverlay"
+></div>
+
+
+<aside
+  class="side-drawer"
+  id="sideDrawer"
+>
+
+  <div class="drawer-head">
+
+    <a href="index.html" class="logo">
+
+      <div class="logo-mark">
+        LI
       </div>
-    </div>
-  </section>
 
-  <section class="section-title">
-    <h2>Our Tournaments</h2>
-    <a href="tournaments.html">View All</a>
-  </section>
+      <span class="logo-text">
+        LUDO INSPIRE
+      </span>
 
-  <div class="cards">
-    <div class="card">
-      <div class="icon">🎲</div>
-      <h3>Ludo Tournament</h3>
-      <p>Join a Ludo room and play with other players.</p>
-      <a href="game.html" class="gold-btn full">PLAY NOW</a>
-    </div>
-
-    <div class="card whatsapp-card">
-      <div class="icon">💬</div>
-      <h3>WhatsApp Support</h3>
-      <p>Need help? Contact our support team.</p>
-      <a href="https://wa.me/919521050705" target="_blank" class="green-btn full">
-        WhatsApp
-      </a>
-    </div>
-  </div>
-
-  <section class="banner">
-    <h2>PLAY • COMPETE • WIN</h2>
-    <p>Enjoy Ludo Inspire with friends and other players.</p>
-  </section>
-
-  <div class="quick-grid">
-    <a href="game.html">🎮<span>Play Ludo</span></a>
-    <a href="tournaments.html">🏆<span>Tournaments</span></a>
-    <a href="leaderboard.html">🥇<span>Leaderboard</span></a>
-    <a href="profile.html">👤<span>My Profile</span></a>
-  </div>
-
-  <section class="support">
-    <h3>Need Help?</h3>
-    <p>WhatsApp Helpline</p>
-    <a href="https://wa.me/919521050705" target="_blank">
-      📱 9521050705
     </a>
-  </section>
+
+    <button
+      class="drawer-close"
+      id="drawerClose"
+    >
+      ×
+    </button>
+
+  </div>
+
+
+  <div class="drawer-user">
+
+    <div class="drawer-avatar">
+      👤
+    </div>
+
+    <div class="drawer-user-info">
+
+      <strong id="drawerUsername">
+        Guest Player
+      </strong>
+
+      <span id="drawerEmail">
+        Login to play
+      </span>
+
+    </div>
+
+  </div>
+
+
+  <nav class="drawer-nav">
+
+    <a
+      href="index.html"
+      class="drawer-link active"
+    >
+      <span class="drawer-icon">🏠</span>
+      <span>Home</span>
+    </a>
+
+
+    <a
+      href="profile.html"
+      class="drawer-link"
+    >
+      <span class="drawer-icon">👤</span>
+      <span>My Profile</span>
+    </a>
+
+
+    <a
+      href="wallet.html"
+      class="drawer-link"
+    >
+      <span class="drawer-icon">💰</span>
+      <span>My Wallet</span>
+    </a>
+
+
+    <a
+      href="battles.html"
+      class="drawer-link"
+    >
+      <span class="drawer-icon">🎮</span>
+      <span>Ludo Rooms</span>
+    </a>
+
+
+    <a
+      href="tournaments.html"
+      class="drawer-link"
+    >
+      <span class="drawer-icon">🏆</span>
+      <span>Tournaments</span>
+    </a>
+
+
+    <a
+      href="leaderboard.html"
+      class="drawer-link"
+    >
+      <span class="drawer-icon">🥇</span>
+      <span>Leaderboard</span>
+    </a>
+
+
+    <a
+      href="history.html"
+      class="drawer-link"
+    >
+      <span class="drawer-icon">📜</span>
+      <span>Game History</span>
+    </a>
+
+
+    <a
+      href="support.html"
+      class="drawer-link"
+    >
+      <span class="drawer-icon">💬</span>
+      <span>Support</span>
+    </a>
+
+
+    <a
+      href="#"
+      class="drawer-link"
+      id="installAppBtn"
+    >
+      <span class="drawer-icon">📲</span>
+      <span>Install App</span>
+    </a>
+
+
+    <a
+      href="login.html"
+      class="drawer-link"
+      id="loginDrawerBtn"
+    >
+      <span class="drawer-icon">🔐</span>
+      <span>Login</span>
+    </a>
+
+
+    <a
+      href="#"
+      class="drawer-link hidden"
+      id="logoutBtn"
+    >
+      <span class="drawer-icon">🚪</span>
+      <span>Log Out</span>
+    </a>
+
+  </nav>
+
+
+  <div class="drawer-footer">
+    Ludo Inspire • Virtual Coins
+  </div>
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN PAGE
+===================================================== -->
+
+<main class="page">
+
+  <div class="container">
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+      <div class="hero-content">
+
+        <span class="hero-tag">
+          🎲 LUDO GAMING
+        </span>
+
+        <h2>
+          Welcome to<br>
+          Ludo Inspire
+        </h2>
+
+        <p>
+          Play Ludo, join rooms and compete
+          with other players.
+        </p>
+
+        <a
+          href="battles.html"
+          class="btn btn-gold mt-15"
+        >
+          🎮 PLAY LUDO
+        </a>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- NOTICE -->
+
+    <section class="notice">
+
+      <div class="notice-icon">
+        ℹ️
+      </div>
+
+      <div>
+
+        <strong>
+          Welcome to Ludo Inspire
+        </strong>
+
+        <p>
+          Enjoy Ludo rooms, tournaments,
+          leaderboard and multiplayer gameplay.
+          This version uses virtual coins.
+        </p>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- QUICK ACTIONS -->
+
+    <section class="section">
+
+      <div class="section-head">
+
+        <h2>
+          Quick Actions
+        </h2>
+
+      </div>
+
+
+      <div class="quick-actions">
+
+        <a
+          href="battles.html"
+          class="quick-action"
+        >
+          <div class="quick-action-icon">
+            🎮
+          </div>
+
+          <span>
+            Play Ludo
+          </span>
+        </a>
+
+
+        <a
+          href="tournaments.html"
+          class="quick-action"
+        >
+          <div class="quick-action-icon">
+            🏆
+          </div>
+
+          <span>
+            Tournaments
+          </span>
+        </a>
+
+
+        <a
+          href="leaderboard.html"
+          class="quick-action"
+        >
+          <div class="quick-action-icon">
+            🥇
+          </div>
+
+          <span>
+            Leaderboard
+          </span>
+        </a>
+
+
+        <a
+          href="profile.html"
+          class="quick-action"
+        >
+          <div class="quick-action-icon">
+            👤
+          </div>
+
+          <span>
+            My Profile
+          </span>
+        </a>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- OUR TOURNAMENTS -->
+
+    <section class="section">
+
+      <div class="section-head">
+
+        <h2>
+          Our Tournaments
+        </h2>
+
+        <a href="tournaments.html">
+          View All
+        </a>
+
+      </div>
+
+
+      <div
+        id="homeTournaments"
+        class="card-grid"
+      >
+
+        <a
+          href="battles.html"
+          class="game-card"
+        >
+
+          <div class="game-icon">
+            🎲
+          </div>
+
+          <h3>
+            Ludo Tournament
+          </h3>
+
+          <p>
+            Join a Ludo room and play
+            with other players.
+          </p>
+
+        </a>
+
+
+        <a
+          href="support.html"
+          class="game-card"
+        >
+
+          <div class="game-icon">
+            💬
+          </div>
+
+          <h3>
+            WhatsApp Support
+          </h3>
+
+          <p>
+            Need help? Contact our
+            support team.
+          </p>
+
+        </a>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- BANNER -->
+
+    <section class="hero mt-20">
+
+      <div class="hero-content">
+
+        <span class="hero-tag">
+          LUDO INSPIRE
+        </span>
+
+        <h2>
+          PLAY • COMPETE • WIN
+        </h2>
+
+        <p>
+          Enjoy Ludo Inspire with friends
+          and other players.
+        </p>
+
+        <a
+          href="battles.html"
+          class="btn btn-teal mt-10"
+        >
+          🎮 Start Playing
+        </a>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- OPEN ROOMS -->
+
+    <section class="section">
+
+      <div class="section-head">
+
+        <h2>
+          Open Ludo Rooms
+        </h2>
+
+        <a href="battles.html">
+          View All
+        </a>
+
+      </div>
+
+
+      <div
+        id="homeRooms"
+        class="battle-list"
+      >
+
+        <div class="empty-state">
+
+          <div class="empty-icon">
+            🎲
+          </div>
+
+          <h3>
+            Loading Rooms...
+          </h3>
+
+          <p>
+            Open Ludo rooms will appear here.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- SUPPORT -->
+
+    <section class="section">
+
+      <div class="support-card">
+
+        <div class="support-icon">
+          💬
+        </div>
+
+        <h2>
+          Need Help?
+        </h2>
+
+        <p>
+          Our support team is available
+          for help with Ludo Inspire.
+        </p>
+
+        <div class="support-number">
+          9521050705
+        </div>
+
+        <a
+          href="https://wa.me/919521050705"
+          target="_blank"
+          class="btn btn-teal btn-full"
+        >
+          💬 WhatsApp Support
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <div style="height:20px;"></div>
+
+  </div>
 
 </main>
 
+
+
+<!-- =====================================================
+     FLOATING CHAT
+===================================================== -->
+
+<a
+  href="https://wa.me/919521050705"
+  target="_blank"
+  class="floating-chat"
+  aria-label="WhatsApp Support"
+>
+  💬
+</a>
+
+
+
+<!-- =====================================================
+     BOTTOM NAVIGATION
+===================================================== -->
+
+<nav class="bottom-nav">
+
+  <a
+    href="index.html"
+    class="bottom-item active"
+  >
+    <span class="nav-icon">
+      🏠
+    </span>
+
+    <span>
+      Home
+    </span>
+  </a>
+
+
+  <a
+    href="wallet.html"
+    class="bottom-item"
+  >
+    <span class="nav-icon">
+      💰
+    </span>
+
+    <span>
+      Wallet
+    </span>
+  </a>
+
+
+  <a
+    href="support.html"
+    class="bottom-item"
+  >
+    <span class="nav-icon">
+      💬
+    </span>
+
+    <span>
+      Support
+    </span>
+  </a>
+
+
+  <a
+    href="profile.html"
+    class="bottom-item"
+  >
+    <span class="nav-icon">
+      👤
+    </span>
+
+    <span>
+      Profile
+    </span>
+  </a>
+
+</nav>
+
+
+
+<!-- =====================================================
+     TOAST
+===================================================== -->
+
+<div
+  class="toast"
+  id="toast"
+></div>
+
+
 <script src="app.js"></script>
+
 </body>
 </html>
