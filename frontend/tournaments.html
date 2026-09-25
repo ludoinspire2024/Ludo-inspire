@@ -1,1 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tournaments - Ludo Inspire</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+<header class="topbar">
+  <div class="logo">LUDO <span>INSPIRE</span></div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a class="active" href="tournaments.html">Tournaments</a>
+    <a href="leaderboard.html">Leaderboard</a>
+    <a href="profile.html">Profile</a>
+  </nav>
+</header>
+
+<main class="container">
+
+  <div class="page-heading">
+    <h1>🏆 Tournaments</h1>
+    <p>Join available tournaments.</p>
+  </div>
+
+  <div id="tournamentList" class="list"></div>
+
+</main>
+
+<script src="app.js"></script>
+<script>
+  loadTournaments();
+</script>
+
+</body>
+</html>
