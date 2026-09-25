@@ -1,1 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile - Ludo Inspire</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+<header class="topbar">
+  <div class="logo">LUDO <span>INSPIRE</span></div>
+  <a href="index.html" class="back-btn">← Home</a>
+</header>
+
+<main class="container">
+
+  <div class="page-heading">
+    <h1>👤 My Profile</h1>
+  </div>
+
+  <div class="profile-card" id="profileData">
+    Loading...
+  </div>
+
+  <button class="red-btn" onclick="logoutUser()">
+    LOGOUT
+  </button>
+
+</main>
+
+<script src="app.js"></script>
+<script>
+  loadProfilePage();
+</script>
+
+</body>
+</html>
