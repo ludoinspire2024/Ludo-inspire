@@ -1,1 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ludo Game - Ludo Inspire</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+<header class="topbar">
+  <div class="logo">LUDO <span>INSPIRE</span></div>
+  <a href="index.html" class="back-btn">← Home</a>
+</header>
+
+<main class="container">
+
+  <div class="page-heading">
+    <h1>🎲 Ludo Game</h1>
+    <p>Create a room or join another player's room.</p>
+  </div>
+
+  <div class="game-actions">
+    <button class="gold-btn" onclick="createGameRoom()">
+      + CREATE ROOM
+    </button>
+  </div>
+
+  <h2>Available Rooms</h2>
+
+  <div id="roomList" class="list"></div>
+
+  <div id="gameArea" class="game-area" hidden>
+
+    <div class="game-header">
+      <div>
+        <h2 id="roomName">Ludo Room</h2>
+        <p id="roomPlayers">Players: 0</p>
+      </div>
+
+      <div>
+        <button id="startBtn" class="gold-btn" onclick="startCurrentGame()">
+          START
+        </button>
+      </div>
+    </div>
+
+    <div class="ludo-board" id="ludoBoard">
+
+      <div class="home red-home">
+        <span>🔴</span>
+        <span>🔴</span>
+        <span>🔴</span>
+        <span>🔴</span>
+      </div>
+
+      <div class="home green-home">
+        <span>🟢</span>
+        <span>🟢</span>
+        <span>🟢</span>
+        <span>🟢</span>
+      </div>
+
+      <div class="path"></div>
+
+      <div class="home blue-home">
+        <span>🔵</span>
+        <span>🔵</span>
+        <span>🔵</span>
+        <span>🔵</span>
+      </div>
+
+      <div class="home yellow-home">
+        <span>🟡</span>
+        <span>🟡</span>
+        <span>🟡</span>
+        <span>🟡</span>
+      </div>
+
+      <div class="board-center">★</div>
+
+    </div>
+
+    <div class="dice-panel">
+
+      <div id="diceValue" class="big-dice">🎲</div>
+
+      <p id="turnText">Waiting...</p>
+
+      <button id="rollBtn" class="gold-btn" onclick="rollCurrentDice()">
+        ROLL DICE
+      </button>
+
+    </div>
+
+    <div class="players-box">
+      <h3>Players</h3>
+      <div id="gamePlayers"></div>
+    </div>
+
+  </div>
+
+</main>
+
+<script src="app.js"></script>
+<script>
+  loadRooms();
+</script>
+
+</body>
+</html>
