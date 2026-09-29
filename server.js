@@ -317,7 +317,13 @@ app.post("/api/rooms", auth, (req, res) => {
     room: getRoom(result.lastInsertRowid)
   });
 });
+/* ---------------- TOURNAMENTS ---------------- */
 
+app.get("/api/tournaments", (req, res) => {
+  res.json({
+    tournaments: []
+  });
+});
 /* ---------------- ROOM LIST ---------------- */
 
 app.get("/api/rooms", (req, res) => {
