@@ -2,8 +2,7 @@
    LUDO INSPIRE - FRONTEND APP.JS
    Backend: https://ludo-inspire.onrender.com
    ========================================================= */
-
-const API_BASE = "https://ludo-inspire.onrender.com/api";
+const API_BASE = "https://ludo-inspire-api.onrender.com/api";
 const TOKEN_KEY = "ludo_token";
 
 let currentUser = null;
