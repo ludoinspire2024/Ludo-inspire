@@ -320,7 +320,7 @@ app.post("/api/rooms", auth, (req, res) => {
 
 /* ---------------- ROOM LIST ---------------- */
 
-app.get("/api/rooms", auth, (req, res) => {
+app.get("/api/rooms", (req, res) => {
   const rooms = db.prepare(`
     SELECT
       r.id,
