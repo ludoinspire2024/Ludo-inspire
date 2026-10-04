@@ -3,477 +3,819 @@
 <head>
   <meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
-  >
+  <!-- Mobile screen fix -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Ludo Inspire</title>
 
-  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      width: 100%;
+      min-height: 100vh;
+      background: #071b1d;
+      color: #fff;
+      font-family: Arial, Helvetica, sans-serif;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button {
+      font-family: inherit;
+    }
+
+    /* =========================
+       MAIN MOBILE CONTAINER
+    ========================= */
+
+    .app {
+      width: 100%;
+      max-width: 720px;
+      min-height: 100vh;
+      margin: 0 auto;
+      background: #082326;
+    }
+
+    /* =========================
+       TOP HEADER
+    ========================= */
+
+    .top-header {
+      height: 64px;
+      padding: 0 16px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      background: #092c2e;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      font-size: 21px;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+
+    .logo-icon {
+      width: 34px;
+      height: 34px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 9px;
+
+      background: linear-gradient(
+        135deg,
+        #ffd54a,
+        #f5a623
+      );
+
+      color: #122426;
+      font-size: 21px;
+      box-shadow: 0 4px 12px rgba(255,190,50,0.2);
+    }
+
+    .login-btn {
+      padding: 9px 16px;
+
+      border: 1px solid #e8b83f;
+      border-radius: 7px;
+
+      background: transparent;
+      color: #ffd45a;
+
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .login-btn:active {
+      transform: scale(0.97);
+    }
+
+    /* =========================
+       REFERRAL / NOTICE BAR
+    ========================= */
+
+    .notice {
+      margin: 10px 12px 0;
+
+      min-height: 42px;
+      padding: 10px 12px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 8px;
+
+      background: linear-gradient(
+        90deg,
+        #174c4d,
+        #216466,
+        #174c4d
+      );
+
+      color: #eafefe;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .notice strong {
+      color: #ffd34f;
+    }
+
+    /* =========================
+       CONTENT
+    ========================= */
+
+    .content {
+      padding: 16px 12px 30px;
+    }
+
+    .section-title {
+      margin: 3px 2px 12px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .section-title h2 {
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 0.2px;
+    }
+
+    .section-title span {
+      color: #91b9ba;
+      font-size: 11px;
+    }
+
+    /* =========================
+       TOURNAMENT CARDS
+    ========================= */
+
+    .tournament-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .tournament-card {
+      min-height: 150px;
+
+      position: relative;
+      overflow: hidden;
+
+      border-radius: 12px;
+
+      border: 1px solid rgba(255,255,255,0.09);
+
+      background:
+        radial-gradient(
+          circle at 20% 20%,
+          rgba(255,213,70,0.18),
+          transparent 35%
+        ),
+        linear-gradient(
+          145deg,
+          #164f50,
+          #0c292b
+        );
+
+      box-shadow: 0 7px 18px rgba(0,0,0,0.22);
+    }
+
+    .tournament-card.whatsapp {
+      background:
+        radial-gradient(
+          circle at 80% 20%,
+          rgba(80,220,120,0.2),
+          transparent 40%
+        ),
+        linear-gradient(
+          145deg,
+          #164f3c,
+          #092923
+        );
+    }
+
+    .card-glow {
+      position: absolute;
+
+      width: 100px;
+      height: 100px;
+
+      border-radius: 50%;
+
+      right: -35px;
+      bottom: -35px;
+
+      background: rgba(255,207,70,0.14);
+      filter: blur(5px);
+    }
+
+    .card-content {
+      position: relative;
+      z-index: 2;
+
+      height: 100%;
+
+      padding: 14px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .game-icon {
+      width: 60px;
+      height: 60px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 15px;
+
+      background: rgba(255,255,255,0.1);
+
+      font-size: 38px;
+
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,0.08),
+        0 7px 16px rgba(0,0,0,0.15);
+    }
+
+    .tournament-card h3 {
+      margin-top: 10px;
+
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .tournament-card p {
+      margin-top: 3px;
+
+      color: #a8c9ca;
+      font-size: 10px;
+    }
+
+    .play-mini {
+      margin-top: 9px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      width: 100%;
+      min-height: 32px;
+
+      border-radius: 6px;
+
+      background: #eab93f;
+      color: #152627;
+
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    /* =========================
+       BIG HERO
+    ========================= */
+
+    .hero {
+      margin-top: 14px;
+
+      min-height: 205px;
+
+      position: relative;
+      overflow: hidden;
+
+      border-radius: 14px;
+
+      border: 1px solid rgba(255,255,255,0.1);
+
+      background:
+        radial-gradient(
+          circle at 85% 25%,
+          rgba(255,207,65,0.35),
+          transparent 24%
+        ),
+        radial-gradient(
+          circle at 15% 85%,
+          rgba(0,190,180,0.28),
+          transparent 35%
+        ),
+        linear-gradient(
+          135deg,
+          #123f42,
+          #071d20
+        );
+    }
+
+    .hero::before {
+      content: "🎲";
+
+      position: absolute;
+
+      right: -5px;
+      top: 18px;
+
+      font-size: 120px;
+
+      opacity: 0.12;
+
+      transform: rotate(12deg);
+    }
+
+    .hero::after {
+      content: "♛";
+
+      position: absolute;
+
+      right: 34px;
+      bottom: -24px;
+
+      font-size: 135px;
+
+      color: #ffd24b;
+
+      opacity: 0.10;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+
+      padding: 23px 20px;
+    }
+
+    .hero-small {
+      color: #ffd34d;
+
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      margin-top: 6px;
+
+      max-width: 260px;
+
+      font-size: 31px;
+      line-height: 1.02;
+      font-weight: 1000;
+    }
+
+    .hero h1 span {
+      color: #ffd34d;
+    }
+
+    .hero p {
+      margin-top: 9px;
+
+      max-width: 270px;
+
+      color: #b5d0d0;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .hero-button {
+      margin-top: 15px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      min-width: 125px;
+      min-height: 39px;
+
+      padding: 0 17px;
+
+      border: 0;
+      border-radius: 7px;
+
+      background: linear-gradient(
+        135deg,
+        #ffd95a,
+        #e9ad28
+      );
+
+      color: #152627;
+
+      font-size: 12px;
+      font-weight: 900;
+
+      box-shadow: 0 7px 16px rgba(226,168,39,0.22);
+    }
+
+    /* =========================
+       QUICK ACTIONS
+    ========================= */
+
+    .quick-title {
+      margin-top: 20px;
+      margin-bottom: 10px;
+
+      font-size: 17px;
+      font-weight: 900;
+    }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .quick-card {
+      min-height: 78px;
+
+      padding: 10px 6px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      text-align: center;
+
+      border-radius: 9px;
+
+      background: #0d3336;
+      border: 1px solid rgba(255,255,255,0.07);
+
+      transition: 0.15s;
+    }
+
+    .quick-card:active {
+      transform: scale(0.96);
+    }
+
+    .quick-icon {
+      font-size: 25px;
+      line-height: 1;
+    }
+
+    .quick-card span {
+      margin-top: 6px;
+
+      color: #c8dddd;
+
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    /* =========================
+       ROOMS
+    ========================= */
+
+    .rooms-box {
+      margin-top: 18px;
+
+      padding: 13px;
+
+      border-radius: 12px;
+
+      background: #0b2d30;
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .rooms-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 10px;
+    }
+
+    .rooms-head h3 {
+      font-size: 16px;
+    }
+
+    .rooms-head a {
+      color: #ffd34f;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    #roomsList {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .empty-room {
+      padding: 18px 10px;
+
+      border-radius: 8px;
+
+      background: #082326;
+
+      color: #779b9d;
+
+      text-align: center;
+      font-size: 11px;
+    }
+
+    /* =========================
+       SUPPORT
+    ========================= */
+
+    .support {
+      margin-top: 16px;
+
+      padding: 14px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      border-radius: 10px;
+
+      background: linear-gradient(
+        135deg,
+        #113e40,
+        #0b2b2e
+      );
+
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .support-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .support-icon {
+      width: 39px;
+      height: 39px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 50%;
+
+      background: #25d366;
+
+      font-size: 21px;
+    }
+
+    .support-text strong {
+      display: block;
+      font-size: 12px;
+    }
+
+    .support-text small {
+      display: block;
+      margin-top: 2px;
+      color: #8fb1b2;
+      font-size: 10px;
+    }
+
+    .support-btn {
+      padding: 8px 11px;
+
+      border-radius: 6px;
+
+      background: #25d366;
+      color: #082326;
+
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    /* =========================
+       BOTTOM NAV
+    ========================= */
+
+    .bottom-space {
+      height: 75px;
+    }
+
+    .bottom-nav {
+      position: fixed;
+
+      left: 50%;
+      bottom: 0;
+
+      transform: translateX(-50%);
+
+      width: 100%;
+      max-width: 720px;
+
+      height: 64px;
+
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+
+      background: rgba(6,27,29,0.97);
+
+      border-top: 1px solid rgba(255,255,255,0.08);
+
+      backdrop-filter: blur(10px);
+
+      z-index: 100;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      color: #719394;
+
+      font-size: 9px;
+      font-weight: 700;
+    }
+
+    .nav-item .nav-icon {
+      margin-bottom: 4px;
+      font-size: 20px;
+    }
+
+    .nav-item.active {
+      color: #ffd34d;
+    }
+
+    /* =========================
+       DESKTOP
+    ========================= */
+
+    @media (min-width: 721px) {
+
+      body {
+        background:
+          radial-gradient(
+            circle at top,
+            #174447,
+            #06191b 65%
+          );
+      }
+
+      .app {
+        box-shadow:
+          0 0 50px rgba(0,0,0,0.35);
+      }
+
+      .content {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .bottom-nav {
+        border-radius: 14px 14px 0 0;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- =====================================================
-     TOP HEADER
-===================================================== -->
+<div class="app">
 
-<header class="topbar">
-
-  <div class="header-left">
-
-    <button
-      class="menu-btn"
-      id="menuBtn"
-      aria-label="Open Menu"
-    >
-      ☰
-    </button>
+  <!-- HEADER -->
+  <header class="top-header">
 
     <a href="index.html" class="logo">
-
-      <div class="logo-mark">
-        LI
-      </div>
-
-      <span class="logo-text">
-        LUDO INSPIRE
-      </span>
-
+      <div class="logo-icon">🎲</div>
+      <span>LUDO INSPIRE</span>
     </a>
 
+    <a href="login.html" class="login-btn">
+      LOGIN
+    </a>
+
+  </header>
+
+
+  <!-- NOTICE -->
+  <div class="notice">
+    🎉 <strong>WELCOME</strong>&nbsp; to Ludo Inspire — Play with friends
   </div>
 
 
-  <div class="header-stats">
+  <main class="content">
 
-    <div class="stat-pill">
-      <small>Coins</small>
-      <strong id="headerCoins">0</strong>
+    <!-- TOURNAMENTS -->
+    <div class="section-title">
+      <h2>Our Tournaments</h2>
+      <span>Play & Win</span>
     </div>
 
-    <div class="stat-pill">
-      <small>Wins</small>
-      <strong id="headerWins">0</strong>
-    </div>
 
-  </div>
+    <div class="tournament-grid">
 
-</header>
+      <!-- LUDO -->
+      <a href="battles.html" class="tournament-card">
 
+        <div class="card-glow"></div>
 
-<!-- =====================================================
-     SIDE DRAWER
-===================================================== -->
-
-<div
-  class="drawer-overlay"
-  id="drawerOverlay"
-></div>
-
-
-<aside
-  class="side-drawer"
-  id="sideDrawer"
->
-
-  <div class="drawer-head">
-
-    <a href="index.html" class="logo">
-
-      <div class="logo-mark">
-        LI
-      </div>
-
-      <span class="logo-text">
-        LUDO INSPIRE
-      </span>
-
-    </a>
-
-    <button
-      class="drawer-close"
-      id="drawerClose"
-    >
-      ×
-    </button>
-
-  </div>
-
-
-  <div class="drawer-user">
-
-    <div class="drawer-avatar">
-      👤
-    </div>
-
-    <div class="drawer-user-info">
-
-      <strong id="drawerUsername">
-        Guest Player
-      </strong>
-
-      <span id="drawerEmail">
-        Login to play
-      </span>
-
-    </div>
-
-  </div>
-
-
-  <nav class="drawer-nav">
-
-    <a
-      href="index.html"
-      class="drawer-link active"
-    >
-      <span class="drawer-icon">🏠</span>
-      <span>Home</span>
-    </a>
-
-
-    <a
-      href="profile.html"
-      class="drawer-link"
-    >
-      <span class="drawer-icon">👤</span>
-      <span>My Profile</span>
-    </a>
-
-
-    <a
-      href="wallet.html"
-      class="drawer-link"
-    >
-      <span class="drawer-icon">💰</span>
-      <span>My Wallet</span>
-    </a>
-
-
-    <a
-      href="battles.html"
-      class="drawer-link"
-    >
-      <span class="drawer-icon">🎮</span>
-      <span>Ludo Rooms</span>
-    </a>
-
-
-    <a
-      href="tournaments.html"
-      class="drawer-link"
-    >
-      <span class="drawer-icon">🏆</span>
-      <span>Tournaments</span>
-    </a>
-
-
-    <a
-      href="leaderboard.html"
-      class="drawer-link"
-    >
-      <span class="drawer-icon">🥇</span>
-      <span>Leaderboard</span>
-    </a>
-
-
-    <a
-      href="history.html"
-      class="drawer-link"
-    >
-      <span class="drawer-icon">📜</span>
-      <span>Game History</span>
-    </a>
-
-
-    <a
-      href="support.html"
-      class="drawer-link"
-    >
-      <span class="drawer-icon">💬</span>
-      <span>Support</span>
-    </a>
-
-
-    <a
-      href="#"
-      class="drawer-link"
-      id="installAppBtn"
-    >
-      <span class="drawer-icon">📲</span>
-      <span>Install App</span>
-    </a>
-
-
-    <a
-      href="login.html"
-      class="drawer-link"
-      id="loginDrawerBtn"
-    >
-      <span class="drawer-icon">🔐</span>
-      <span>Login</span>
-    </a>
-
-
-    <a
-      href="#"
-      class="drawer-link hidden"
-      id="logoutBtn"
-    >
-      <span class="drawer-icon">🚪</span>
-      <span>Log Out</span>
-    </a>
-
-  </nav>
-
-
-  <div class="drawer-footer">
-    Ludo Inspire • Virtual Coins
-  </div>
-
-</aside>
-
-
-
-<!-- =====================================================
-     MAIN PAGE
-===================================================== -->
-
-<main class="page">
-
-  <div class="container">
-
-
-    <!-- HERO -->
-
-    <section class="hero">
-
-      <div class="hero-content">
-
-        <span class="hero-tag">
-          🎲 LUDO GAMING
-        </span>
-
-        <h2>
-          Welcome to<br>
-          Ludo Inspire
-        </h2>
-
-        <p>
-          Play Ludo, join rooms and compete
-          with other players.
-        </p>
-
-        <a
-          href="battles.html"
-          class="btn btn-gold mt-15"
-        >
-          🎮 PLAY LUDO
-        </a>
-
-      </div>
-
-    </section>
-
-
-
-    <!-- NOTICE -->
-
-    <section class="notice">
-
-      <div class="notice-icon">
-        ℹ️
-      </div>
-
-      <div>
-
-        <strong>
-          Welcome to Ludo Inspire
-        </strong>
-
-        <p>
-          Enjoy Ludo rooms, tournaments,
-          leaderboard and multiplayer gameplay.
-          This version uses virtual coins.
-        </p>
-
-      </div>
-
-    </section>
-
-
-
-    <!-- QUICK ACTIONS -->
-
-    <section class="section">
-
-      <div class="section-head">
-
-        <h2>
-          Quick Actions
-        </h2>
-
-      </div>
-
-
-      <div class="quick-actions">
-
-        <a
-          href="battles.html"
-          class="quick-action"
-        >
-          <div class="quick-action-icon">
-            🎮
-          </div>
-
-          <span>
-            Play Ludo
-          </span>
-        </a>
-
-
-        <a
-          href="tournaments.html"
-          class="quick-action"
-        >
-          <div class="quick-action-icon">
-            🏆
-          </div>
-
-          <span>
-            Tournaments
-          </span>
-        </a>
-
-
-        <a
-          href="leaderboard.html"
-          class="quick-action"
-        >
-          <div class="quick-action-icon">
-            🥇
-          </div>
-
-          <span>
-            Leaderboard
-          </span>
-        </a>
-
-
-        <a
-          href="profile.html"
-          class="quick-action"
-        >
-          <div class="quick-action-icon">
-            👤
-          </div>
-
-          <span>
-            My Profile
-          </span>
-        </a>
-
-      </div>
-
-    </section>
-
-
-
-    <!-- OUR TOURNAMENTS -->
-
-    <section class="section">
-
-      <div class="section-head">
-
-        <h2>
-          Our Tournaments
-        </h2>
-
-        <a href="tournaments.html">
-          View All
-        </a>
-
-      </div>
-
-
-      <div
-        id="homeTournaments"
-        class="card-grid"
-      >
-
-        <a
-          href="battles.html"
-          class="game-card"
-        >
+        <div class="card-content">
 
           <div class="game-icon">
             🎲
           </div>
 
-          <h3>
-            Ludo Tournament
-          </h3>
+          <div>
+            <h3>Ludo Battle</h3>
+            <p>2 Player Ludo Game</p>
 
-          <p>
-            Join a Ludo room and play
-            with other players.
-          </p>
+            <div class="play-mini">
+              PLAY NOW
+            </div>
+          </div>
 
-        </a>
+        </div>
+
+      </a>
 
 
-        <a
-          href="support.html"
-          class="game-card"
-        >
+      <!-- WHATSAPP -->
+      <a
+        href="https://wa.me/919521050705"
+        target="_blank"
+        class="tournament-card whatsapp"
+      >
+
+        <div class="card-glow"></div>
+
+        <div class="card-content">
 
           <div class="game-icon">
             💬
           </div>
 
-          <h3>
-            WhatsApp Support
-          </h3>
+          <div>
+            <h3>WhatsApp Help</h3>
+            <p>Get Support</p>
 
-          <p>
-            Need help? Contact our
-            support team.
-          </p>
+            <div class="play-mini">
+              CHAT NOW
+            </div>
+          </div>
 
-        </a>
+        </div>
 
-      </div>
+      </a>
 
-    </section>
+    </div>
 
 
-
-    <!-- BANNER -->
-
-    <section class="hero mt-20">
+    <!-- BIG HERO -->
+    <section class="hero">
 
       <div class="hero-content">
 
-        <span class="hero-tag">
+        <div class="hero-small">
           LUDO INSPIRE
-        </span>
+        </div>
 
-        <h2>
-          PLAY • COMPETE • WIN
-        </h2>
+        <h1>
+          PLAY <span>&</span><br>
+          ENJOY LUDO
+        </h1>
 
         <p>
-          Enjoy Ludo Inspire with friends
-          and other players.
+          Create a room, invite another player
+          and start your Ludo battle.
         </p>
 
-        <a
-          href="battles.html"
-          class="btn btn-teal mt-10"
-        >
-          🎮 Start Playing
+        <a href="battles.html" class="hero-button">
+          PLAY LUDO&nbsp; 🎲
         </a>
 
       </div>
@@ -481,43 +823,50 @@
     </section>
 
 
+    <!-- QUICK ACTIONS -->
+    <h3 class="quick-title">
+      Quick Access
+    </h3>
+
+    <div class="quick-grid">
+
+      <a href="battles.html" class="quick-card">
+        <div class="quick-icon">🎲</div>
+        <span>Ludo</span>
+      </a>
+
+      <a href="leaderboard.html" class="quick-card">
+        <div class="quick-icon">🏆</div>
+        <span>Leaderboard</span>
+      </a>
+
+      <a href="profile.html" class="quick-card">
+        <div class="quick-icon">👤</div>
+        <span>Profile</span>
+      </a>
+
+    </div>
+
 
     <!-- OPEN ROOMS -->
+    <section class="rooms-box">
 
-    <section class="section">
+      <div class="rooms-head">
 
-      <div class="section-head">
-
-        <h2>
+        <h3>
           Open Ludo Rooms
-        </h2>
+        </h3>
 
         <a href="battles.html">
-          View All
+          VIEW ALL
         </a>
 
       </div>
 
+      <div id="roomsList">
 
-      <div
-        id="homeRooms"
-        class="battle-list"
-      >
-
-        <div class="empty-state">
-
-          <div class="empty-icon">
-            🎲
-          </div>
-
-          <h3>
-            Loading Rooms...
-          </h3>
-
-          <p>
-            Open Ludo rooms will appear here.
-          </p>
-
+        <div class="empty-room">
+          Loading rooms...
         </div>
 
       </div>
@@ -525,142 +874,193 @@
     </section>
 
 
-
     <!-- SUPPORT -->
+    <section class="support">
 
-    <section class="section">
-
-      <div class="support-card">
+      <div class="support-left">
 
         <div class="support-icon">
           💬
         </div>
 
-        <h2>
-          Need Help?
-        </h2>
-
-        <p>
-          Our support team is available
-          for help with Ludo Inspire.
-        </p>
-
-        <div class="support-number">
-          9521050705
+        <div class="support-text">
+          <strong>Need Help?</strong>
+          <small>WhatsApp: 9521050705</small>
         </div>
 
-        <a
-          href="https://wa.me/919521050705"
-          target="_blank"
-          class="btn btn-teal btn-full"
-        >
-          💬 WhatsApp Support
-        </a>
-
       </div>
+
+      <a
+        href="https://wa.me/919521050705"
+        target="_blank"
+        class="support-btn"
+      >
+        CHAT
+      </a>
 
     </section>
 
 
-    <div style="height:20px;"></div>
+    <div class="bottom-space"></div>
 
-  </div>
-
-</main>
+  </main>
 
 
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
 
-<!-- =====================================================
-     FLOATING CHAT
-===================================================== -->
-
-<a
-  href="https://wa.me/919521050705"
-  target="_blank"
-  class="floating-chat"
-  aria-label="WhatsApp Support"
->
-  💬
-</a>
-
-
-
-<!-- =====================================================
-     BOTTOM NAVIGATION
-===================================================== -->
-
-<nav class="bottom-nav">
-
-  <a
-    href="index.html"
-    class="bottom-item active"
-  >
-    <span class="nav-icon">
-      🏠
-    </span>
-
-    <span>
+    <a href="index.html" class="nav-item active">
+      <div class="nav-icon">🏠</div>
       Home
-    </span>
-  </a>
+    </a>
 
+    <a href="battles.html" class="nav-item">
+      <div class="nav-icon">🎲</div>
+      Ludo
+    </a>
 
-  <a
-    href="wallet.html"
-    class="bottom-item"
-  >
-    <span class="nav-icon">
-      💰
-    </span>
+    <a href="leaderboard.html" class="nav-item">
+      <div class="nav-icon">🏆</div>
+      Rank
+    </a>
 
-    <span>
-      Wallet
-    </span>
-  </a>
-
-
-  <a
-    href="support.html"
-    class="bottom-item"
-  >
-    <span class="nav-icon">
-      💬
-    </span>
-
-    <span>
-      Support
-    </span>
-  </a>
-
-
-  <a
-    href="profile.html"
-    class="bottom-item"
-  >
-    <span class="nav-icon">
-      👤
-    </span>
-
-    <span>
+    <a href="profile.html" class="nav-item">
+      <div class="nav-icon">👤</div>
       Profile
-    </span>
-  </a>
+    </a>
 
-</nav>
+  </nav>
 
-
-
-<!-- =====================================================
-     TOAST
-===================================================== -->
-
-<div
-  class="toast"
-  id="toast"
-></div>
+</div>
 
 
-<script src="app.js"></script>
+<script>
+  const API_BASE =
+    "https://ludo-inspire-api.onrender.com/api";
+
+  async function loadRooms() {
+
+    const list =
+      document.getElementById("roomsList");
+
+    try {
+
+      const response =
+        await fetch(API_BASE + "/rooms");
+
+      const data =
+        await response.json();
+
+      const rooms =
+        data.rooms || [];
+
+      const waitingRooms =
+        rooms.filter(room =>
+          room.status === "waiting"
+        );
+
+      if (!waitingRooms.length) {
+
+        list.innerHTML = `
+          <div class="empty-room">
+            🎲 No open Ludo room right now.<br>
+            Create a new room and start playing.
+          </div>
+        `;
+
+        return;
+      }
+
+
+      list.innerHTML =
+        waitingRooms.slice(0, 4).map(room => {
+
+          const players =
+            room.playerCount ?? 0;
+
+          const maxPlayers =
+            room.maxPlayers ?? 2;
+
+          return `
+
+            <div style="
+              display:flex;
+              align-items:center;
+              justify-content:space-between;
+              gap:10px;
+              padding:11px;
+              border-radius:8px;
+              background:#082326;
+              border:1px solid rgba(255,255,255,.06);
+            ">
+
+              <div>
+
+                <div style="
+                  font-size:13px;
+                  font-weight:800;
+                ">
+                  🎲 ${escapeHtml(room.name || "Ludo Room")}
+                </div>
+
+                <div style="
+                  margin-top:4px;
+                  color:#7fa5a6;
+                  font-size:10px;
+                ">
+                  ${players}/${maxPlayers} Players
+                </div>
+
+              </div>
+
+              <a
+                href="game.html?room=${encodeURIComponent(room.id)}"
+                style="
+                  padding:8px 12px;
+                  border-radius:6px;
+                  background:#eab93f;
+                  color:#142527;
+                  font-size:10px;
+                  font-weight:900;
+                "
+              >
+                JOIN
+              </a>
+
+            </div>
+
+          `;
+
+        }).join("");
+
+    } catch (error) {
+
+      list.innerHTML = `
+        <div class="empty-room">
+          Unable to load rooms.
+        </div>
+      `;
+
+    }
+
+  }
+
+
+  function escapeHtml(value) {
+
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  loadRooms();
+
+</script>
 
 </body>
 </html>
