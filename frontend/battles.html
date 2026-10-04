@@ -1,1 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>Ludo Rooms - Ludo Inspire</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    body{
+      margin:0;
+      font-family:Arial,sans-serif;
+      background:#0f2027;
+      color:#fff;
+    }
+
+    .rooms-page{
+      max-width:600px;
+      margin:auto;
+      padding:20px;
+      min-height:100vh;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      gap:15px;
+      margin-bottom:25px;
+    }
+
+    .back-btn{
+      text-decoration:none;
+      color:#ffd54a;
+      font-size:28px;
+    }
+
+    .title{
+      font-size:24px;
+      font-weight:bold;
+    }
+
+    .subtitle{
+      color:#aaa;
+      margin-top:4px;
+    }
+
+    .create-box{
+      background:#172f38;
+      border:1px solid #d4af37;
+      border-radius:18px;
+      padding:20px;
+      margin-bottom:20px;
+      text-align:center;
+    }
+
+    .create-box h2{
+      margin-top:0;
+      color:#ffd54a;
+    }
+
+    .gold-btn{
+      width:100%;
+      padding:14px;
+      border:none;
+      border-radius:12px;
+      background:#d4af37;
+      color:#111;
+      font-size:16px;
+      font-weight:bold;
+      cursor:pointer;
+    }
+
+    .gold-btn:active{
+      transform:scale(.98);
+    }
+
+    .rooms-title{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin:20px 0 12px;
+    }
+
+    .rooms-title h2{
+      margin:0;
+      color:#ffd54a;
+    }
+
+    .refresh-btn{
+      background:transparent;
+      border:1px solid #d4af37;
+      color:#ffd54a;
+      padding:8px 12px;
+      border-radius:10px;
+    }
+
+    .room-card{
+      background:#172f38;
+      border:1px solid #49656d;
+      border-radius:16px;
+      padding:18px;
+      margin-bottom:14px;
+    }
+
+    .room-name{
+      font-size:19px;
+      font-weight:bold;
+      margin-bottom:8px;
+    }
+
+    .room-info{
+      color:#bbb;
+      margin-bottom:14px;
+    }
+
+    .join-btn{
+      background:#d4af37;
+      color:#111;
+      border:none;
+      border-radius:10px;
+      padding:12px 18px;
+      width:100%;
+      font-weight:bold;
+      font-size:15px;
+    }
+
+    .empty{
+      text-align:center;
+      padding:30px 15px;
+      color:#aaa;
+      background:#172f38;
+      border-radius:16px;
+    }
+
+    .loading{
+      text-align:center;
+      color:#ffd54a;
+      padding:25px;
+    }
+
+    .error{
+      background:#4a2020;
+      border:1px solid #ff5555;
+      color:#ffb0b0;
+      padding:15px;
+      border-radius:12px;
+      margin-bottom:15px;
+    }
+
+    .login-box{
+      text-align:center;
+      padding:30px 15px;
+      background:#172f38;
+      border-radius:16px;
+    }
+
+    .login-box a{
+      display:block;
+      margin-top:15px;
+      color:#ffd54a;
+      text-decoration:none;
+      font-weight:bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="rooms-page">
+
+  <div class="topbar">
+    <a href="index.html" class="back-btn">←</a>
+
+    <div>
+      <div class="title">🎲 Ludo Rooms</div>
+      <div class="subtitle">Play with another player</div>
+    </div>
+  </div>
+
+
+  <div id="message"></div>
+
+
+  <div class="create-box">
+
+    <h2>🎮 Ready to Play?</h2>
+
+    <p>
+      Create a room and invite another player.
+    </p>
+
+    <button class="gold-btn" onclick="createRoom()">
+      ➕ CREATE LUDO ROOM
+    </button>
+
+  </div>
+
+
+  <div class="rooms-title">
+
+    <h2>Open Rooms</h2>
+
+    <button class="refresh-btn" onclick="loadRooms()">
+      🔄 Refresh
+    </button>
+
+  </div>
+
+
+  <div id="rooms">
+    <div class="loading">
+      Loading rooms...
+    </div>
+  </div>
+
+</div>
+
+
+<script>
+
+const API_BASE =
+  "https://ludo-inspire-api.onrender.com/api";
+
+const TOKEN_KEY = "ludo_token";
+
+
+function getToken(){
+
+  return localStorage.getItem(TOKEN_KEY);
+
+}
+
+
+async function api(endpoint, options = {}){
+
+  const token = getToken();
+
+  const headers = {
+    "Content-Type":"application/json",
+    ...(options.headers || {})
+  };
+
+  if(token){
+    headers.Authorization = "Bearer " + token;
+  }
+
+  const response = await fetch(
+    API_BASE + endpoint,
+    {
+      ...options,
+      headers
+    }
+  );
+
+  const data =
+    await response.json().catch(() => ({}));
+
+  if(!response.ok){
+
+    throw new Error(
+      data.error || "Something went wrong"
+    );
+
+  }
+
+  return data;
+
+}
+
+
+function showMessage(message, type="error"){
+
+  const box =
+    document.getElementById("message");
+
+  if(type === "error"){
+
+    box.innerHTML =
+      `<div class="error">${message}</div>`;
+
+  }else{
+
+    box.innerHTML =
+      `<div class="empty">${message}</div>`;
+
+  }
+
+}
+
+
+async function loadRooms(){
+
+  const roomsBox =
+    document.getElementById("rooms");
+
+  const token = getToken();
+
+  if(!token){
+
+    roomsBox.innerHTML = `
+      <div class="login-box">
+
+        <h3>🔐 Login Required</h3>
+
+        <p>
+          Ludo room join ya create karne ke liye
+          pehle login karein.
+        </p>
+
+        <a href="login.html">
+          LOGIN NOW
+        </a>
+
+      </div>
+    `;
+
+    return;
+  }
+
+
+  roomsBox.innerHTML =
+    `<div class="loading">Loading rooms...</div>`;
+
+
+  try{
+
+    const data =
+      await api("/rooms");
+
+
+    const rooms =
+      data.rooms || [];
+
+
+    if(rooms.length === 0){
+
+      roomsBox.innerHTML = `
+        <div class="empty">
+
+          <div style="font-size:40px">
+            🎲
+          </div>
+
+          <h3>No Open Ludo Room</h3>
+
+          <p>
+            Abhi koi room available nahi hai.
+          </p>
+
+          <p>
+            Aap naya room create kar sakte hain.
+          </p>
+
+        </div>
+      `;
+
+      return;
+
+    }
+
+
+    roomsBox.innerHTML =
+      rooms.map(room => `
+
+        <div class="room-card">
+
+          <div class="room-name">
+            🎲 ${escapeHtml(room.name)}
+          </div>
+
+          <div class="room-info">
+            👥 ${room.playerCount || 0}/${room.maxPlayers || 2}
+            Players
+            <br>
+            🟢 ${room.status}
+          </div>
+
+          <button
+            class="join-btn"
+            onclick="joinRoom(${room.id})">
+
+            ▶ PLAY NOW
+
+          </button>
+
+        </div>
+
+      `).join("");
+
+
+  }catch(error){
+
+    roomsBox.innerHTML = `
+      <div class="error">
+        ❌ ${escapeHtml(error.message)}
+      </div>
+    `;
+
+  }
+
+}
+
+
+async function createRoom(){
+
+  const token = getToken();
+
+  if(!token){
+
+    window.location.href =
+      "login.html";
+
+    return;
+
+  }
+
+
+  try{
+
+    showMessage(
+      "Room create ho raha hai...",
+      "success"
+    );
+
+
+    const data =
+      await api(
+        "/rooms",
+        {
+          method:"POST",
+
+          body:JSON.stringify({
+            name:"Ludo Room",
+            maxPlayers:2
+          })
+        }
+      );
+
+
+    if(data.room){
+
+      localStorage.setItem(
+        "ludo_room_id",
+        data.room.id
+      );
+
+
+      window.location.href =
+        "game.html?room=" + data.room.id;
+
+    }
+
+
+  }catch(error){
+
+    showMessage(
+      "❌ " + error.message
+    );
+
+  }
+
+}
+
+
+async function joinRoom(roomId){
+
+  const token = getToken();
+
+  if(!token){
+
+    window.location.href =
+      "login.html";
+
+    return;
+
+  }
+
+
+  try{
+
+    showMessage(
+      "Room join ho raha hai...",
+      "success"
+    );
+
+
+    const data =
+      await api(
+        "/rooms/" + roomId + "/join",
+        {
+          method:"POST"
+        }
+      );
+
+
+    if(data.room){
+
+      localStorage.setItem(
+        "ludo_room_id",
+        roomId
+      );
+
+
+      window.location.href =
+        "game.html?room=" + roomId;
+
+    }
+
+
+  }catch(error){
+
+    showMessage(
+      "❌ " + error.message
+    );
+
+  }
+
+}
+
+
+function escapeHtml(text){
+
+  return String(text)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+loadRooms();
+
+</script>
+
+</body>
+</html>
