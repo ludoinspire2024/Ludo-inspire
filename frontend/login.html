@@ -1,52 +1,497 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ludo Inspire - Login</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login - Ludo Inspire</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+body{
+  margin:0;
+  background:#120816;
+  color:#fff;
+  font-family:Arial,sans-serif;
+}
+
+.login-page{
+  min-height:100vh;
+}
+
+.login-header{
+  height:70px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 22px;
+  border-bottom:1px solid #4d3248;
+}
+
+.logo{
+  color:#f5d36a;
+  font-size:22px;
+  font-weight:bold;
+}
+
+.home-link{
+  color:#fff;
+  text-decoration:none;
+  font-size:17px;
+}
+
+.login-container{
+  max-width:600px;
+  margin:35px auto;
+  padding:0 20px;
+}
+
+.login-card{
+  background:#241329;
+  border:1px solid #8d6b28;
+  border-radius:20px;
+  padding:28px 20px;
+}
+
+.login-card h1{
+  font-size:38px;
+  margin:0 0 8px;
+}
+
+.subtitle{
+  color:#bcaebe;
+  margin-bottom:25px;
+}
+
+.input{
+  width:100%;
+  box-sizing:border-box;
+  padding:15px;
+  margin:8px 0;
+  border-radius:10px;
+  border:1px solid #725c70;
+  background:#fff;
+  color:#111;
+  font-size:17px;
+}
+
+.gold-btn{
+  width:100%;
+  padding:15px;
+  margin-top:12px;
+  border:0;
+  border-radius:12px;
+  background:#e0b936;
+  color:#111;
+  font-size:17px;
+  font-weight:bold;
+}
+
+.message{
+  margin-top:15px;
+  padding:12px;
+  border-radius:10px;
+  display:none;
+}
+
+.error{
+  display:block;
+  background:#4b2025;
+  color:#ffb0b0;
+}
+
+.success{
+  display:block;
+  background:#173f35;
+  color:#9ff0d1;
+}
+
+.divider{
+  margin:25px 0;
+  border-top:1px solid #574052;
+}
+
+h2{
+  margin-bottom:5px;
+}
+</style>
 </head>
+
 <body>
 
-<header class="topbar">
-  <div class="logo">LUDO <span>INSPIRE</span></div>
-  <a href="index.html" class="back-btn">← Home</a>
-</header>
+<div class="login-page">
 
-<main class="auth-container">
+  <header class="login-header">
 
-  <div class="auth-card">
+    <div class="logo">
+      🎲 LUDO INSPIRE
+    </div>
 
-    <h1>Welcome Back</h1>
-    <p class="muted">Login to Ludo Inspire</p>
+    <a href="index.html" class="home-link">
+      ← Home
+    </a>
 
-    <input id="loginEmail" type="email" placeholder="Email">
-    <input id="loginPassword" type="password" placeholder="Password">
+  </header>
 
-    <button class="gold-btn full" onclick="loginUser()">
-      LOGIN
-    </button>
 
-    <div id="loginMsg" class="message"></div>
+  <main class="login-container">
 
-    <hr>
+    <div class="login-card">
 
-    <h2>Create Account</h2>
+      <h1>Welcome Back</h1>
 
-    <input id="regUsername" type="text" placeholder="Username">
-    <input id="regEmail" type="email" placeholder="Email">
-    <input id="regPassword" type="password" placeholder="Password">
+      <div class="subtitle">
+        Login to Ludo Inspire
+      </div>
 
-    <button class="dark-btn full" onclick="registerUser()">
-      REGISTER
-    </button>
 
-    <div id="registerMsg" class="message"></div>
+      <!-- LOGIN -->
 
-  </div>
+      <h2>Login</h2>
 
-</main>
+      <input
+        id="loginEmail"
+        class="input"
+        type="email"
+        placeholder="Email"
+        autocomplete="email"
+      >
 
-<script src="app.js"></script>
+      <input
+        id="loginPassword"
+        class="input"
+        type="password"
+        placeholder="Password"
+        autocomplete="current-password"
+      >
+
+      <button
+        class="gold-btn"
+        onclick="loginUser()"
+      >
+        LOGIN
+      </button>
+
+
+      <div id="loginMessage" class="message"></div>
+
+
+      <div class="divider"></div>
+
+
+      <!-- REGISTER -->
+
+      <h2>Create Account</h2>
+
+      <input
+        id="regUsername"
+        class="input"
+        type="text"
+        placeholder="Username"
+      >
+
+      <input
+        id="regEmail"
+        class="input"
+        type="email"
+        placeholder="Email"
+      >
+
+      <input
+        id="regPassword"
+        class="input"
+        type="password"
+        placeholder="Password (minimum 6 characters)"
+      >
+
+      <button
+        class="gold-btn"
+        onclick="registerUser()"
+      >
+        REGISTER
+      </button>
+
+
+      <div id="registerMessage" class="message"></div>
+
+    </div>
+
+  </main>
+
+</div>
+
+
+<script>
+
+const API =
+  "https://ludo-inspire-api.onrender.com/api";
+
+const TOKEN_KEY =
+  "ludo_token";
+
+
+function showMessage(id, text, type){
+
+  const box =
+    document.getElementById(id);
+
+  box.textContent = text;
+
+  box.className =
+    "message " + type;
+
+}
+
+
+/* LOGIN */
+
+async function loginUser(){
+
+  const email =
+    document.getElementById("loginEmail")
+    .value
+    .trim();
+
+  const password =
+    document.getElementById("loginPassword")
+    .value;
+
+
+  if(!email || !password){
+
+    showMessage(
+      "loginMessage",
+      "Email aur password enter karein.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    "loginMessage",
+    "Login ho raha hai...",
+    "success"
+  );
+
+
+  try{
+
+    const response =
+      await fetch(
+        API + "/auth/login",
+        {
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+
+          body:JSON.stringify({
+            email:email,
+            password:password
+          })
+        }
+      );
+
+
+    const data =
+      await response.json()
+      .catch(() => ({}));
+
+
+    if(!response.ok){
+
+      throw new Error(
+        data.error ||
+        "Login failed"
+      );
+
+    }
+
+
+    /* SAVE LOGIN TOKEN */
+
+    localStorage.setItem(
+      TOKEN_KEY,
+      data.token
+    );
+
+
+    if(data.user){
+
+      localStorage.setItem(
+        "ludo_user",
+        JSON.stringify(data.user)
+      );
+
+    }
+
+
+    showMessage(
+      "loginMessage",
+      "✅ Login successful! Home open ho raha hai...",
+      "success"
+    );
+
+
+    setTimeout(() => {
+
+      window.location.href =
+        "index.html";
+
+    },800);
+
+
+  }catch(error){
+
+    showMessage(
+      "loginMessage",
+      "❌ " + error.message,
+      "error"
+    );
+
+  }
+
+}
+
+
+/* REGISTER */
+
+async function registerUser(){
+
+  const username =
+    document.getElementById("regUsername")
+    .value
+    .trim();
+
+  const email =
+    document.getElementById("regEmail")
+    .value
+    .trim();
+
+  const password =
+    document.getElementById("regPassword")
+    .value;
+
+
+  if(!username || !email || !password){
+
+    showMessage(
+      "registerMessage",
+      "Sabhi details bharein.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(password.length < 6){
+
+    showMessage(
+      "registerMessage",
+      "Password kam se kam 6 characters ka hona chahiye.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    "registerMessage",
+    "Account create ho raha hai...",
+    "success"
+  );
+
+
+  try{
+
+    const response =
+      await fetch(
+        API + "/auth/register",
+        {
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+
+          body:JSON.stringify({
+            username:username,
+            email:email,
+            password:password
+          })
+        }
+      );
+
+
+    const data =
+      await response.json()
+      .catch(() => ({}));
+
+
+    if(!response.ok){
+
+      throw new Error(
+        data.error ||
+        "Registration failed"
+      );
+
+    }
+
+
+    /* AUTO LOGIN AFTER REGISTER */
+
+    localStorage.setItem(
+      TOKEN_KEY,
+      data.token
+    );
+
+
+    if(data.user){
+
+      localStorage.setItem(
+        "ludo_user",
+        JSON.stringify(data.user)
+      );
+
+    }
+
+
+    showMessage(
+      "registerMessage",
+      "✅ Account created! Home open ho raha hai...",
+      "success"
+    );
+
+
+    setTimeout(() => {
+
+      window.location.href =
+        "index.html";
+
+    },800);
+
+
+  }catch(error){
+
+    showMessage(
+      "registerMessage",
+      "❌ " + error.message,
+      "error"
+    );
+
+  }
+
+}
+
+</script>
+
 </body>
 </html>
