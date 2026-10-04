@@ -1,102 +1,103 @@
 /* =========================================================
-   LUDO INSPIRE - FRONTEND APP.JS
-   Backend: https://ludo-inspire.onrender.com
+   LUDO INSPIRE - APP.JS
+   2 PLAYER LUDO
    ========================================================= */
+
 const API_BASE = "https://ludo-inspire-api.onrender.com/api";
 const TOKEN_KEY = "ludo_token";
+const USER_KEY = "ludo_user";
 
-let currentUser = null;
 let gamePollTimer = null;
-let deferredInstallPrompt = null;
+let currentRoom = null;
+let currentUser = null;
 
 
 /* =========================================================
    BASIC HELPERS
    ========================================================= */
 
-const $ = (selector) => document.querySelector(selector);
-const $$ = (selector) => document.querySelectorAll(selector);
-
-function pageName() {
-    let name = window.location.pathname.split("/").pop();
-    return name || "index.html";
+function token() {
+  return localStorage.getItem(TOKEN_KEY) || "";
 }
 
-function getToken() {
-    return localStorage.getItem(TOKEN_KEY);
+function getStoredUser() {
+  try {
+    return JSON.parse(localStorage.getItem(USER_KEY) || "null");
+  } catch {
+    return null;
+  }
 }
 
-function setToken(token) {
-    if (token) {
-        localStorage.setItem(TOKEN_KEY, token);
-    }
+function saveUser(user) {
+  currentUser = user || null;
+
+  if (user) {
+    localStorage.setItem(USER_KEY, JSON.stringify(user));
+  } else {
+    localStorage.removeItem(USER_KEY);
+  }
 }
 
-function clearToken() {
-    localStorage.removeItem(TOKEN_KEY);
+function logout() {
+  localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(USER_KEY);
+  localStorage.removeItem("ludo_room_id");
+
+  if (gamePollTimer) {
+    clearInterval(gamePollTimer);
+    gamePollTimer = null;
+  }
+
+  window.location.href = "login.html";
 }
 
-function getRoomId() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get("room") || localStorage.getItem("ludo_room_id");
-}
+window.logout = logout;
 
-function saveRoomId(id) {
-    if (id) localStorage.setItem("ludo_room_id", id);
-}
-
-function money(value) {
-    const n = Number(value || 0);
-    return n.toLocaleString("en-IN");
-}
 
 function escapeHTML(value) {
-    return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
-function showToast(message, type = "info") {
-    let toast = $("#toast");
 
-    if (!toast) {
-        toast = document.createElement("div");
-        toast.id = "toast";
-        toast.className = "toast";
-        document.body.appendChild(toast);
-    }
+function money(value) {
+  const n = Number(value || 0);
 
-    toast.textContent = message;
-    toast.className = `toast show ${type}`;
-
-    clearTimeout(window.__toastTimer);
-
-    window.__toastTimer = setTimeout(() => {
-        toast.classList.remove("show");
-    }, 3000);
+  return n.toLocaleString("en-IN");
 }
 
-function showLoading(element, text = "Loading...") {
-    if (element) {
-        element.innerHTML = `
-            <div class="loading-box">
-                <div class="spinner"></div>
-                <div>${escapeHTML(text)}</div>
-            </div>
-        `;
-    }
+
+function getRoomId() {
+  const params = new URLSearchParams(window.location.search);
+  return (
+    params.get("room") ||
+    localStorage.getItem("ludo_room_id") ||
+    ""
+  );
 }
 
-function emptyBox(text) {
-    return `
-        <div class="empty-box">
-            <div class="empty-icon">🎲</div>
-            <div>${escapeHTML(text)}</div>
-        </div>
-    `;
+
+function saveRoomId(id) {
+  if (id) {
+    localStorage.setItem(
+      "ludo_room_id",
+      String(id)
+    );
+  }
+}
+
+
+function clearRoomId() {
+  localStorage.removeItem("ludo_room_id");
+}
+
+
+function isLoggedIn() {
+  return Boolean(token());
 }
 
 
@@ -104,1329 +105,751 @@ function emptyBox(text) {
    API
    ========================================================= */
 
-async function api(endpoint, options = {}) {
+async function api(path, options = {}) {
+  const headers = {
+    "Content-Type": "application/json",
+    ...(options.headers || {})
+  };
 
-    const token = getToken();
+  const t = token();
 
-    const headers = {
-        "Content-Type": "application/json",
-        ...(options.headers || {})
-    };
+  if (t) {
+    headers.Authorization = `Bearer ${t}`;
+  }
 
-    if (token) {
-        headers.Authorization = `Bearer ${token}`;
-    }
+  let response;
 
-    const response = await fetch(API_BASE + endpoint, {
+  try {
+    response = await fetch(
+      `${API_BASE}${path}`,
+      {
         ...options,
         headers
-    });
+      }
+    );
+  } catch (error) {
+    throw new Error(
+      "Server se connection nahi ho raha. Internet check karein."
+    );
+  }
 
-    let data = {};
+  let data = {};
 
-    try {
-        data = await response.json();
-    } catch {
-        data = {};
+  try {
+    data = await response.json();
+  } catch {
+    data = {};
+  }
+
+  if (!response.ok) {
+
+    if (response.status === 401) {
+      localStorage.removeItem(TOKEN_KEY);
+      localStorage.removeItem(USER_KEY);
+
+      if (
+        !window.location.pathname.endsWith(
+          "login.html"
+        )
+      ) {
+        window.location.href = "login.html";
+      }
     }
 
-    if (!response.ok) {
+    throw new Error(
+      data.error ||
+      data.message ||
+      `Request failed (${response.status})`
+    );
+  }
 
-        if (response.status === 401) {
-            clearToken();
-        }
-
-        throw new Error(
-            data.message ||
-            data.error ||
-            `Request failed (${response.status})`
-        );
-    }
-
-    return data;
-}
-
-function getArray(data, keys = []) {
-
-    if (Array.isArray(data)) return data;
-
-    for (const key of keys) {
-        if (Array.isArray(data?.[key])) {
-            return data[key];
-        }
-    }
-
-    return [];
-}
-
-function getUserFromResponse(data) {
-    return data?.user || data?.data?.user || data?.data || data;
+  return data;
 }
 
 
 /* =========================================================
-   AUTH / CURRENT USER
+   AUTH / USER
    ========================================================= */
 
 async function loadCurrentUser() {
+  if (!token()) {
+    currentUser = getStoredUser();
+    updateUserUI();
+    return currentUser;
+  }
 
-    if (!getToken()) {
-        currentUser = null;
-        updateUserUI(null);
-        return null;
+  try {
+    const data = await api("/me");
+
+    if (data.user) {
+      saveUser(data.user);
     }
+  } catch (error) {
+    currentUser = getStoredUser();
+  }
 
-    try {
-        const data = await api("/me");
-        currentUser = getUserFromResponse(data);
-        updateUserUI(currentUser);
-        return currentUser;
+  updateUserUI();
 
-    } catch (error) {
-
-        currentUser = null;
-        clearToken();
-        updateUserUI(null);
-
-        return null;
-    }
+  return currentUser;
 }
 
 
-function updateUserUI(user) {
+function updateUserUI() {
+  const user = currentUser || getStoredUser();
 
-    const username =
-        user?.username ||
-        user?.name ||
-        "Guest Player";
+  if (!user) return;
 
-    const email =
-        user?.email ||
-        "";
+  const name =
+    user.username ||
+    user.name ||
+    "Player";
 
-    const coins =
-        user?.coins ??
-        user?.balance ??
-        0;
+  const email =
+    user.email ||
+    "";
 
-    const wins =
-        user?.wins ??
-        0;
+  const nameElements = document.querySelectorAll(
+    "[data-user-name], #profileName, #userName, .profile-name"
+  );
 
+  nameElements.forEach(el => {
+    el.textContent = name;
+  });
 
-    const headerCoins = $("#headerCoins");
-    if (headerCoins) {
-        headerCoins.textContent = money(coins);
-    }
+  const emailElements = document.querySelectorAll(
+    "[data-user-email], #profileEmail, #userEmail, .profile-email"
+  );
 
-    const headerWins = $("#headerWins");
-    if (headerWins) {
-        headerWins.textContent = money(wins);
-    }
+  emailElements.forEach(el => {
+    el.textContent = email;
+  });
 
+  const coinElements = document.querySelectorAll(
+    "[data-user-coins], #walletCoins, #coins"
+  );
 
-    const drawerUsername = $("#drawerUsername");
-    if (drawerUsername) {
-        drawerUsername.textContent = username;
-    }
+  coinElements.forEach(el => {
+    el.textContent = money(user.coins);
+  });
 
-    const drawerEmail = $("#drawerEmail");
-    if (drawerEmail) {
-        drawerEmail.textContent = email;
-    }
+  const winsElements = document.querySelectorAll(
+    "[data-user-wins], #wins"
+  );
 
+  winsElements.forEach(el => {
+    el.textContent = money(user.wins);
+  });
 
-    const usernameEls = $$(".user-name");
-    usernameEls.forEach(el => {
-        el.textContent = username;
-    });
+  const lossesElements = document.querySelectorAll(
+    "[data-user-losses], #losses"
+  );
 
-
-    const coinEls = $$(".user-coins");
-    coinEls.forEach(el => {
-        el.textContent = money(coins);
-    });
-}
-
-
-/* =========================================================
-   DRAWER
-   ========================================================= */
-
-function setupDrawer() {
-
-    const menuBtn = $("#menuBtn");
-    const drawer = $("#sideDrawer");
-    const overlay = $("#drawerOverlay");
-    const closeBtn = $("#drawerClose");
-
-    function openDrawer() {
-        if (drawer) drawer.classList.add("open");
-        if (overlay) overlay.classList.add("show");
-        document.body.classList.add("drawer-open");
-    }
-
-    function closeDrawer() {
-        if (drawer) drawer.classList.remove("open");
-        if (overlay) overlay.classList.remove("show");
-        document.body.classList.remove("drawer-open");
-    }
-
-    if (menuBtn) {
-        menuBtn.addEventListener("click", openDrawer);
-    }
-
-    if (closeBtn) {
-        closeBtn.addEventListener("click", closeDrawer);
-    }
-
-    if (overlay) {
-        overlay.addEventListener("click", closeDrawer);
-    }
-
-    $$(".drawer-link").forEach(link => {
-        link.addEventListener("click", closeDrawer);
-    });
-
-
-    const logoutBtn = $("#logoutBtn");
-
-    if (logoutBtn) {
-        logoutBtn.addEventListener("click", () => {
-            clearToken();
-            localStorage.removeItem("ludo_room_id");
-            showToast("Logged out successfully", "success");
-
-            setTimeout(() => {
-                window.location.href = "login.html";
-            }, 500);
-        });
-    }
+  lossesElements.forEach(el => {
+    el.textContent = money(user.losses);
+  });
 }
 
 
 /* =========================================================
-   NAVIGATION
+   PAGE / NAVIGATION
    ========================================================= */
+
+function goHome() {
+  window.location.href = "index.html";
+}
+
+function goLogin() {
+  window.location.href = "login.html";
+}
+
+function openPage(page) {
+  window.location.href = page;
+}
+
+window.goHome = goHome;
+window.goLogin = goLogin;
+window.openPage = openPage;
+
 
 function setupNavigation() {
 
-    const currentPage = pageName();
+  document.querySelectorAll(
+    "[data-page]"
+  ).forEach(button => {
 
-    $$(".bottom-nav a, .drawer-link").forEach(link => {
+    button.addEventListener(
+      "click",
+      () => {
+        const page =
+          button.getAttribute("data-page");
 
-        const href = link.getAttribute("href");
-
-        if (!href) return;
-
-        if (
-            href === currentPage ||
-            (currentPage === "index.html" && href === "./")
-        ) {
-            link.classList.add("active");
+        if (page) {
+          window.location.href = page;
         }
+      }
+    );
 
-    });
+  });
+
+
+  document.querySelectorAll(
+    ".logout-btn"
+  ).forEach(button => {
+    button.addEventListener(
+      "click",
+      logout
+    );
+  });
 }
 
 
 /* =========================================================
-   INSTALL APP
+   HOME - TOURNAMENTS
    ========================================================= */
-
-function setupInstallApp() {
-
-    window.addEventListener("beforeinstallprompt", event => {
-
-        event.preventDefault();
-
-        deferredInstallPrompt = event;
-
-    });
-
-
-    const installBtn = $("#installAppBtn");
-
-    if (installBtn) {
-
-        installBtn.addEventListener("click", async () => {
-
-            if (!deferredInstallPrompt) {
-                showToast(
-                    "Browser menu se Add to Home Screen use karein",
-                    "info"
-                );
-                return;
-            }
-
-            deferredInstallPrompt.prompt();
-
-            await deferredInstallPrompt.userChoice;
-
-            deferredInstallPrompt = null;
-        });
-    }
-}
-
-
-/* =========================================================
-   HOME
-   ========================================================= */
-
-async function loadHome() {
-
-    await Promise.allSettled([
-        loadHomeTournaments(),
-        loadHomeRooms()
-    ]);
-}
-
 
 async function loadHomeTournaments() {
 
-    const box = $("#homeTournaments");
+  const container =
+    document.getElementById(
+      "tournamentsContainer"
+    ) ||
+    document.getElementById(
+      "tournamentList"
+    ) ||
+    document.querySelector(
+      ".tournament-list"
+    );
 
-    if (!box) return;
+  if (!container) return;
 
-    showLoading(box, "Loading tournaments...");
+  try {
 
-    try {
+    const data =
+      await api("/tournaments");
 
-        const data = await api("/tournaments");
+    const tournaments =
+      data.tournaments || [];
 
-        const tournaments =
-            getArray(data, ["tournaments", "items"]);
+    if (!tournaments.length) {
 
-        if (!tournaments.length) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <div style="font-size:35px;">🏆</div>
+          <p>No tournaments available</p>
+        </div>
+      `;
 
-            box.innerHTML = emptyBox(
-                "No tournaments available"
-            );
-
-            return;
-        }
-
-        box.innerHTML = tournaments
-            .slice(0, 6)
-            .map(tournamentCard)
-            .join("");
-
-        bindTournamentButtons();
-
-    } catch (error) {
-
-        box.innerHTML = emptyBox(
-            "Unable to load tournaments"
-        );
+      return;
     }
+
+    container.innerHTML =
+      tournaments
+        .map(tournamentCard)
+        .join("");
+
+  } catch (error) {
+
+    container.innerHTML = `
+      <div class="empty-state">
+        <p>No tournaments available</p>
+      </div>
+    `;
+  }
 }
 
 
 function tournamentCard(t) {
 
-    const id = t.id;
+  const id =
+    t.id ??
+    "";
 
-    const name =
-        t.name ||
-        t.title ||
-        "Ludo Tournament";
+  const name =
+    t.name ||
+    t.title ||
+    "Ludo Tournament";
 
-    const prize =
-        t.prize ??
-        t.prize_pool ??
-        t.reward ??
-        0;
+  return `
+    <div class="room-card">
 
-    const players =
-        t.players_count ??
-        t.player_count ??
-        0;
+      <div class="room-card-top">
+        <div>
+          <span class="room-status">
+            TOURNAMENT
+          </span>
 
-    return `
-        <div class="tournament-card">
-
-            <div class="tournament-icon">🏆</div>
-
-            <div class="tournament-info">
-
-                <h3>${escapeHTML(name)}</h3>
-
-                <div class="tournament-meta">
-                    <span>👥 ${money(players)}</span>
-                    <span>🪙 ${money(prize)}</span>
-                </div>
-
-            </div>
-
-            <button
-                class="gold-btn tournament-join-btn"
-                data-id="${escapeHTML(id)}"
-            >
-                JOIN
-            </button>
-
+          <h3>
+            ${escapeHTML(name)}
+          </h3>
         </div>
-    `;
+
+        <div class="room-dice">
+          🏆
+        </div>
+      </div>
+
+      <div class="room-details">
+        <span>
+          👥 ${money(t.players || 0)}
+        </span>
+
+        <span>
+          🟢 ${escapeHTML(t.status || "Open")}
+        </span>
+      </div>
+
+      <button
+        class="gold-btn"
+        onclick="joinTournament('${escapeHTML(id)}')"
+      >
+        JOIN
+      </button>
+
+    </div>
+  `;
 }
 
 
-function bindTournamentButtons() {
+function joinTournament(id) {
 
-    $$(".tournament-join-btn").forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            joinTournament(button.dataset.id);
-
-        });
-
-    });
+  alert(
+    "Tournament feature abhi available nahi hai."
+  );
 }
 
+window.joinTournament = joinTournament;
+
+
+/* =========================================================
+   HOME - ROOMS
+   ========================================================= */
 
 async function loadHomeRooms() {
 
-    const box = $("#homeRooms");
+  const container =
+    document.getElementById(
+      "roomsContainer"
+    ) ||
+    document.getElementById(
+      "roomList"
+    ) ||
+    document.querySelector(
+      ".room-list"
+    );
 
-    if (!box) return;
+  if (!container) return;
 
-    showLoading(box, "Loading Ludo rooms...");
+  if (!token()) {
 
-    try {
-
-        const data = await api("/rooms");
-
-        let rooms =
-            getArray(data, ["rooms", "items"]);
-
-        rooms = rooms.filter(room =>
-            !room.status ||
-            ["waiting", "open", "lobby"].includes(
-                String(room.status).toLowerCase()
-            )
-        );
-
-        if (!rooms.length) {
-
-            box.innerHTML = emptyBox(
-                "No open Ludo rooms"
-            );
-
-            return;
-        }
-
-        box.innerHTML = rooms
-            .slice(0, 8)
-            .map(roomCard)
-            .join("");
-
-        bindRoomButtons();
-
-    } catch (error) {
-
-        box.innerHTML = emptyBox(
-            "Unable to load Ludo rooms"
-        );
-    }
-}
-
-
-function roomCard(room) {
-
-    const id = room.id;
-
-    const name =
-        room.name ||
-        room.title ||
-        `Ludo Room #${id}`;
-
-    const maxPlayers =
-        room.max_players ||
-        room.maxPlayers ||
-        4;
-
-    const playerCount =
-        room.player_count ??
-        room.players_count ??
-        room.players?.length ??
-        0;
-
-    return `
-        <div class="room-card">
-
-            <div class="room-card-top">
-
-                <div>
-                    <span class="room-status">OPEN</span>
-                    <h3>${escapeHTML(name)}</h3>
-                </div>
-
-                <div class="room-dice">🎲</div>
-
-            </div>
-
-            <div class="room-details">
-
-                <span>
-                    👥 ${money(playerCount)}/${money(maxPlayers)}
-                </span>
-
-                <span>
-                    🟢 Waiting
-                </span>
-
-            </div>
-
-            <button
-                class="gold-btn room-join-btn"
-                data-id="${escapeHTML(id)}"
-            >
-                PLAY NOW
-            </button>
-
-        </div>
+    container.innerHTML = `
+      <div class="empty-state">
+        <p>Login karke Ludo rooms dekhein.</p>
+        <button
+          class="gold-btn"
+          onclick="goLogin()"
+        >
+          LOGIN
+        </button>
+      </div>
     `;
-}
 
+    return;
+  }
 
-function bindRoomButtons() {
+  try {
 
-    $$(".room-join-btn").forEach(button => {
+    const data =
+      await api("/rooms");
 
-        button.addEventListener("click", () => {
+    const rooms =
+      data.rooms || [];
 
-            joinRoom(button.dataset.id);
+    const openRooms =
+      rooms.filter(room => {
 
-        });
+        const status =
+          String(
+            room.status || ""
+          ).toLowerCase();
 
-    });
+        return (
+          status === "waiting" ||
+          status === "open" ||
+          status === "lobby"
+        );
+      });
+
+    if (!openRooms.length) {
+
+      container.innerHTML = `
+        <div class="empty-state">
+          <div style="font-size:35px;">
+            🎲
+          </div>
+
+          <p>
+            No open Ludo room
+          </p>
+
+          <button
+            class="gold-btn"
+            onclick="createRoom()"
+          >
+            CREATE LUDO ROOM
+          </button>
+        </div>
+      `;
+
+      return;
+    }
+
+    container.innerHTML =
+      openRooms
+        .map(roomCard)
+        .join("");
+
+    setupRoomButtons();
+
+  } catch (error) {
+
+    container.innerHTML = `
+      <div class="empty-state">
+        <p>
+          ${escapeHTML(error.message)}
+        </p>
+
+        <button
+          class="gold-btn"
+          onclick="loadHomeRooms()"
+        >
+          TRY AGAIN
+        </button>
+      </div>
+    `;
+  }
 }
 
 
 /* =========================================================
-   ROOMS / BATTLES
+   ROOM CARD
+   ========================================================= */
+
+function roomCard(room) {
+
+  const id =
+    room.id;
+
+  const name =
+    room.name ||
+    room.title ||
+    `Ludo Room #${id}`;
+
+  /*
+    Backend sends:
+    playerCount
+    maxPlayers
+  */
+
+  const maxPlayers =
+    Number(
+      room.maxPlayers ??
+      room.max_players ??
+      2
+    );
+
+  const playerCount =
+    Number(
+      room.playerCount ??
+      room.player_count ??
+      room.players_count ??
+      room.players?.length ??
+      0
+    );
+
+  const status =
+    String(
+      room.status ||
+      "waiting"
+    ).toLowerCase();
+
+  const full =
+    playerCount >= maxPlayers;
+
+  return `
+    <div
+      class="room-card"
+      data-room-id="${escapeHTML(id)}"
+    >
+
+      <div class="room-card-top">
+
+        <div>
+
+          <span class="room-status">
+            ${
+              status === "waiting"
+                ? "OPEN"
+                : escapeHTML(
+                    status.toUpperCase()
+                  )
+            }
+          </span>
+
+          <h3>
+            ${escapeHTML(name)}
+          </h3>
+
+        </div>
+
+        <div class="room-dice">
+          🎲
+        </div>
+
+      </div>
+
+      <div class="room-details">
+
+        <span>
+          👥 ${playerCount}/${maxPlayers}
+        </span>
+
+        <span>
+          🟢 ${escapeHTML(status)}
+        </span>
+
+      </div>
+
+      <button
+        class="gold-btn room-join-btn"
+        data-id="${escapeHTML(id)}"
+        ${full ? "disabled" : ""}
+      >
+        ${
+          full
+            ? "ROOM FULL"
+            : "PLAY NOW"
+        }
+      </button>
+
+    </div>
+  `;
+}
+
+
+function setupRoomButtons() {
+
+  document.querySelectorAll(
+    ".room-join-btn"
+  ).forEach(button => {
+
+    button.addEventListener(
+      "click",
+      async () => {
+
+        const id =
+          button.dataset.id;
+
+        if (id) {
+          await joinRoom(id);
+        }
+
+      }
+    );
+
+  });
+}
+
+
+/* =========================================================
+   CREATE ROOM
+   ========================================================= */
+
+async function createRoom() {
+
+  if (!token()) {
+    window.location.href =
+      "login.html";
+    return;
+  }
+
+  const button =
+    document.getElementById(
+      "createRoomBtn"
+    );
+
+  if (button) {
+    button.disabled = true;
+    button.textContent =
+      "CREATING...";
+  }
+
+  try {
+
+    const data =
+      await api(
+        "/rooms",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            name: "Ludo Room"
+          })
+        }
+      );
+
+    const room =
+      data.room;
+
+    if (!room) {
+      throw new Error(
+        "Room create response nahi mila."
+      );
+    }
+
+    saveRoomId(room.id);
+
+    window.location.href =
+      `game.html?room=${encodeURIComponent(room.id)}`;
+
+  } catch (error) {
+
+    alert(
+      error.message ||
+      "Room create nahi hua."
+    );
+
+    if (button) {
+      button.disabled = false;
+      button.textContent =
+        "CREATE LUDO ROOM";
+    }
+  }
+}
+
+window.createRoom = createRoom;
+
+
+/* =========================================================
+   JOIN ROOM
+   ========================================================= */
+
+async function joinRoom(roomId) {
+
+  if (!token()) {
+    window.location.href =
+      "login.html";
+    return;
+  }
+
+  roomId =
+    String(roomId || "").trim();
+
+  if (!roomId) {
+    alert(
+      "Room ID enter karein."
+    );
+    return;
+  }
+
+  try {
+
+    const data =
+      await api(
+        `/rooms/${encodeURIComponent(roomId)}/join`,
+        {
+          method: "POST"
+        }
+      );
+
+    const room =
+      data.room;
+
+    if (!room) {
+      throw new Error(
+        "Room information nahi mili."
+      );
+    }
+
+    saveRoomId(room.id);
+
+    window.location.href =
+      `game.html?room=${encodeURIComponent(room.id)}`;
+
+  } catch (error) {
+
+    alert(
+      error.message ||
+      "Room join nahi hua."
+    );
+  }
+}
+
+window.joinRoom = joinRoom;
+
+
+/* =========================================================
+   BATTLES PAGE
    ========================================================= */
 
 async function loadBattlesPage() {
 
-    const box = $("#openBattles") || $("#battlesList");
+  const container =
+    document.getElementById(
+      "roomsContainer"
+    ) ||
+    document.getElementById(
+      "battleRooms"
+    ) ||
+    document.getElementById(
+      "roomList"
+    );
 
-    if (!box) return;
+  if (!container) return;
 
-    showLoading(box, "Loading battles...");
+  try {
 
-    try {
+    const data =
+      await api("/rooms");
 
-        const data = await api("/rooms");
+    const rooms =
+      data.rooms || [];
 
-        const rooms =
-            getArray(data, ["rooms", "items"]);
+    if (!rooms.length) {
 
-        if (!rooms.length) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <p>
+            No open Ludo room
+          </p>
 
-            box.innerHTML = emptyBox(
-                "No open battles"
-            );
+          <button
+            class="gold-btn"
+            onclick="createRoom()"
+          >
+            CREATE LUDO ROOM
+          </button>
+        </div>
+      `;
 
-            return;
-        }
-
-        box.innerHTML = rooms
-            .map(roomCard)
-            .join("");
-
-        bindRoomButtons();
-
-    } catch (error) {
-
-        box.innerHTML = emptyBox(
-            "Unable to load battles"
-        );
-    }
-}
-
-
-async function createRoom() {
-
-    if (!getToken()) {
-
-        window.location.href = "login.html";
-        return;
+      return;
     }
 
-
-    const nameInput =
-        $("#roomName") ||
-        $("#battleName");
-
-    const maxPlayersInput =
-        $("#maxPlayers") ||
-        $("#roomPlayers");
-
-    const name =
-        nameInput?.value.trim() ||
-        "Ludo Room";
-
-    const maxPlayers =
-        Number(maxPlayersInput?.value || 4);
-
-
-    try {
-
-        const data = await api("/rooms", {
-            method: "POST",
-            body: JSON.stringify({
-                name,
-                max_players: maxPlayers
-            })
-        });
-
-        const room =
-            data.room ||
-            data.data ||
-            data;
-
-        if (room?.id) {
-
-            saveRoomId(room.id);
-
-            showToast(
-                "Room created successfully",
-                "success"
-            );
-
-            setTimeout(() => {
-                window.location.href =
-                    `game.html?room=${room.id}`;
-            }, 500);
-
-        } else {
-
-            showToast(
-                "Room create response invalid",
-                "error"
-            );
-        }
-
-    } catch (error) {
-
-        showToast(
-            error.message ||
-            "Room create failed",
-            "error"
-        );
-    }
-}
-
-
-async function joinRoom(roomId) {
-
-    if (!getToken()) {
-
-        showToast(
-            "Pehle login karein",
-            "error"
-        );
-
-        setTimeout(() => {
-            window.location.href = "login.html";
-        }, 700);
-
-        return;
-    }
-
-
-    try {
-
-        await api(`/rooms/${roomId}/join`, {
-            method: "POST"
-        });
-
-        saveRoomId(roomId);
-
-        showToast(
-            "Room joined successfully",
-            "success"
-        );
-
-        setTimeout(() => {
-
-            window.location.href =
-                `game.html?room=${roomId}`;
-
-        }, 500);
-
-    } catch (error) {
-
-        showToast(
-            error.message ||
-            "Unable to join room",
-            "error"
-        );
-    }
-}
-
-
-async function startRoom(roomId) {
-
-    try {
-
-        await api(`/rooms/${roomId}/start`, {
-            method: "POST"
-        });
-
-        showToast(
-            "Game started",
-            "success"
-        );
-
-        await loadGameRoom();
-
-    } catch (error) {
-
-        showToast(
-            error.message ||
-            "Unable to start game",
-            "error"
-        );
-    }
-}
-
-
-/* =========================================================
-   TOURNAMENTS
-   ========================================================= */
-
-async function loadTournamentsPage() {
-
-    const box =
-        $("#tournamentsList") ||
-        $("#tournamentList");
-
-    if (!box) return;
-
-    showLoading(box, "Loading tournaments...");
-
-    try {
-
-        const data = await api("/tournaments");
-
-        const tournaments =
-            getArray(data, ["tournaments", "items"]);
-
-        if (!tournaments.length) {
-
-            box.innerHTML =
-                emptyBox("No tournaments found");
-
-            return;
-        }
-
-        box.innerHTML =
-            tournaments
-                .map(tournamentCard)
-                .join("");
-
-        bindTournamentButtons();
-
-    } catch (error) {
-
-        box.innerHTML =
-            emptyBox("Unable to load tournaments");
-    }
-}
-
-
-async function joinTournament(id) {
-
-    if (!getToken()) {
-
-        window.location.href = "login.html";
-        return;
-    }
-
-    try {
-
-        await api(`/tournaments/${id}/join`, {
-            method: "POST"
-        });
-
-        showToast(
-            "Tournament joined successfully",
-            "success"
-        );
-
-    } catch (error) {
-
-        showToast(
-            error.message ||
-            "Unable to join tournament",
-            "error"
-        );
-    }
-}
-
-
-/* =========================================================
-   LEADERBOARD
-   ========================================================= */
-
-async function loadLeaderboard() {
-
-    const box =
-        $("#leaderboardList") ||
-        $("#leaderboardBody");
-
-    if (!box) return;
-
-    showLoading(box, "Loading leaderboard...");
-
-    try {
-
-        const data = await api("/leaderboard");
-
-        const players =
-            getArray(data, [
-                "leaderboard",
-                "players",
-                "items"
-            ]);
-
-        if (!players.length) {
-
-            box.innerHTML =
-                emptyBox("Leaderboard is empty");
-
-            return;
-        }
-
-
-        if (box.tagName === "TBODY") {
-
-            box.innerHTML = players
-                .map((player, index) => {
-
-                    const username =
-                        player.username ||
-                        player.name ||
-                        "Player";
-
-                    const wins =
-                        player.wins || 0;
-
-                    const coins =
-                        player.coins || 0;
-
-                    return `
-                        <tr>
-                            <td>${index + 1}</td>
-                            <td>${escapeHTML(username)}</td>
-                            <td>${money(wins)}</td>
-                            <td>${money(coins)}</td>
-                        </tr>
-                    `;
-
-                })
-                .join("");
-
-        } else {
-
-            box.innerHTML = players
-                .map((player, index) => {
-
-                    return `
-                        <div class="leaderboard-row">
-
-                            <div class="rank">
-                                #${index + 1}
-                            </div>
-
-                            <div class="leaderboard-user">
-                                ${escapeHTML(
-                                    player.username ||
-                                    player.name ||
-                                    "Player"
-                                )}
-                            </div>
-
-                            <div>
-                                🏆 ${money(player.wins || 0)}
-                            </div>
-
-                            <div>
-                                🪙 ${money(player.coins || 0)}
-                            </div>
-
-                        </div>
-                    `;
-
-                })
-                .join("");
-        }
-
-    } catch (error) {
-
-        box.innerHTML =
-            emptyBox("Unable to load leaderboard");
-    }
-}
-
-
-/* =========================================================
-   PROFILE
-   ========================================================= */
-
-async function loadProfile() {
-
-    const box = $("#profileContent");
-
-    try {
-
-        const data = await api("/me");
-
-        const user =
-            getUserFromResponse(data);
-
-        currentUser = user;
-
-        updateUserUI(user);
-
-
-        if (!box) {
-
-            fillProfileFields(user);
-            return;
-        }
-
-
-        box.innerHTML = `
-            <div class="profile-main-card">
-
-                <div class="profile-avatar">
-                    👤
-                </div>
-
-                <h2>
-                    ${escapeHTML(
-                        user.username ||
-                        user.name ||
-                        "Player"
-                    )}
-                </h2>
-
-                <p>
-                    ${escapeHTML(user.email || "")}
-                </p>
-
-            </div>
-
-            <div class="stats-grid">
-
-                <div class="stat-card">
-                    <strong>
-                        ${money(user.coins || 0)}
-                    </strong>
-                    <span>Coins</span>
-                </div>
-
-                <div class="stat-card">
-                    <strong>
-                        ${money(user.wins || 0)}
-                    </strong>
-                    <span>Wins</span>
-                </div>
-
-                <div class="stat-card">
-                    <strong>
-                        ${money(user.losses || 0)}
-                    </strong>
-                    <span>Losses</span>
-                </div>
-
-            </div>
-        `;
-
-    } catch (error) {
-
-        if (error.message) {
-            showToast(error.message, "error");
-        }
-    }
-}
-
-
-function fillProfileFields(user) {
-
-    const fields = {
-        profileUsername:
-            user.username || user.name || "Player",
-
-        profileEmail:
-            user.email || "",
-
-        profileCoins:
-            money(user.coins || 0),
-
-        profileWins:
-            money(user.wins || 0),
-
-        profileLosses:
-            money(user.losses || 0)
-    };
-
-    Object.entries(fields).forEach(([id, value]) => {
-
-        const el = $("#" + id);
-
-        if (el) {
-            el.textContent = value;
-        }
-
-    });
-}
-
-
-/* =========================================================
-   WALLET
-   ========================================================= */
-
-async function loadWallet() {
-
-    try {
-
-        const data = await api("/me");
-
-        const user =
-            getUserFromResponse(data);
-
-        const coins =
-            user.coins ??
-            user.balance ??
-            0;
-
-
-        const balanceEls = [
-            "#walletBalance",
-            "#walletCoins",
-            "#coinBalance"
-        ];
-
-        balanceEls.forEach(selector => {
-
-            const el = $(selector);
-
-            if (el) {
-                el.textContent = money(coins);
-            }
-
-        });
-
-    } catch (error) {
-
-        showToast(
-            "Unable to load wallet",
-            "error"
-        );
-    }
-}
-
-
-/* =========================================================
-   HISTORY
-   ========================================================= */
-
-async function loadHistory() {
-
-    const box =
-        $("#historyList") ||
-        $("#gameHistory");
-
-    if (!box) return;
-
-    showLoading(box, "Loading history...");
-
-    try {
-
-        const data = await api("/games/history");
-
-        const games =
-            getArray(data, [
-                "games",
-                "history",
-                "items"
-            ]);
-
-        if (!games.length) {
-
-            box.innerHTML =
-                emptyBox("No game history yet");
-
-            return;
-        }
-
-
-        box.innerHTML = games
-            .map(game => {
-
-                const result =
-                    game.result ||
-                    game.status ||
-                    "Completed";
-
-                const date =
-                    game.created_at ||
-                    game.createdAt ||
-                    "";
-
-                return `
-                    <div class="history-row">
-
-                        <div class="history-icon">
-                            🎲
-                        </div>
-
-                        <div class="history-info">
-
-                            <strong>
-                                Ludo Game
-                            </strong>
-
-                            <small>
-                                ${escapeHTML(date)}
-                            </small>
-
-                        </div>
-
-                        <div class="history-result">
-                            ${escapeHTML(result)}
-                        </div>
-
-                    </div>
-                `;
-
-            })
-            .join("");
-
-    } catch (error) {
-
-        box.innerHTML =
-            emptyBox("Unable to load history");
-    }
-}
-
-
-/* =========================================================
-   LOGIN
-   ========================================================= */
-
-function setupLogin() {
-
-    const loginForm = $("#loginForm");
-
-    if (loginForm) {
-
-        loginForm.addEventListener(
-            "submit",
-            async event => {
-
-                event.preventDefault();
-
-                const email =
-                    $("#loginEmail")?.value.trim() ||
-                    loginForm.querySelector(
-                        'input[name="email"]'
-                    )?.value.trim();
-
-                const password =
-                    $("#loginPassword")?.value ||
-                    loginForm.querySelector(
-                        'input[name="password"]'
-                    )?.value;
-
-
-                if (!email || !password) {
-
-                    showToast(
-                        "Email aur password enter karein",
-                        "error"
-                    );
-
-                    return;
-                }
-
-
-                try {
-
-                    const data = await api(
-                        "/auth/login",
-                        {
-                            method: "POST",
-                            body: JSON.stringify({
-                                email,
-                                password
-                            })
-                        }
-                    );
-
-
-                    const token =
-                        data.token ||
-                        data.accessToken ||
-                        data.data?.token;
-
-
-                    if (!token) {
-
-                        throw new Error(
-                            "Login token nahi mila"
-                        );
-                    }
-
-
-                    setToken(token);
-
-                    currentUser =
-                        getUserFromResponse(data);
-
-                    showToast(
-                        "Login successful",
-                        "success"
-                    );
-
-
-                    setTimeout(() => {
-
-                        const next =
-                            new URLSearchParams(
-                                window.location.search
-                            ).get("next");
-
-                        window.location.href =
-                            next ||
-                            "index.html";
-
-                    }, 500);
-
-
-                } catch (error) {
-
-                    showToast(
-                        error.message ||
-                        "Login failed",
-                        "error"
-                    );
-                }
-
-            }
-        );
-    }
-
-
-    const registerForm = $("#registerForm");
-
-    if (registerForm) {
-
-        registerForm.addEventListener(
-            "submit",
-            async event => {
-
-                event.preventDefault();
-
-
-                const username =
-                    $("#registerUsername")?.value.trim() ||
-                    registerForm.querySelector(
-                        'input[name="username"]'
-                    )?.value.trim();
-
-                const email =
-                    $("#registerEmail")?.value.trim() ||
-                    registerForm.querySelector(
-                        'input[name="email"]'
-                    )?.value.trim();
-
-                const password =
-                    $("#registerPassword")?.value ||
-                    registerForm.querySelector(
-                        'input[name="password"]'
-                    )?.value;
-
-
-                if (!username || !email || !password) {
-
-                    showToast(
-                        "Sabhi fields fill karein",
-                        "error"
-                    );
-
-                    return;
-                }
-
-
-                try {
-
-                    const data = await api(
-                        "/auth/register",
-                        {
-                            method: "POST",
-                            body: JSON.stringify({
-                                username,
-                                email,
-                                password
-                            })
-                        }
-                    );
-
-
-                    const token =
-                        data.token ||
-                        data.accessToken ||
-                        data.data?.token;
-
-
-                    if (token) {
-
-                        setToken(token);
-
-                        currentUser =
-                            getUserFromResponse(data);
-
-                        showToast(
-                            "Account created successfully",
-                            "success"
-                        );
-
-                        setTimeout(() => {
-                            window.location.href =
-                                "index.html";
-                        }, 500);
-
-                    } else {
-
-                        showToast(
-                            "Registration successful. Ab login karein.",
-                            "success"
-                        );
-
-                        setTimeout(() => {
-                            window.location.href =
-                                "login.html";
-                        }, 800);
-                    }
-
-
-                } catch (error) {
-
-                    showToast(
-                        error.message ||
-                        "Registration failed",
-                        "error"
-                    );
-                }
-
-            }
-        );
-    }
+    container.innerHTML =
+      rooms
+        .map(roomCard)
+        .join("");
+
+    setupRoomButtons();
+
+  } catch (error) {
+
+    container.innerHTML = `
+      <div class="empty-state">
+        <p>
+          ${escapeHTML(error.message)}
+        </p>
+      </div>
+    `;
+  }
 }
 
 
@@ -1436,495 +859,1689 @@ function setupLogin() {
 
 async function loadGameRoom() {
 
-    const roomId = getRoomId();
+  const roomId =
+    getRoomId();
 
-    if (!roomId) {
+  if (!roomId) {
 
-        const box = $("#gameContainer");
+    setGameStatus(
+      "Room ID nahi mila. Room create ya join karein."
+    );
 
-        if (box) {
-            box.innerHTML =
-                emptyBox("Room ID missing");
-        }
+    return;
+  }
 
-        return;
-    }
+  saveRoomId(roomId);
 
+  try {
 
-    const gameBox =
-        $("#gameContainer") ||
-        $("#gameRoom") ||
-        document.querySelector(".game-container");
+    const data =
+      await api(
+        `/rooms/${encodeURIComponent(roomId)}`
+      );
 
+    currentRoom =
+      data.room;
 
-    try {
+    renderGameRoom(
+      currentRoom
+    );
 
-        const data =
-            await api(`/rooms/${roomId}`);
+    startGamePolling();
 
-        const room =
-            data.room ||
-            data.data ||
-            data;
+  } catch (error) {
 
-
-        renderGameRoom(room);
-
-    } catch (error) {
-
-        if (gameBox) {
-
-            gameBox.innerHTML =
-                emptyBox(
-                    error.message ||
-                    "Unable to load game"
-                );
-        }
-    }
+    setGameStatus(
+      error.message ||
+      "Room load nahi hua."
+    );
+  }
 }
 
+
+/* =========================================================
+   GAME STATUS
+   ========================================================= */
+
+function setGameStatus(message) {
+
+  const element =
+    document.getElementById(
+      "gameStatus"
+    );
+
+  if (element) {
+    element.textContent =
+      message;
+  }
+}
+
+
+/* =========================================================
+   RENDER GAME ROOM
+   ========================================================= */
 
 function renderGameRoom(room) {
 
-    const roomId = room.id;
+  if (!room) return;
 
-    saveRoomId(roomId);
+  currentRoom =
+    room;
 
+  const players =
+    room.players || [];
 
-    const status =
-        room.status ||
-        "waiting";
+  const playerCount =
+    players.length;
 
-    const diceValue =
-        room.dice_value ??
-        room.diceValue ??
-        0;
+  const maxPlayers =
+    Number(
+      room.maxPlayers ||
+      room.max_players ||
+      2
+    );
 
+  const status =
+    String(
+      room.status ||
+      "waiting"
+    ).toLowerCase();
 
-    let players =
-        room.players ||
-        room.room_players ||
-        room.roomPlayers ||
-        [];
+  const myId =
+    Number(
+      currentUser?.id
+    );
 
+  const isCreator =
+    Number(room.createdBy) === myId;
 
-    if (!Array.isArray(players)) {
-        players = [];
-    }
+  const myTurn =
+    Number(room.currentTurn) === myId;
 
+  const dice =
+    room.diceValue;
 
-    const diceEl =
-        $("#diceValue") ||
-        $("#dice");
+  const gameContainer =
+    document.getElementById(
+      "gameRoom"
+    ) ||
+    document.getElementById(
+      "gameContainer"
+    ) ||
+    document.querySelector(
+      ".game-container"
+    );
 
-    if (diceEl) {
+  if (gameContainer) {
 
-        diceEl.textContent =
-            diceValue || "🎲";
+    gameContainer.innerHTML = `
+      <div class="game-panel-inner">
 
-    }
+        <div class="game-status-box">
 
+          <div>
+            <strong>
+              ROOM #${escapeHTML(room.id)}
+            </strong>
+          </div>
 
-    const statusEl =
-        $("#gameStatus");
+          <div style="margin-top:8px;">
+            Players:
+            <strong>
+              ${playerCount}/${maxPlayers}
+            </strong>
+          </div>
 
-    if (statusEl) {
+          <div style="margin-top:8px;">
+            Status:
+            <strong>
+              ${escapeHTML(status)}
+            </strong>
+          </div>
 
-        statusEl.textContent =
-            String(status).toUpperCase();
+        </div>
 
-    }
+        <div
+          id="gamePlayers"
+          style="margin-top:15px;"
+        >
+          ${renderPlayers(players, room)}
+        </div>
 
-
-    const playersBox =
-        $("#gamePlayers") ||
-        $("#playersList");
-
-
-    if (playersBox) {
-
-        playersBox.innerHTML =
-            players.length
-                ? players.map((player, index) => {
-
-                    return `
-                        <div class="game-player">
-
-                            <div class="player-number">
-                                ${index + 1}
-                            </div>
-
-                            <div class="player-name">
-                                ${escapeHTML(
-                                    player.username ||
-                                    player.name ||
-                                    player.email ||
-                                    "Player"
-                                )}
-                            </div>
-
-                        </div>
-                    `;
-
-                }).join("")
-                : emptyBox("Waiting for players...");
-    }
-
-
-    const rollBtn =
-        $("#rollDiceBtn") ||
-        $("#rollBtn");
-
-
-    if (rollBtn) {
-
-        rollBtn.onclick = () => {
-            rollDice(roomId);
-        };
-
-
-        if (
-            status !== "playing" &&
-            status !== "started"
-        ) {
-
-            rollBtn.disabled = true;
-
-        } else {
-
-            rollBtn.disabled = false;
+        ${
+          status === "playing"
+            ? renderLudoBoard(room)
+            : `
+              <div
+                style="
+                  text-align:center;
+                  padding:20px;
+                  color:#c8d8d8;
+                "
+              >
+                ${
+                  playerCount < 2
+                    ? "Waiting for Player 2..."
+                    : "Ready to start!"
+                }
+              </div>
+            `
         }
+
+      </div>
+    `;
+  }
+
+  updateGameButtons(
+    room
+  );
+
+  updateDiceUI(
+    dice
+  );
+
+  const startButton =
+    document.getElementById(
+      "startGameBtn"
+    );
+
+  if (startButton) {
+
+    startButton.onclick =
+      () => startRoom(room.id);
+
+    startButton.disabled =
+      !(
+        isCreator &&
+        playerCount === 2 &&
+        status === "waiting"
+      );
+
+    if (
+      status === "playing"
+    ) {
+      startButton.style.display =
+        "none";
+    } else {
+      startButton.style.display =
+        "block";
+
+      startButton.textContent =
+        playerCount === 2
+          ? "START GAME"
+          : `WAITING ${playerCount}/2`;
     }
+  }
 
+  const rollButton =
+    document.getElementById(
+      "rollDiceBtn"
+    ) ||
+    document.getElementById(
+      "rollBtn"
+    );
 
-    const startBtn =
-        $("#startGameBtn");
+  if (rollButton) {
 
-    if (startBtn) {
+    rollButton.onclick =
+      () => rollDice(room.id);
 
-        startBtn.onclick = () => {
-            startRoom(roomId);
-        };
+    rollButton.disabled =
+      !(
+        status === "playing" &&
+        myTurn &&
+        !dice
+      );
 
-
-        if (
-            currentUser &&
-            room.created_by &&
-            String(room.created_by) ===
-            String(currentUser.id)
-        ) {
-
-            startBtn.style.display = "";
-
-        } else {
-
-            startBtn.style.display = "none";
-        }
+    if (
+      status === "playing" &&
+      myTurn &&
+      !dice
+    ) {
+      rollButton.textContent =
+        "🎲 ROLL DICE";
+    } else if (
+      status === "playing" &&
+      !myTurn
+    ) {
+      rollButton.textContent =
+        "WAIT FOR YOUR TURN";
+    } else if (
+      dice
+    ) {
+      rollButton.textContent =
+        `🎲 DICE: ${dice}`;
     }
+  }
 }
 
+
+/* =========================================================
+   PLAYERS
+   ========================================================= */
+
+function renderPlayers(
+  players,
+  room
+) {
+
+  if (!players.length) {
+    return `
+      <div class="player-card">
+        Waiting for players...
+      </div>
+    `;
+  }
+
+  return players
+    .map(
+      (player, index) => {
+
+        const isMe =
+          Number(player.id) ===
+          Number(currentUser?.id);
+
+        const isTurn =
+          Number(room.currentTurn) ===
+          Number(player.id);
+
+        return `
+          <div
+            class="player-card"
+            style="
+              border-color:
+                ${
+                  isTurn
+                    ? "#f5c451"
+                    : "#507477"
+                };
+            "
+          >
+
+            <div
+              style="
+                display:flex;
+                justify-content:space-between;
+                gap:10px;
+              "
+            >
+
+              <strong>
+                ${
+                  escapeHTML(
+                    player.username ||
+                    `Player ${index + 1}`
+                  )
+                }
+
+                ${
+                  isMe
+                    ? " (YOU)"
+                    : ""
+                }
+              </strong>
+
+              <span>
+                ${
+                  player.color ===
+                  "red"
+                    ? "🔴"
+                    : "🟢"
+                }
+              </span>
+
+            </div>
+
+            ${
+              isTurn
+                ? `
+                  <div
+                    style="
+                      margin-top:6px;
+                      color:#f5c451;
+                      font-size:12px;
+                    "
+                  >
+                    🎯 YOUR TURN
+                  </div>
+                `
+                : ""
+            }
+
+          </div>
+        `;
+      }
+    )
+    .join("");
+}
+
+
+/* =========================================================
+   SIMPLE LUDO BOARD
+   ========================================================= */
+
+function renderLudoBoard(room) {
+
+  const state =
+    room.gameState ||
+    {};
+
+  const players =
+    room.players || [];
+
+  const myId =
+    Number(
+      currentUser?.id
+    );
+
+  const myState =
+    state.players?.[myId];
+
+  if (!myState) {
+    return "";
+  }
+
+  const tokens =
+    myState.tokens ||
+    [-1, -1, -1, -1];
+
+  const myTurn =
+    Number(room.currentTurn) ===
+    myId;
+
+  const dice =
+    Number(room.diceValue || 0);
+
+  let html = `
+    <div
+      class="ludo-board"
+      style="
+        margin-top:20px;
+        background:#082e32;
+        border:1px solid #d6a93d;
+        border-radius:15px;
+        padding:14px;
+      "
+    >
+
+      <div
+        style="
+          text-align:center;
+          color:#f5c451;
+          font-weight:bold;
+          margin-bottom:12px;
+        "
+      >
+        🎲 YOUR TOKENS
+      </div>
+
+      <div
+        style="
+          display:grid;
+          grid-template-columns:
+            repeat(4,1fr);
+          gap:8px;
+        "
+      >
+  `;
+
+  tokens.forEach(
+    (position, index) => {
+
+      const finished =
+        position >= 56;
+
+      const home =
+        position < 0;
+
+      let label;
+
+      if (home) {
+        label =
+          `🏠 ${index + 1}`;
+      } else if (finished) {
+        label =
+          `🏆 ${index + 1}`;
+      } else {
+        label =
+          `🎯 ${index + 1}`;
+      }
+
+      const canMove =
+        myTurn &&
+        dice > 0 &&
+        !finished;
+
+      html += `
+        <button
+          type="button"
+          ${
+            canMove
+              ? ""
+              : "disabled"
+          }
+          onclick="
+            moveToken(
+              ${room.id},
+              ${index}
+            )
+          "
+          style="
+            padding:13px 5px;
+            border-radius:10px;
+            border:1px solid #f5c451;
+            background:
+              ${
+                canMove
+                  ? "#f5c451"
+                  : "#173f43"
+              };
+            color:
+              ${
+                canMove
+                  ? "#082e32"
+                  : "#c8d8d8"
+              };
+            font-weight:bold;
+            cursor:
+              ${
+                canMove
+                  ? "pointer"
+                  : "not-allowed"
+              };
+          "
+        >
+          ${label}
+          <small
+            style="
+              display:block;
+              margin-top:4px;
+              font-size:10px;
+            "
+          >
+            ${
+              home
+                ? "HOME"
+                : `POS ${position}`
+            }
+          </small>
+        </button>
+      `;
+    }
+  );
+
+  html += `
+      </div>
+
+      <div
+        style="
+          text-align:center;
+          margin-top:14px;
+          color:#c8d8d8;
+          font-size:12px;
+        "
+      >
+        ${
+          myTurn
+            ? dice
+              ? `Dice ${dice} rolled — token select karein`
+              : "Aapki turn — dice roll karein"
+            : "Opponent ki turn..."
+        }
+      </div>
+
+    </div>
+  `;
+
+  return html;
+}
+
+
+/* =========================================================
+   START GAME
+   ========================================================= */
+
+async function startRoom(roomId) {
+
+  if (!roomId) {
+    roomId =
+      getRoomId();
+  }
+
+  if (!roomId) {
+    alert(
+      "Room ID nahi mila."
+    );
+    return;
+  }
+
+  try {
+
+    const data =
+      await api(
+        `/rooms/${encodeURIComponent(roomId)}/start`,
+        {
+          method: "POST"
+        }
+      );
+
+    currentRoom =
+      data.room;
+
+    renderGameRoom(
+      currentRoom
+    );
+
+  } catch (error) {
+
+    alert(
+      error.message ||
+      "Game start nahi hua."
+    );
+
+    await loadGameRoom();
+  }
+}
+
+window.startRoom = startRoom;
+
+
+/* =========================================================
+   ROLL DICE
+   ========================================================= */
 
 async function rollDice(roomId) {
 
-    const rollBtn =
-        $("#rollDiceBtn") ||
-        $("#rollBtn");
+  if (!roomId) {
+    roomId =
+      getRoomId();
+  }
 
-    if (rollBtn) {
-        rollBtn.disabled = true;
-    }
+  try {
 
-
-    try {
-
-        const data =
-            await api(`/rooms/${roomId}/dice`, {
-                method: "POST"
-            });
-
-
-        const value =
-            data.dice_value ??
-            data.diceValue ??
-            data.dice ??
-            data.value;
-
-
-        const diceEl =
-            $("#diceValue") ||
-            $("#dice");
-
-
-        if (diceEl && value) {
-            diceEl.textContent = value;
+    const data =
+      await api(
+        `/rooms/${encodeURIComponent(roomId)}/dice`,
+        {
+          method: "POST"
         }
+      );
 
+    currentRoom =
+      data.room;
 
-        showToast(
-            `Dice: ${value || "?"}`,
-            "success"
-        );
+    renderGameRoom(
+      currentRoom
+    );
 
+  } catch (error) {
 
-        await loadGameRoom();
+    alert(
+      error.message ||
+      "Dice roll nahi hua."
+    );
 
-
-    } catch (error) {
-
-        showToast(
-            error.message ||
-            "Dice roll failed",
-            "error"
-        );
-
-    } finally {
-
-        if (rollBtn) {
-            rollBtn.disabled = false;
-        }
-    }
+    await loadGameRoom();
+  }
 }
+
+window.rollDice = rollDice;
 
 
 /* =========================================================
-   SUPPORT
+   MOVE TOKEN
    ========================================================= */
 
-function setupSupport() {
+async function moveToken(
+  roomId,
+  tokenIndex
+) {
 
-    const supportButtons =
-        $$(".support-btn, #supportBtn");
+  try {
 
-    supportButtons.forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            window.open(
-                "https://wa.me/919521050705",
-                "_blank"
-            );
-
-        });
-
-    });
-
-
-    const chatButton =
-        $("#floatingChat") ||
-        $("#whatsappChat");
-
-    if (chatButton) {
-
-        chatButton.addEventListener("click", () => {
-
-            window.open(
-                "https://wa.me/919521050705",
-                "_blank"
-            );
-
-        });
-    }
-}
-
-
-/* =========================================================
-   CREATE ROOM FORM
-   ========================================================= */
-
-function setupRoomForms() {
-
-    const createForm =
-        $("#createRoomForm") ||
-        $("#createBattleForm");
-
-
-    if (createForm) {
-
-        createForm.addEventListener(
-            "submit",
-            event => {
-
-                event.preventDefault();
-
-                createRoom();
-
-            }
-        );
-    }
-}
-
-
-/* =========================================================
-   PROTECTED PAGES
-   ========================================================= */
-
-async function checkProtectedPage() {
-
-    const protectedPages = [
-        "profile.html",
-        "wallet.html",
-        "battles.html",
-        "history.html",
-        "game.html"
-    ];
-
-
-    const currentPage = pageName();
-
-    if (!protectedPages.includes(currentPage)) {
-        return true;
-    }
-
-
-    if (!getToken()) {
-
-        window.location.href =
-            `login.html?next=${encodeURIComponent(
-                currentPage
-            )}`;
-
-        return false;
-    }
-
-
-    if (!currentUser) {
-
-        const user =
-            await loadCurrentUser();
-
-        if (!user) {
-
-            window.location.href =
-                `login.html?next=${encodeURIComponent(
-                    currentPage
-                )}`;
-
-            return false;
+    const data =
+      await api(
+        `/rooms/${encodeURIComponent(roomId)}/move`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            tokenIndex:
+              Number(tokenIndex)
+          })
         }
+      );
+
+    currentRoom =
+      data.room;
+
+    if (data.winner) {
+
+      if (
+        Number(data.winner) ===
+        Number(currentUser?.id)
+      ) {
+
+        alert(
+          "🎉 Congratulations! Aap jeet gaye!"
+        );
+
+      } else {
+
+        alert(
+          "Game finished."
+        );
+      }
     }
 
-    return true;
+    renderGameRoom(
+      currentRoom
+    );
+
+  } catch (error) {
+
+    alert(
+      error.message ||
+      "Token move nahi hua."
+    );
+
+    await loadGameRoom();
+  }
+}
+
+window.moveToken = moveToken;
+
+
+/* =========================================================
+   DICE UI
+   ========================================================= */
+
+function updateDiceUI(
+  dice
+) {
+
+  const elements =
+    document.querySelectorAll(
+      "#diceValue, #dice"
+    );
+
+  elements.forEach(
+    element => {
+
+      if (
+        dice === null ||
+        dice === undefined
+      ) {
+        element.textContent =
+          "🎲";
+      } else {
+        element.textContent =
+          `🎲 ${dice}`;
+      }
+
+    }
+  );
 }
 
 
 /* =========================================================
-   GAME AUTO REFRESH
+   GAME BUTTONS
+   ========================================================= */
+
+function updateGameButtons(
+  room
+) {
+
+  const status =
+    String(
+      room.status || ""
+    ).toLowerCase();
+
+  const myId =
+    Number(
+      currentUser?.id
+    );
+
+  const myTurn =
+    Number(room.currentTurn) ===
+    myId;
+
+  const dice =
+    room.diceValue;
+
+  const rollButton =
+    document.getElementById(
+      "rollDiceBtn"
+    ) ||
+    document.getElementById(
+      "rollBtn"
+    );
+
+  if (rollButton) {
+
+    rollButton.disabled =
+      !(
+        status === "playing" &&
+        myTurn &&
+        !dice
+      );
+  }
+}
+
+
+/* =========================================================
+   GAME POLLING
    ========================================================= */
 
 function startGamePolling() {
 
-    if (pageName() !== "game.html") {
-        return;
-    }
+  if (gamePollTimer) {
+    clearInterval(
+      gamePollTimer
+    );
+  }
 
+  gamePollTimer =
+    setInterval(
+      async () => {
 
-    clearInterval(gamePollTimer);
+        const roomId =
+          getRoomId();
 
-    gamePollTimer =
-        setInterval(() => {
+        if (!roomId) return;
 
-            loadGameRoom();
+        try {
 
-        }, 2000);
+          const data =
+            await api(
+              `/rooms/${encodeURIComponent(roomId)}/state`
+            );
+
+          if (data.room) {
+
+            currentRoom =
+              data.room;
+
+            renderGameRoom(
+              currentRoom
+            );
+          }
+
+        } catch {
+          // Polling error ignore
+        }
+
+      },
+      2000
+    );
 }
 
 
 /* =========================================================
-   PAGE INITIALIZATION
+   LEADERBOARD
+   ========================================================= */
+
+async function loadLeaderboard() {
+
+  const container =
+    document.getElementById(
+      "leaderboardContainer"
+    ) ||
+    document.getElementById(
+      "leaderboardList"
+    ) ||
+    document.querySelector(
+      ".leaderboard-list"
+    );
+
+  if (!container) return;
+
+  try {
+
+    const data =
+      await api(
+        "/leaderboard"
+      );
+
+    const list =
+      data.leaderboard || [];
+
+    if (!list.length) {
+
+      container.innerHTML = `
+        <div class="empty-state">
+          <p>
+            No players yet.
+          </p>
+        </div>
+      `;
+
+      return;
+    }
+
+    container.innerHTML =
+      list
+        .map(
+          (player, index) => `
+            <div
+              class="player-card"
+              style="
+                display:flex;
+                align-items:center;
+                justify-content:space-between;
+                gap:10px;
+              "
+            >
+
+              <div>
+
+                <strong>
+                  #${index + 1}
+                  ${escapeHTML(
+                    player.username
+                  )}
+                </strong>
+
+                <div
+                  style="
+                    font-size:12px;
+                    color:#c8d8d8;
+                    margin-top:5px;
+                  "
+                >
+                  Wins:
+                  ${money(player.wins)}
+                  &nbsp; | &nbsp;
+                  Losses:
+                  ${money(player.losses)}
+                </div>
+
+              </div>
+
+              <div
+                style="
+                  color:#f5c451;
+                  font-weight:bold;
+                "
+              >
+                🪙 ${money(player.coins)}
+              </div>
+
+            </div>
+          `
+        )
+        .join("");
+
+  } catch (error) {
+
+    container.innerHTML = `
+      <div class="empty-state">
+        <p>
+          ${escapeHTML(error.message)}
+        </p>
+      </div>
+    `;
+  }
+}
+
+
+/* =========================================================
+   PROFILE
+   ========================================================= */
+
+async function loadProfilePage() {
+
+  if (!token()) {
+    window.location.href =
+      "login.html";
+    return;
+  }
+
+  try {
+
+    const user =
+      await loadCurrentUser();
+
+    if (!user) return;
+
+    const battles =
+      Number(user.wins || 0) +
+      Number(user.losses || 0);
+
+    const fields = {
+
+      profileName:
+        user.username,
+
+      profileEmail:
+        user.email,
+
+      walletCoins:
+        money(user.coins),
+
+      wins:
+        money(user.wins),
+
+      losses:
+        money(user.losses),
+
+      battles:
+        money(battles),
+
+      referrals:
+        "0"
+    };
+
+    Object.keys(fields)
+      .forEach(id => {
+
+        const el =
+          document.getElementById(
+            id
+          );
+
+        if (el) {
+          el.textContent =
+            fields[id];
+        }
+      });
+
+  } catch (error) {
+
+    const name =
+      document.getElementById(
+        "profileName"
+      );
+
+    if (name) {
+      name.textContent =
+        "Unable to load";
+    }
+  }
+}
+
+
+/* =========================================================
+   WALLET
+   ========================================================= */
+
+async function loadWalletPage() {
+
+  const element =
+    document.getElementById(
+      "walletCoins"
+    ) ||
+    document.querySelector(
+      "[data-wallet-coins]"
+    );
+
+  if (!element) return;
+
+  try {
+
+    const user =
+      await loadCurrentUser();
+
+    if (user) {
+      element.textContent =
+        money(user.coins);
+    }
+
+  } catch {
+    element.textContent =
+      "0";
+  }
+}
+
+
+/* =========================================================
+   HISTORY
+   ========================================================= */
+
+async function loadHistoryPage() {
+
+  const container =
+    document.getElementById(
+      "historyContainer"
+    ) ||
+    document.getElementById(
+      "historyList"
+    ) ||
+    document.querySelector(
+      ".history-list"
+    );
+
+  if (!container) return;
+
+  try {
+
+    const data =
+      await api(
+        "/games/history"
+      );
+
+    const games =
+      data.games || [];
+
+    if (!games.length) {
+
+      container.innerHTML = `
+        <div class="empty-state">
+          <p>
+            No game history yet.
+          </p>
+        </div>
+      `;
+
+      return;
+    }
+
+    container.innerHTML =
+      games
+        .map(
+          game => `
+            <div
+              class="player-card"
+            >
+
+              <strong>
+                Room #${escapeHTML(
+                  game.roomId
+                )}
+              </strong>
+
+              <div
+                style="
+                  margin-top:6px;
+                  font-size:13px;
+                "
+              >
+                Result:
+                ${escapeHTML(
+                  game.result ||
+                  "N/A"
+                )}
+              </div>
+
+              <div
+                style="
+                  margin-top:4px;
+                  font-size:12px;
+                  color:#c8d8d8;
+                "
+              >
+                Dice Rolls:
+                ${money(
+                  game.diceRolls
+                )}
+              </div>
+
+            </div>
+          `
+        )
+        .join("");
+
+  } catch (error) {
+
+    container.innerHTML = `
+      <div class="empty-state">
+        <p>
+          ${escapeHTML(error.message)}
+        </p>
+      </div>
+    `;
+  }
+}
+
+
+/* =========================================================
+   LOGIN FORM
+   ========================================================= */
+
+function setupLoginForm() {
+
+  const form =
+    document.getElementById(
+      "loginForm"
+    );
+
+  if (!form) return;
+
+  form.addEventListener(
+    "submit",
+    async event => {
+
+      event.preventDefault();
+
+      const email =
+        document.getElementById(
+          "email"
+        )?.value
+          .trim()
+          .toLowerCase();
+
+      const password =
+        document.getElementById(
+          "password"
+        )?.value || "";
+
+      if (!email || !password) {
+
+        alert(
+          "Email aur password enter karein."
+        );
+
+        return;
+      }
+
+      const button =
+        form.querySelector(
+          "button[type='submit']"
+        );
+
+      if (button) {
+        button.disabled = true;
+        button.textContent =
+          "LOGIN...";
+      }
+
+      try {
+
+        const data =
+          await api(
+            "/auth/login",
+            {
+              method: "POST",
+              body: JSON.stringify({
+                email,
+                password
+              })
+            }
+          );
+
+        if (!data.token) {
+          throw new Error(
+            "Login token nahi mila."
+          );
+        }
+
+        localStorage.setItem(
+          TOKEN_KEY,
+          data.token
+        );
+
+        saveUser(
+          data.user
+        );
+
+        window.location.href =
+          "index.html";
+
+      } catch (error) {
+
+        alert(
+          error.message ||
+          "Login failed."
+        );
+
+        if (button) {
+          button.disabled = false;
+          button.textContent =
+            "LOGIN";
+        }
+      }
+    }
+  );
+}
+
+
+/* =========================================================
+   REGISTER FORM
+   ========================================================= */
+
+function setupRegisterForm() {
+
+  const form =
+    document.getElementById(
+      "registerForm"
+    );
+
+  if (!form) return;
+
+  form.addEventListener(
+    "submit",
+    async event => {
+
+      event.preventDefault();
+
+      const username =
+        document.getElementById(
+          "username"
+        )?.value
+          .trim();
+
+      const email =
+        document.getElementById(
+          "email"
+        )?.value
+          .trim()
+          .toLowerCase();
+
+      const password =
+        document.getElementById(
+          "password"
+        )?.value || "";
+
+      if (
+        !username ||
+        !email ||
+        !password
+      ) {
+
+        alert(
+          "Sabhi details enter karein."
+        );
+
+        return;
+      }
+
+      if (
+        password.length < 6
+      ) {
+
+        alert(
+          "Password minimum 6 characters ka hona chahiye."
+        );
+
+        return;
+      }
+
+      const button =
+        form.querySelector(
+          "button[type='submit']"
+        );
+
+      if (button) {
+        button.disabled = true;
+        button.textContent =
+          "CREATING...";
+      }
+
+      try {
+
+        const data =
+          await api(
+            "/auth/register",
+            {
+              method: "POST",
+              body: JSON.stringify({
+                username,
+                email,
+                password
+              })
+            }
+          );
+
+        if (!data.token) {
+          throw new Error(
+            "Registration token nahi mila."
+          );
+        }
+
+        localStorage.setItem(
+          TOKEN_KEY,
+          data.token
+        );
+
+        saveUser(
+          data.user
+        );
+
+        window.location.href =
+          "index.html";
+
+      } catch (error) {
+
+        alert(
+          error.message ||
+          "Registration failed."
+        );
+
+        if (button) {
+          button.disabled = false;
+          button.textContent =
+            "REGISTER";
+        }
+      }
+    }
+  );
+}
+
+
+/* =========================================================
+   JOIN FORM
+   ========================================================= */
+
+function setupJoinRoomForm() {
+
+  const input =
+    document.getElementById(
+      "roomIdInput"
+    );
+
+  const button =
+    document.getElementById(
+      "joinRoomBtn"
+    );
+
+  if (!input || !button) {
+    return;
+  }
+
+  button.addEventListener(
+    "click",
+    () => {
+      joinRoom(
+        input.value.trim()
+      );
+    }
+  );
+
+  input.addEventListener(
+    "keydown",
+    event => {
+
+      if (
+        event.key === "Enter"
+      ) {
+
+        event.preventDefault();
+
+        joinRoom(
+          input.value.trim()
+        );
+      }
+
+    }
+  );
+}
+
+
+/* =========================================================
+   START BUTTON
+   ========================================================= */
+
+function setupGameButtons() {
+
+  const startButton =
+    document.getElementById(
+      "startGameBtn"
+    );
+
+  if (
+    startButton &&
+    !startButton.dataset.bound
+  ) {
+
+    startButton.dataset.bound =
+      "true";
+
+    startButton.addEventListener(
+      "click",
+      () => {
+        startRoom(
+          getRoomId()
+        );
+      }
+    );
+  }
+
+
+  const rollButton =
+    document.getElementById(
+      "rollDiceBtn"
+    );
+
+  if (
+    rollButton &&
+    !rollButton.dataset.bound
+  ) {
+
+    rollButton.dataset.bound =
+      "true";
+
+    rollButton.addEventListener(
+      "click",
+      () => {
+        rollDice(
+          getRoomId()
+        );
+      }
+    );
+  }
+}
+
+
+/* =========================================================
+   PAGE DETECTION
+   ========================================================= */
+
+function pageName() {
+
+  return (
+    window.location.pathname
+      .split("/")
+      .pop()
+      .toLowerCase() ||
+    "index.html"
+  );
+}
+
+
+/* =========================================================
+   INIT
    ========================================================= */
 
 async function initPage() {
 
-    setupDrawer();
-    setupNavigation();
-    setupInstallApp();
-    setupLogin();
-    setupSupport();
-    setupRoomForms();
+  setupNavigation();
+  setupLoginForm();
+  setupRegisterForm();
+  setupJoinRoomForm();
+  setupGameButtons();
+
+  const page =
+    pageName();
+
+  /*
+    Login page
+  */
+
+  if (
+    page === "login.html"
+  ) {
+    return;
+  }
 
 
-    const allowed =
-        await checkProtectedPage();
+  /*
+    Load user
+  */
 
-    if (!allowed) {
-        return;
-    }
-
-
+  if (token()) {
     await loadCurrentUser();
+  } else {
+    currentUser =
+      getStoredUser();
+  }
 
 
-    const page =
-        pageName();
+  /*
+    HOME
+  */
+
+  if (
+    page === "index.html" ||
+    page === ""
+  ) {
+
+    await Promise.all([
+      loadHomeTournaments(),
+      loadHomeRooms()
+    ]);
+
+    return;
+  }
 
 
-    switch (page) {
+  /*
+    BATTLES
+  */
 
-        case "":
-        case "/":
-        case "index.html":
-            await loadHome();
-            break;
+  if (
+    page === "battles.html"
+  ) {
 
-
-        case "tournaments.html":
-            await loadTournamentsPage();
-            break;
-
-
-        case "leaderboard.html":
-            await loadLeaderboard();
-            break;
-
-
-        case "profile.html":
-            await loadProfile();
-            break;
-
-
-        case "wallet.html":
-            await loadWallet();
-            break;
-
-
-        case "battles.html":
-            await loadBattlesPage();
-            break;
-
-
-        case "history.html":
-            await loadHistory();
-            break;
-
-
-        case "game.html":
-            await loadGameRoom();
-            startGamePolling();
-            break;
-
-
-        case "support.html":
-            break;
+    if (!token()) {
+      window.location.href =
+        "login.html";
+      return;
     }
+
+    await loadBattlesPage();
+
+    return;
+  }
+
+
+  /*
+    GAME
+  */
+
+  if (
+    page === "game.html"
+  ) {
+
+    if (!token()) {
+      window.location.href =
+        "login.html";
+      return;
+    }
+
+    await loadGameRoom();
+
+    return;
+  }
+
+
+  /*
+    LEADERBOARD
+  */
+
+  if (
+    page ===
+    "leaderboard.html"
+  ) {
+
+    if (!token()) {
+      window.location.href =
+        "login.html";
+      return;
+    }
+
+    await loadLeaderboard();
+
+    return;
+  }
+
+
+  /*
+    PROFILE
+  */
+
+  if (
+    page ===
+    "profile.html"
+  ) {
+
+    if (!token()) {
+      window.location.href =
+        "login.html";
+      return;
+    }
+
+    await loadProfilePage();
+
+    return;
+  }
+
+
+  /*
+    WALLET
+  */
+
+  if (
+    page ===
+    "wallet.html"
+  ) {
+
+    if (!token()) {
+      window.location.href =
+        "login.html";
+      return;
+    }
+
+    await loadWalletPage();
+
+    return;
+  }
+
+
+  /*
+    HISTORY
+  */
+
+  if (
+    page ===
+    "history.html"
+  ) {
+
+    if (!token()) {
+      window.location.href =
+        "login.html";
+      return;
+    }
+
+    await loadHistoryPage();
+
+    return;
+  }
+
 }
 
 
 /* =========================================================
-   GLOBAL BUTTONS
-   ========================================================= */
-
-window.joinRoom = joinRoom;
-window.startRoom = startRoom;
-window.rollDice = rollDice;
-window.joinTournament = joinTournament;
-window.createRoom = createRoom;
-
-
-/* =========================================================
-   START
+   AUTO START
    ========================================================= */
 
 document.addEventListener(
-    "DOMContentLoaded",
-    initPage
+  "DOMContentLoaded",
+  initPage
+);
+
+
+/* =========================================================
+   PAGE EXIT CLEANUP
+   ========================================================= */
+
+window.addEventListener(
+  "beforeunload",
+  () => {
+
+    if (gamePollTimer) {
+      clearInterval(
+        gamePollTimer
+      );
+    }
+
+  }
 );
