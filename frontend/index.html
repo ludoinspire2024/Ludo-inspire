@@ -1,762 +1,853 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-
-  <!-- Mobile screen fix -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Ludo Inspire</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      width: 100%;
-      overflow-x: hidden;
-    }
-
-    body {
-      width: 100%;
-      min-height: 100vh;
-      background: #071b1d;
-      color: #fff;
-      font-family: Arial, Helvetica, sans-serif;
-      overflow-x: hidden;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    button {
-      font-family: inherit;
-    }
-
-    /* =========================
-       MAIN MOBILE CONTAINER
-    ========================= */
-
-    .app {
-      width: 100%;
-      max-width: 720px;
-      min-height: 100vh;
-      margin: 0 auto;
-      background: #082326;
-    }
-
-    /* =========================
-       TOP HEADER
-    ========================= */
-
-    .top-header {
-      height: 64px;
-      padding: 0 16px;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      background: #092c2e;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-
-      position: sticky;
-      top: 0;
-      z-index: 50;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-
-      font-size: 21px;
-      font-weight: 900;
-      letter-spacing: 1px;
-    }
-
-    .logo-icon {
-      width: 34px;
-      height: 34px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      border-radius: 9px;
-
-      background: linear-gradient(
-        135deg,
-        #ffd54a,
-        #f5a623
-      );
-
-      color: #122426;
-      font-size: 21px;
-      box-shadow: 0 4px 12px rgba(255,190,50,0.2);
-    }
-
-    .login-btn {
-      padding: 9px 16px;
-
-      border: 1px solid #e8b83f;
-      border-radius: 7px;
-
-      background: transparent;
-      color: #ffd45a;
-
-      font-size: 13px;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-    .login-btn:active {
-      transform: scale(0.97);
-    }
-
-    /* =========================
-       REFERRAL / NOTICE BAR
-    ========================= */
-
-    .notice {
-      margin: 10px 12px 0;
-
-      min-height: 42px;
-      padding: 10px 12px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      border-radius: 8px;
-
-      background: linear-gradient(
-        90deg,
-        #174c4d,
-        #216466,
-        #174c4d
-      );
-
-      color: #eafefe;
-      font-size: 12px;
-      text-align: center;
-    }
-
-    .notice strong {
-      color: #ffd34f;
-    }
-
-    /* =========================
-       CONTENT
-    ========================= */
-
-    .content {
-      padding: 16px 12px 30px;
-    }
-
-    .section-title {
-      margin: 3px 2px 12px;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .section-title h2 {
-      font-size: 20px;
-      font-weight: 900;
-      letter-spacing: 0.2px;
-    }
-
-    .section-title span {
-      color: #91b9ba;
-      font-size: 11px;
-    }
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,
+      initial-scale=1.0,
+      maximum-scale=1.0,
+      user-scalable=no">
 
-    /* =========================
-       TOURNAMENT CARDS
-    ========================= */
+<title>Ludo Inspire</title>
 
-    .tournament-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .tournament-card {
-      min-height: 150px;
-
-      position: relative;
-      overflow: hidden;
+<style>
 
-      border-radius: 12px;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
-      border: 1px solid rgba(255,255,255,0.09);
+html,body{
+  width:100%;
+  min-height:100%;
+  overflow-x:hidden;
+}
 
-      background:
-        radial-gradient(
-          circle at 20% 20%,
-          rgba(255,213,70,0.18),
-          transparent 35%
-        ),
-        linear-gradient(
-          145deg,
-          #164f50,
-          #0c292b
-        );
+body{
+  background:#061f21;
+  color:#fff;
+  font-family:Arial,Helvetica,sans-serif;
+}
 
-      box-shadow: 0 7px 18px rgba(0,0,0,0.22);
-    }
+/* MAIN MOBILE PAGE */
 
-    .tournament-card.whatsapp {
-      background:
-        radial-gradient(
-          circle at 80% 20%,
-          rgba(80,220,120,0.2),
-          transparent 40%
-        ),
-        linear-gradient(
-          145deg,
-          #164f3c,
-          #092923
-        );
-    }
+.page{
+  width:100%;
+  max-width:720px;
+  min-height:100vh;
+  margin:auto;
+  background:#062426;
+}
 
-    .card-glow {
-      position: absolute;
+/* HEADER */
 
-      width: 100px;
-      height: 100px;
+.header{
+  height:72px;
+  padding:0 18px;
 
-      border-radius: 50%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 
-      right: -35px;
-      bottom: -35px;
+  background:#062d2f;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
 
-      background: rgba(255,207,70,0.14);
-      filter: blur(5px);
-    }
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
 
-    .card-content {
-      position: relative;
-      z-index: 2;
+.logoBox{
+  width:46px;
+  height:46px;
 
-      height: 100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-      padding: 14px;
+  border-radius:13px;
 
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
+  background:linear-gradient(
+    145deg,
+    #ffd84d,
+    #e8aa27
+  );
 
-    .game-icon {
-      width: 60px;
-      height: 60px;
+  font-size:31px;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+  box-shadow:
+    0 5px 15px rgba(255,193,40,.25);
+}
 
-      border-radius: 15px;
+.logoText{
+  font-size:24px;
+  font-weight:900;
+  letter-spacing:.5px;
+}
 
-      background: rgba(255,255,255,0.1);
+.login{
+  padding:12px 22px;
 
-      font-size: 38px;
+  border:1px solid #dcae35;
+  border-radius:9px;
 
-      box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,0.08),
-        0 7px 16px rgba(0,0,0,0.15);
-    }
+  color:#ffd65a;
 
-    .tournament-card h3 {
-      margin-top: 10px;
+  font-size:14px;
+  font-weight:800;
 
-      font-size: 16px;
-      font-weight: 900;
-    }
+  text-decoration:none;
+}
 
-    .tournament-card p {
-      margin-top: 3px;
+/* NOTICE */
 
-      color: #a8c9ca;
-      font-size: 10px;
-    }
+.notice{
+  margin:18px 14px 0;
 
-    .play-mini {
-      margin-top: 9px;
+  min-height:55px;
 
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-      width: 100%;
-      min-height: 32px;
+  padding:10px;
 
-      border-radius: 6px;
+  border-radius:13px;
 
-      background: #eab93f;
-      color: #152627;
+  background:
+    linear-gradient(
+      90deg,
+      #165254,
+      #206466,
+      #165254
+    );
 
-      font-size: 11px;
-      font-weight: 900;
-    }
+  font-size:14px;
+  text-align:center;
 
-    /* =========================
-       BIG HERO
-    ========================= */
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.04);
+}
 
-    .hero {
-      margin-top: 14px;
+.notice b{
+  color:#ffd84c;
+}
 
-      min-height: 205px;
+/* CONTENT */
 
-      position: relative;
-      overflow: hidden;
+.content{
+  padding:25px 14px 35px;
+}
 
-      border-radius: 14px;
+/* SECTION TITLE */
 
-      border: 1px solid rgba(255,255,255,0.1);
+.sectionHead{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 
-      background:
-        radial-gradient(
-          circle at 85% 25%,
-          rgba(255,207,65,0.35),
-          transparent 24%
-        ),
-        radial-gradient(
-          circle at 15% 85%,
-          rgba(0,190,180,0.28),
-          transparent 35%
-        ),
-        linear-gradient(
-          135deg,
-          #123f42,
-          #071d20
-        );
-    }
+  margin:7px 3px 16px;
+}
 
-    .hero::before {
-      content: "🎲";
+.sectionHead h1{
+  font-size:28px;
+  font-weight:900;
+}
 
-      position: absolute;
+.sectionHead span{
+  color:#9ab9ba;
+  font-size:13px;
+}
 
-      right: -5px;
-      top: 18px;
+/* TOURNAMENT GRID */
 
-      font-size: 120px;
+.tournaments{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px;
+}
 
-      opacity: 0.12;
+/* CARD */
 
-      transform: rotate(12deg);
-    }
+.card{
+  min-height:300px;
 
-    .hero::after {
-      content: "♛";
+  position:relative;
+  overflow:hidden;
 
-      position: absolute;
+  border-radius:19px;
 
-      right: 34px;
-      bottom: -24px;
+  background:
+    linear-gradient(
+      145deg,
+      #18575a,
+      #0a3436
+    );
 
-      font-size: 135px;
+  border:1px solid rgba(255,255,255,.10);
 
-      color: #ffd24b;
+  box-shadow:
+    0 8px 20px rgba(0,0,0,.22);
 
-      opacity: 0.10;
-    }
+  text-decoration:none;
+  color:white;
+}
 
-    .hero-content {
-      position: relative;
-      z-index: 3;
+.card.green{
+  background:
+    linear-gradient(
+      145deg,
+      #14633f,
+      #0b382c
+    );
+}
 
-      padding: 23px 20px;
-    }
+/* decorative glow */
 
-    .hero-small {
-      color: #ffd34d;
+.card:after{
+  content:"";
 
-      font-size: 11px;
-      font-weight: 900;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
+  position:absolute;
 
-    .hero h1 {
-      margin-top: 6px;
+  width:130px;
+  height:130px;
 
-      max-width: 260px;
+  right:-45px;
+  bottom:-50px;
 
-      font-size: 31px;
-      line-height: 1.02;
-      font-weight: 1000;
-    }
+  border-radius:50%;
 
-    .hero h1 span {
-      color: #ffd34d;
-    }
+  background:rgba(255,210,65,.15);
 
-    .hero p {
-      margin-top: 9px;
+  filter:blur(5px);
+}
 
-      max-width: 270px;
+/* CARD CONTENT */
 
-      color: #b5d0d0;
-      font-size: 12px;
-      line-height: 1.5;
-    }
+.cardInside{
+  position:relative;
+  z-index:2;
 
-    .hero-button {
-      margin-top: 15px;
+  height:100%;
 
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+  padding:25px 20px 22px;
 
-      min-width: 125px;
-      min-height: 39px;
+  display:flex;
+  flex-direction:column;
+}
 
-      padding: 0 17px;
+/* ICON AREA */
 
-      border: 0;
-      border-radius: 7px;
+.imageBox{
+  width:108px;
+  height:108px;
 
-      background: linear-gradient(
-        135deg,
-        #ffd95a,
-        #e9ad28
-      );
+  border-radius:25px;
 
-      color: #152627;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-      font-size: 12px;
-      font-weight: 900;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.15),
+      rgba(255,255,255,.05)
+    );
 
-      box-shadow: 0 7px 16px rgba(226,168,39,0.22);
-    }
+  border:1px solid rgba(255,255,255,.10);
 
-    /* =========================
-       QUICK ACTIONS
-    ========================= */
+  box-shadow:
+    inset 0 0 20px rgba(255,255,255,.04);
+}
 
-    .quick-title {
-      margin-top: 20px;
-      margin-bottom: 10px;
+.dice{
+  font-size:70px;
 
-      font-size: 17px;
-      font-weight: 900;
-    }
+  filter:
+    drop-shadow(
+      0 8px 7px
+      rgba(0,0,0,.25)
+    );
+}
 
-    .quick-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-    }
+.whatsappIcon{
+  width:76px;
+  height:76px;
 
-    .quick-card {
-      min-height: 78px;
+  border-radius:50%;
 
-      padding: 10px 6px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+  background:#25d366;
 
-      text-align: center;
+  font-size:45px;
 
-      border-radius: 9px;
+  box-shadow:
+    0 8px 20px rgba(0,0,0,.25);
+}
 
-      background: #0d3336;
-      border: 1px solid rgba(255,255,255,0.07);
+/* CARD TEXT */
 
-      transition: 0.15s;
-    }
+.card h2{
+  margin-top:20px;
 
-    .quick-card:active {
-      transform: scale(0.96);
-    }
+  font-size:21px;
+  font-weight:900;
+}
 
-    .quick-icon {
-      font-size: 25px;
-      line-height: 1;
-    }
+.card p{
+  margin-top:5px;
 
-    .quick-card span {
-      margin-top: 6px;
+  color:#c0d4d4;
 
-      color: #c8dddd;
+  font-size:13px;
+}
 
-      font-size: 10px;
-      font-weight: 700;
-    }
+/* BUTTON */
 
-    /* =========================
-       ROOMS
-    ========================= */
+.cardButton{
+  margin-top:auto;
 
-    .rooms-box {
-      margin-top: 18px;
+  height:52px;
 
-      padding: 13px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-      border-radius: 12px;
+  border-radius:11px;
 
-      background: #0b2d30;
-      border: 1px solid rgba(255,255,255,0.07);
-    }
+  background:
+    linear-gradient(
+      135deg,
+      #ffd451,
+      #edb72f
+    );
 
-    .rooms-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+  color:#142728;
 
-      margin-bottom: 10px;
-    }
+  font-size:15px;
+  font-weight:900;
 
-    .rooms-head h3 {
-      font-size: 16px;
-    }
+  box-shadow:
+    0 6px 15px rgba(0,0,0,.18);
+}
 
-    .rooms-head a {
-      color: #ffd34f;
-      font-size: 11px;
-      font-weight: 800;
-    }
+/* BIG BANNER */
 
-    #roomsList {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
+.banner{
+  margin-top:16px;
 
-    .empty-room {
-      padding: 18px 10px;
+  min-height:285px;
 
-      border-radius: 8px;
+  position:relative;
+  overflow:hidden;
 
-      background: #082326;
+  border-radius:20px;
 
-      color: #779b9d;
+  background:
+    radial-gradient(
+      circle at 85% 25%,
+      rgba(255,211,69,.35),
+      transparent 28%
+    ),
+    linear-gradient(
+      135deg,
+      #155154,
+      #062a2c
+    );
 
-      text-align: center;
-      font-size: 11px;
-    }
+  border:1px solid rgba(255,255,255,.10);
+}
 
-    /* =========================
-       SUPPORT
-    ========================= */
+/* giant dice */
 
-    .support {
-      margin-top: 16px;
+.bannerDice{
+  position:absolute;
 
-      padding: 14px;
+  right:-22px;
+  top:25px;
 
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+  font-size:145px;
 
-      border-radius: 10px;
+  opacity:.22;
 
-      background: linear-gradient(
-        135deg,
-        #113e40,
-        #0b2b2e
-      );
+  transform:
+    rotate(15deg);
 
-      border: 1px solid rgba(255,255,255,0.07);
-    }
+  filter:
+    drop-shadow(
+      0 15px 15px
+      rgba(0,0,0,.3)
+    );
+}
 
-    .support-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+/* crown */
 
-    .support-icon {
-      width: 39px;
-      height: 39px;
+.crown{
+  position:absolute;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+  right:25px;
+  bottom:-25px;
 
-      border-radius: 50%;
+  font-size:145px;
 
-      background: #25d366;
+  opacity:.14;
 
-      font-size: 21px;
-    }
+  transform:rotate(-5deg);
+}
 
-    .support-text strong {
-      display: block;
-      font-size: 12px;
-    }
+.bannerText{
+  position:relative;
+  z-index:3;
 
-    .support-text small {
-      display: block;
-      margin-top: 2px;
-      color: #8fb1b2;
-      font-size: 10px;
-    }
+  padding:35px 25px;
+}
 
-    .support-btn {
-      padding: 8px 11px;
+.smallTitle{
+  color:#ffd44c;
 
-      border-radius: 6px;
+  font-size:13px;
+  font-weight:900;
 
-      background: #25d366;
-      color: #082326;
+  letter-spacing:3px;
+}
 
-      font-size: 10px;
-      font-weight: 900;
-    }
+.banner h2{
+  margin-top:10px;
 
-    /* =========================
-       BOTTOM NAV
-    ========================= */
+  max-width:310px;
 
-    .bottom-space {
-      height: 75px;
-    }
+  font-size:42px;
+  line-height:.98;
+  font-weight:1000;
+}
 
-    .bottom-nav {
-      position: fixed;
+.banner h2 span{
+  color:#ffd44c;
+}
 
-      left: 50%;
-      bottom: 0;
+.banner p{
+  margin-top:17px;
 
-      transform: translateX(-50%);
+  max-width:340px;
 
-      width: 100%;
-      max-width: 720px;
+  color:#b6d0d0;
 
-      height: 64px;
+  font-size:14px;
+  line-height:1.5;
+}
 
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
+.playBtn{
+  margin-top:20px;
 
-      background: rgba(6,27,29,0.97);
+  display:inline-flex;
 
-      border-top: 1px solid rgba(255,255,255,0.08);
+  align-items:center;
+  justify-content:center;
 
-      backdrop-filter: blur(10px);
+  min-width:170px;
+  height:54px;
 
-      z-index: 100;
-    }
+  padding:0 20px;
 
-    .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+  border-radius:10px;
 
-      color: #719394;
+  background:
+    linear-gradient(
+      135deg,
+      #ffd653,
+      #eaae28
+    );
 
-      font-size: 9px;
-      font-weight: 700;
-    }
+  color:#17292a;
 
-    .nav-item .nav-icon {
-      margin-bottom: 4px;
-      font-size: 20px;
-    }
+  font-size:15px;
+  font-weight:900;
 
-    .nav-item.active {
-      color: #ffd34d;
-    }
+  text-decoration:none;
+}
 
-    /* =========================
-       DESKTOP
-    ========================= */
+/* OPEN ROOMS */
 
-    @media (min-width: 721px) {
+.rooms{
+  margin-top:24px;
+}
 
-      body {
-        background:
-          radial-gradient(
-            circle at top,
-            #174447,
-            #06191b 65%
-          );
-      }
+.roomsTitle{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 
-      .app {
-        box-shadow:
-          0 0 50px rgba(0,0,0,0.35);
-      }
+  margin-bottom:13px;
+}
 
-      .content {
-        padding-left: 18px;
-        padding-right: 18px;
-      }
+.roomsTitle h2{
+  font-size:22px;
+}
 
-      .bottom-nav {
-        border-radius: 14px 14px 0 0;
-      }
-    }
-  </style>
+.roomsTitle a{
+  color:#ffd44d;
+
+  font-size:12px;
+  font-weight:800;
+
+  text-decoration:none;
+}
+
+#roomsList{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.room{
+  padding:14px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  border-radius:12px;
+
+  background:#0b3538;
+
+  border:1px solid rgba(255,255,255,.07);
+}
+
+.roomName{
+  font-size:14px;
+  font-weight:800;
+}
+
+.roomPlayers{
+  margin-top:4px;
+
+  color:#91b2b3;
+
+  font-size:11px;
+}
+
+.join{
+  padding:9px 15px;
+
+  border-radius:7px;
+
+  background:#edb82f;
+
+  color:#152627;
+
+  font-size:11px;
+  font-weight:900;
+
+  text-decoration:none;
+}
+
+.empty{
+  padding:20px;
+
+  border-radius:12px;
+
+  text-align:center;
+
+  background:#0b3032;
+
+  color:#8baaaa;
+
+  font-size:12px;
+}
+
+/* SUPPORT */
+
+.support{
+  margin-top:18px;
+
+  padding:16px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  border-radius:13px;
+
+  background:#0b3437;
+}
+
+.supportLeft{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.waCircle{
+  width:42px;
+  height:42px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:50%;
+
+  background:#25d366;
+
+  font-size:23px;
+}
+
+.supportText b{
+  display:block;
+  font-size:13px;
+}
+
+.supportText small{
+  display:block;
+  margin-top:3px;
+  color:#8eacad;
+  font-size:10px;
+}
+
+.supportBtn{
+  padding:9px 13px;
+
+  border-radius:7px;
+
+  background:#25d366;
+
+  color:#062426;
+
+  font-size:10px;
+  font-weight:900;
+
+  text-decoration:none;
+}
+
+/* FOOTER */
+
+.footer{
+  padding:25px 10px 15px;
+
+  text-align:center;
+
+  color:#668788;
+
+  font-size:10px;
+}
+
+/* MOBILE SMALL */
+
+@media(max-width:420px){
+
+  .header{
+    height:68px;
+    padding:0 13px;
+  }
+
+  .logoText{
+    font-size:20px;
+  }
+
+  .logoBox{
+    width:43px;
+    height:43px;
+    font-size:28px;
+  }
+
+  .login{
+    padding:10px 17px;
+  }
+
+  .content{
+    padding-left:12px;
+    padding-right:12px;
+  }
+
+  .sectionHead h1{
+    font-size:25px;
+  }
+
+  .card{
+    min-height:285px;
+  }
+
+  .cardInside{
+    padding:22px 16px 17px;
+  }
+
+  .imageBox{
+    width:92px;
+    height:92px;
+  }
+
+  .dice{
+    font-size:60px;
+  }
+
+  .card h2{
+    font-size:18px;
+  }
+
+  .card p{
+    font-size:11px;
+  }
+
+  .cardButton{
+    height:48px;
+    font-size:13px;
+  }
+
+  .banner{
+    min-height:280px;
+  }
+
+  .banner h2{
+    font-size:36px;
+  }
+
+  .bannerDice{
+    font-size:120px;
+  }
+
+  .crown{
+    font-size:120px;
+  }
+
+}
+
+/* VERY SMALL PHONES */
+
+@media(max-width:350px){
+
+  .logoText{
+    font-size:17px;
+  }
+
+  .login{
+    padding:9px 13px;
+    font-size:12px;
+  }
+
+  .tournaments{
+    gap:8px;
+  }
+
+  .cardInside{
+    padding:17px 12px;
+  }
+
+  .imageBox{
+    width:78px;
+    height:78px;
+  }
+
+  .dice{
+    font-size:50px;
+  }
+
+  .card h2{
+    font-size:16px;
+  }
+
+  .banner h2{
+    font-size:31px;
+  }
+
+}
+
+</style>
 </head>
+
 
 <body>
 
-<div class="app">
+<div class="page">
 
   <!-- HEADER -->
-  <header class="top-header">
 
-    <a href="index.html" class="logo">
-      <div class="logo-icon">🎲</div>
-      <span>LUDO INSPIRE</span>
+  <header class="header">
+
+    <a href="index.html"
+       class="logo">
+
+      <div class="logoBox">
+        🎲
+      </div>
+
+      <div class="logoText">
+        LUDO INSPIRE
+      </div>
+
     </a>
 
-    <a href="login.html" class="login-btn">
+    <a href="login.html"
+       class="login">
       LOGIN
     </a>
 
   </header>
 
 
-  <!-- NOTICE -->
+  <!-- WELCOME -->
+
   <div class="notice">
-    🎉 <strong>WELCOME</strong>&nbsp; to Ludo Inspire — Play with friends
+    🎉 <b>WELCOME</b>
+    &nbsp;to Ludo Inspire — Play with friends
   </div>
 
 
   <main class="content">
 
-    <!-- TOURNAMENTS -->
-    <div class="section-title">
-      <h2>Our Tournaments</h2>
-      <span>Play & Win</span>
+
+    <!-- TOURNAMENT TITLE -->
+
+    <div class="sectionHead">
+
+      <h1>
+        Our Tournaments
+      </h1>
+
+      <span>
+        Play &amp; Win
+      </span>
+
     </div>
 
 
-    <div class="tournament-grid">
+    <!-- TWO CARDS -->
+
+    <div class="tournaments">
+
 
       <!-- LUDO -->
-      <a href="battles.html" class="tournament-card">
 
-        <div class="card-glow"></div>
+      <a href="battles.html"
+         class="card">
 
-        <div class="card-content">
+        <div class="cardInside">
 
-          <div class="game-icon">
-            🎲
+          <div class="imageBox">
+
+            <div class="dice">
+              🎲
+            </div>
+
           </div>
 
-          <div>
-            <h3>Ludo Battle</h3>
-            <p>2 Player Ludo Game</p>
+          <h2>
+            Ludo Battle
+          </h2>
 
-            <div class="play-mini">
-              PLAY NOW
-            </div>
+          <p>
+            2 Player Ludo Game
+          </p>
+
+          <div class="cardButton">
+            PLAY NOW
           </div>
 
         </div>
@@ -765,56 +856,72 @@
 
 
       <!-- WHATSAPP -->
+
       <a
         href="https://wa.me/919521050705"
         target="_blank"
-        class="tournament-card whatsapp"
-      >
+        class="card green">
 
-        <div class="card-glow"></div>
+        <div class="cardInside">
 
-        <div class="card-content">
+          <div class="imageBox">
 
-          <div class="game-icon">
-            💬
+            <div class="whatsappIcon">
+              💬
+            </div>
+
           </div>
 
-          <div>
-            <h3>WhatsApp Help</h3>
-            <p>Get Support</p>
+          <h2>
+            WhatsApp Help
+          </h2>
 
-            <div class="play-mini">
-              CHAT NOW
-            </div>
+          <p>
+            Get Support
+          </p>
+
+          <div class="cardButton">
+            CHAT NOW
           </div>
 
         </div>
 
       </a>
 
+
     </div>
 
 
-    <!-- BIG HERO -->
-    <section class="hero">
+    <!-- BIG PROMOTIONAL BANNER -->
 
-      <div class="hero-content">
+    <section class="banner">
 
-        <div class="hero-small">
+      <div class="bannerDice">
+        🎲
+      </div>
+
+      <div class="crown">
+        ♛
+      </div>
+
+      <div class="bannerText">
+
+        <div class="smallTitle">
           LUDO INSPIRE
         </div>
 
-        <h1>
-          PLAY <span>&</span><br>
+        <h2>
+          PLAY <span>&amp;</span><br>
           ENJOY LUDO
-        </h1>
+        </h2>
 
         <p>
           Create a room, invite another player
           and start your Ludo battle.
         </p>
 
-        <a href="battles.html" class="hero-button">
+        <a href="battles.html"
+           class="playBtn">
           PLAY LUDO&nbsp; 🎲
         </a>
 
@@ -823,39 +930,15 @@
     </section>
 
 
-    <!-- QUICK ACTIONS -->
-    <h3 class="quick-title">
-      Quick Access
-    </h3>
-
-    <div class="quick-grid">
-
-      <a href="battles.html" class="quick-card">
-        <div class="quick-icon">🎲</div>
-        <span>Ludo</span>
-      </a>
-
-      <a href="leaderboard.html" class="quick-card">
-        <div class="quick-icon">🏆</div>
-        <span>Leaderboard</span>
-      </a>
-
-      <a href="profile.html" class="quick-card">
-        <div class="quick-icon">👤</div>
-        <span>Profile</span>
-      </a>
-
-    </div>
-
-
     <!-- OPEN ROOMS -->
-    <section class="rooms-box">
 
-      <div class="rooms-head">
+    <section class="rooms">
 
-        <h3>
+      <div class="roomsTitle">
+
+        <h2>
           Open Ludo Rooms
-        </h3>
+        </h2>
 
         <a href="battles.html">
           VIEW ALL
@@ -863,9 +946,10 @@
 
       </div>
 
+
       <div id="roomsList">
 
-        <div class="empty-room">
+        <div class="empty">
           Loading rooms...
         </div>
 
@@ -875,190 +959,151 @@
 
 
     <!-- SUPPORT -->
-    <section class="support">
 
-      <div class="support-left">
+    <div class="support">
 
-        <div class="support-icon">
+      <div class="supportLeft">
+
+        <div class="waCircle">
           💬
         </div>
 
-        <div class="support-text">
-          <strong>Need Help?</strong>
-          <small>WhatsApp: 9521050705</small>
+        <div class="supportText">
+
+          <b>
+            Need Help?
+          </b>
+
+          <small>
+            WhatsApp: 9521050705
+          </small>
+
         </div>
 
       </div>
 
+
       <a
         href="https://wa.me/919521050705"
         target="_blank"
-        class="support-btn"
-      >
+        class="supportBtn">
         CHAT
       </a>
 
-    </section>
+    </div>
 
 
-    <div class="bottom-space"></div>
+    <div class="footer">
+      © 2026 Ludo Inspire
+    </div>
 
   </main>
-
-
-  <!-- BOTTOM NAV -->
-  <nav class="bottom-nav">
-
-    <a href="index.html" class="nav-item active">
-      <div class="nav-icon">🏠</div>
-      Home
-    </a>
-
-    <a href="battles.html" class="nav-item">
-      <div class="nav-icon">🎲</div>
-      Ludo
-    </a>
-
-    <a href="leaderboard.html" class="nav-item">
-      <div class="nav-icon">🏆</div>
-      Rank
-    </a>
-
-    <a href="profile.html" class="nav-item">
-      <div class="nav-icon">👤</div>
-      Profile
-    </a>
-
-  </nav>
 
 </div>
 
 
 <script>
-  const API_BASE =
-    "https://ludo-inspire-api.onrender.com/api";
 
-  async function loadRooms() {
-
-    const list =
-      document.getElementById("roomsList");
-
-    try {
-
-      const response =
-        await fetch(API_BASE + "/rooms");
-
-      const data =
-        await response.json();
-
-      const rooms =
-        data.rooms || [];
-
-      const waitingRooms =
-        rooms.filter(room =>
-          room.status === "waiting"
-        );
-
-      if (!waitingRooms.length) {
-
-        list.innerHTML = `
-          <div class="empty-room">
-            🎲 No open Ludo room right now.<br>
-            Create a new room and start playing.
-          </div>
-        `;
-
-        return;
-      }
+const API =
+  "https://ludo-inspire-api.onrender.com/api";
 
 
-      list.innerHTML =
-        waitingRooms.slice(0, 4).map(room => {
+async function loadRooms(){
 
-          const players =
-            room.playerCount ?? 0;
+  const list =
+    document.getElementById("roomsList");
 
-          const maxPlayers =
-            room.maxPlayers ?? 2;
+  try{
 
-          return `
+    const response =
+      await fetch(API + "/rooms");
 
-            <div style="
-              display:flex;
-              align-items:center;
-              justify-content:space-between;
-              gap:10px;
-              padding:11px;
-              border-radius:8px;
-              background:#082326;
-              border:1px solid rgba(255,255,255,.06);
-            ">
+    const data =
+      await response.json();
 
-              <div>
+    const rooms =
+      (data.rooms || [])
+      .filter(room =>
+        room.status === "waiting"
+      );
 
-                <div style="
-                  font-size:13px;
-                  font-weight:800;
-                ">
-                  🎲 ${escapeHtml(room.name || "Ludo Room")}
-                </div>
-
-                <div style="
-                  margin-top:4px;
-                  color:#7fa5a6;
-                  font-size:10px;
-                ">
-                  ${players}/${maxPlayers} Players
-                </div>
-
-              </div>
-
-              <a
-                href="game.html?room=${encodeURIComponent(room.id)}"
-                style="
-                  padding:8px 12px;
-                  border-radius:6px;
-                  background:#eab93f;
-                  color:#142527;
-                  font-size:10px;
-                  font-weight:900;
-                "
-              >
-                JOIN
-              </a>
-
-            </div>
-
-          `;
-
-        }).join("");
-
-    } catch (error) {
+    if(!rooms.length){
 
       list.innerHTML = `
-        <div class="empty-room">
-          Unable to load rooms.
+        <div class="empty">
+          🎲 No open Ludo rooms right now.
         </div>
       `;
 
+      return;
     }
 
+
+    list.innerHTML =
+      rooms.slice(0,5).map(room => {
+
+        const players =
+          room.playerCount ?? 0;
+
+        const maxPlayers =
+          room.maxPlayers ?? 2;
+
+        return `
+
+          <div class="room">
+
+            <div>
+
+              <div class="roomName">
+                🎲 ${escapeHTML(
+                  room.name || "Ludo Room"
+                )}
+              </div>
+
+              <div class="roomPlayers">
+                ${players}/${maxPlayers} Players
+              </div>
+
+            </div>
+
+            <a
+              class="join"
+              href="game.html?room=${encodeURIComponent(room.id)}">
+              JOIN
+            </a>
+
+          </div>
+
+        `;
+
+      }).join("");
+
+  }catch(error){
+
+    list.innerHTML = `
+      <div class="empty">
+        Unable to load rooms.
+      </div>
+    `;
+
   }
 
-
-  function escapeHtml(value) {
-
-    return String(value)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-
-  }
+}
 
 
-  loadRooms();
+function escapeHTML(value){
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+loadRooms();
 
 </script>
 
